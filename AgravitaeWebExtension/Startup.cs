@@ -1,14 +1,6 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using AgravitaeWebExtension.Hooks;
+using AgravitaeWebExtension.Services;
 using DirectScale.Disco.Extension.Middleware;
-
-using System;
 
 namespace TavalaExtension
 {
@@ -43,6 +35,7 @@ namespace TavalaExtension
             services.AddMvc();
             services.AddDirectScale(options =>
             {
+                options.AddHook<SubmitOrderHook>();
                 //options.AddHook<SubmitOrderHook>();
                 //options.AddCustomPage(Menu.AssociateDetail, "Hello Associate", "ViewAdministration", "/CustomPage/SecuredHelloWorld");
                 //options.AddHook<CreateAutoshipHook>();
@@ -55,7 +48,7 @@ namespace TavalaExtension
            // services.AddSingleton<IOrdersRepository, OrdersRepository>();
 
             //Services
-           // services.AddSingleton<IOrdersService, OrdersService>();
+            services.AddSingleton<IAVOrderService, AVOrderService>();
 
             services.AddControllersWithViews();
             //Configurations

@@ -1,0 +1,64 @@
+﻿using Dapper;
+using DirectScale.Disco.Extension;
+using DirectScale.Disco.Extension.Services;
+using System.Data.SqlClient;
+
+namespace AgravitaeWebExtension.Services
+{
+    public interface IAVOrderService
+    {
+        Task<LineItem[]> AddAdditionalItems(NewOrderDetail order);
+        Task<List<CustomFields>> GetItemCustomFields(int itemId);
+    }
+    public class AVOrderService : IAVOrderService
+    {
+        private readonly IAssociateService _associateService;
+        private readonly IItemService _itemService;
+        private readonly IDataService _dataService;
+        public AVOrderService(IDataService dataService, IAssociateService associateService, IItemService itemService)
+        {
+            _dataService = dataService;
+            _associateService = associateService;
+            _itemService = itemService;
+        }
+
+        public async Task<LineItem[]> AddAdditionalItems(NewOrderDetail order)
+        {
+            var lineItems = order.LineItems.ToList();
+            try
+            {
+
+                if (order.ShipAddress.State.Equals("CA"))
+                {
+                    var locationInfo = await _associateService.GetLocalization(order.AssociateId);
+                    var associateType = _associateService.GetAssociate(order.AssociateId).Result;
+                    //Prop65Sticker
+                    var promotionalItems = await _itemService.GetLineItemById(47, 1, locationInfo.CurrencyCode, "en", locationInfo.RegionId, (int)order.OrderType, associateType.AssociateType, order.StoreId, locationInfo.CountryCode);
+                    if (promotionalItems == null) throw new Exception($"Cannot find item '{47}'");
+                    lineItems.Add(promotionalItems);
+                }
+                else
+                {
+                    lineItems = order.LineItems.ToList();
+                }
+
+                return lineItems.ToArray();
+            }
+            catch (Exception ex)
+            {
+                //_loggingService.LogInformation($"There was an error adding Prop65 item, for the Customer account: {order.AssociateId},  " + ex.Message);
+
+                return lineItems.ToArray();
+            }
+        }
+
+        public async Task<List<CustomFields>> GetItemCustomFields(int itemId)
+        {
+            await using var dbConnection = new SqlConnection(_dataService.GetClientConnectionString().Result);            
+
+            var query = @"SELECT * FROM INV_CustomFields WHERE ItemID = @ItemId";
+
+            return dbConnection.Query<CustomFields>(query, new { ItemId = itemId }).ToList();
+        }
+    }
+}

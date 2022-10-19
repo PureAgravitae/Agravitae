@@ -7,15 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.123" />
-    <PackageReference Include="DirectScale.Disco.Extension.Abstractions" Version="1.0.5308" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.4" />
+    <Compile Remove="Repositories\**" />
+    <Content Remove="Repositories\**" />
+    <EmbeddedResource Remove="Repositories\**" />
+    <None Remove="Repositories\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Hooks\" />
-    <Folder Include="Services\" />
-    <Folder Include="Repositories\" />
+    <None Remove="Hooks\SubmitOrderHook.cs~RFba5da7.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="DirectScale.Disco.Extension.Abstractions" Version="1.0.5308" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.4" />
   </ItemGroup>
 
 </Project>
