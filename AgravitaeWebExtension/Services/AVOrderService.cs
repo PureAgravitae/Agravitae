@@ -28,13 +28,11 @@ namespace AgravitaeWebExtension.Services
             var lineItems = order.LineItems.ToList();
             try
             {
-
-                if (order.ShipAddress.State.Equals("CA"))
-                {
-                    var locationInfo = await _associateService.GetLocalization(order.AssociateId);
+                if (order.ShipAddress.State.ToUpper().Equals("CA"))
+                {   
                     var associateType = await _associateService.GetAssociate(order.AssociateId);
                     //Prop65Sticker
-                    var promotionalItems = await _itemService.GetLineItemById(47, 1, locationInfo.CurrencyCode, "en", locationInfo.RegionId, (int)order.OrderType, associateType.AssociateType, order.StoreId, locationInfo.CountryCode);
+                    var promotionalItems = await _itemService.GetLineItemById(47, 1, "USD", "en", 1, (int)order.OrderType, associateType.AssociateType, order.StoreId, "us");
                     if (promotionalItems == null) throw new Exception($"Cannot find item '{47}'");
                     lineItems.Add(promotionalItems);
                 }
