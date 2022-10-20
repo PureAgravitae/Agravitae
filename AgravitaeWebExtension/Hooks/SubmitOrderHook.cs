@@ -31,7 +31,7 @@ namespace AgravitaeWebExtension.Hooks
 
                     }
                     if (addProp65)
-                        request.Order.LineItems = await _orderService.AddAdditionalItems(request.Order);
+                        request.Order.LineItems = await _orderService.AddAdditionalItems(request.Order, _logger);
                 }
             }
             catch(Exception ex)

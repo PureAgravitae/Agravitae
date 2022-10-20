@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using AgravitaeWebExtension.Hooks;
+using Dapper;
 using DirectScale.Disco.Extension;
 using DirectScale.Disco.Extension.Services;
 using System.Data.SqlClient;
@@ -7,7 +8,7 @@ namespace AgravitaeWebExtension.Services
 {
     public interface IAVOrderService
     {
-        Task<LineItem[]> AddAdditionalItems(NewOrderDetail order);
+        Task<LineItem[]> AddAdditionalItems(NewOrderDetail order, ILogger<SubmitOrderHook> logger);
         Task<List<CustomFields>> GetItemCustomFields(int itemId);
     }
     public class AVOrderService : IAVOrderService
@@ -22,7 +23,7 @@ namespace AgravitaeWebExtension.Services
             _itemService = itemService;
         }
 
-        public async Task<LineItem[]> AddAdditionalItems(NewOrderDetail order)
+        public async Task<LineItem[]> AddAdditionalItems(NewOrderDetail order, ILogger<SubmitOrderHook> logger)
         {
             var lineItems = order.LineItems.ToList();
             try
@@ -31,7 +32,7 @@ namespace AgravitaeWebExtension.Services
                 if (order.ShipAddress.State.Equals("CA"))
                 {
                     var locationInfo = await _associateService.GetLocalization(order.AssociateId);
-                    var associateType = _associateService.GetAssociate(order.AssociateId).Result;
+                    var associateType = await _associateService.GetAssociate(order.AssociateId);
                     //Prop65Sticker
                     var promotionalItems = await _itemService.GetLineItemById(47, 1, locationInfo.CurrencyCode, "en", locationInfo.RegionId, (int)order.OrderType, associateType.AssociateType, order.StoreId, locationInfo.CountryCode);
                     if (promotionalItems == null) throw new Exception($"Cannot find item '{47}'");
@@ -46,7 +47,7 @@ namespace AgravitaeWebExtension.Services
             }
             catch (Exception ex)
             {
-                //_loggingService.LogInformation($"There was an error adding Prop65 item, for the Customer account: {order.AssociateId},  " + ex.Message);
+                logger.LogError($"There was an error adding Prop65 item, for the Customer account: {order.AssociateId},  " + ex.Message);
 
                 return lineItems.ToArray();
             }
