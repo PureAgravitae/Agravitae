@@ -1,5 +1,5 @@
 ﻿using DirectScale.Disco.Extension.Middleware;
-using TavalaExtension;
+using AgravitaeExtension;
 
 namespace AgravitaeWebExtension
 {
