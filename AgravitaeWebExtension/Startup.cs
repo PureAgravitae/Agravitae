@@ -3,7 +3,6 @@ using AgravitaeWebExtension.Services;
 using DirectScale.Disco.Extension.Middleware;
 using WebExtension.Helper;
 using WebExtension.Helper.Interface;
-using WebExtension.Helper.Models;
 using WebExtension.Repositories;
 using WebExtension.Services;
 
@@ -43,8 +42,8 @@ namespace AgravitaeExtension
             //
             #endregion
 
-            //string environmentURL = Environment.GetEnvironmentVariable("DirectScaleServiceUrl");
-            string environmentURL = Configuration["configSetting:BaseURL"];
+            string environmentURL = Environment.GetEnvironmentVariable("DirectScaleServiceUrl");
+
             // services.AddResponseCaching();
             services.AddControllers();
             services.AddCors(options =>
@@ -82,12 +81,9 @@ namespace AgravitaeExtension
 
             //Swagger
             services.AddSwaggerGen();
-
-
             //Configurations
-            services.Configure<configSetting>(Configuration.GetSection("configSetting"));
-
-            //services.AddMvc(option => option.EnableEndpointRouting = false);
+            //services.Configure<configSetting>(Configuration.GetSection("configSetting"));
+            services.AddMvc(option => option.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -97,51 +93,62 @@ namespace AgravitaeExtension
             if (environmentUrl != null)
             {
                 var serverUrl = environmentUrl.Replace("https://agravitae.corpadmin.", "");
-                var appendUrl = @" http://" + serverUrl + " " + "https://" + serverUrl + " " + "http://*." + serverUrl + " " + "https://*." + serverUrl;
+                var appendUrl = @" http://"+ serverUrl + " " + "https://" + serverUrl + " " + "http://*." + serverUrl + " " + "https://*." + serverUrl;
 
                 var csPolicy = "frame-ancestors https://agravitae.corpadmin.directscale.com https://agravitae.corpadmin.directscalestage.com" + appendUrl + ";";
                 app.UseRequestLocalization();
+
+                if (env.IsDevelopment())
+                {
+                    app.UseDeveloperExceptionPage();
+                }
+                else
+                {
+                    app.UseExceptionHandler("/Home/Error");
+                    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                    app.UseHsts();
+                }
+
+                //Configure Cors
+
+                app.UseCors("CorsPolicy");
+                app.UseHttpsRedirection();
+
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    OnPrepareResponse = ctx =>
+                    {
+                        ctx.Context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                    }
+                });
+
+                app.UseStaticFiles();
+                app.UseRouting();
+                app.UseAuthorization();
+
+                //DS
+                app.UseDirectScale();
+
+                //Swagger
+                app.UseSwagger();
+                app.UseSwaggerUI(c => {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V2");
+                });
+
+                app.Use(async (context, next) =>
+                {
+                    context.Response.Headers.Add("Content-Security-Policy", csPolicy);
+                    context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                    await next();
+                });
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllerRoute(
+                        name: "default",
+                        pattern: "{controller=Home}/{action=Index}/{id?}");
+                });
+                app.UseMvc();
             }
-            
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
-            //Configure Cors
-            app.UseCors(builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod());
-
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            //DS
-            app.UseDirectScale();
-
-            //Swagger
-            app.UseSwagger();
-            app.UseSwaggerUI(c => {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V2");
-            });
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
 
 
             
