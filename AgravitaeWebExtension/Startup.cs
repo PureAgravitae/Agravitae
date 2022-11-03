@@ -1,8 +1,12 @@
 using AgravitaeWebExtension.Hooks;
 using AgravitaeWebExtension.Services;
 using DirectScale.Disco.Extension.Middleware;
+using WebExtension.Helper;
+using WebExtension.Helper.Interface;
+using WebExtension.Repositories;
+using WebExtension.Services;
 
-namespace TavalaExtension
+namespace AgravitaeExtension
 {
     public class Startup
     {
@@ -18,6 +22,25 @@ namespace TavalaExtension
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region FOR LOCAL DEBUGGING USE
+            //
+            //
+            //
+            //Remark This section before upload
+            //if (CurrentEnvironment.IsDevelopment())
+            //{
+            //    services.AddSingleton<ITokenProvider>(x => new WebExtensionTokenProvider
+            //    {
+            //        DirectScaleUrl = Configuration["configSetting:BaseURL"].Replace("{clientId}", Configuration["configSetting:Client"]).Replace("{environment}", Configuration["configSetting:Environment"]),
+            //        DirectScaleSecret = Configuration["configSetting:DirectScaleSecret"],
+            //        ExtensionSecrets = new[] { Configuration["configSetting:ExtensionSecrets"] }
+            //    });
+            //}
+            //Remark This section before upload
+            //
+            //
+            //
+            #endregion
 
             string environmentURL = Environment.GetEnvironmentVariable("DirectScaleServiceUrl");
 
@@ -45,12 +68,19 @@ namespace TavalaExtension
             });
 
             //Repositories
-           // services.AddSingleton<IOrdersRepository, OrdersRepository>();
+            services.AddSingleton<ICustomLogRepository, CustomLogRepository>();
+            // services.AddSingleton<IOrdersRepository, OrdersRepository>();
 
             //Services
             services.AddSingleton<IAVOrderService, AVOrderService>();
-
+            services.AddSingleton<ICommonService, CommonService>();
+            services.AddSingleton<IHttpClientService, HttpClientService>();
+            services.AddSingleton<INomadEwalletService, NomadEwalletService>();
+            services.AddSingleton<ICustomLogService, CustomLogService>();
             services.AddControllersWithViews();
+
+            //Swagger
+            services.AddSwaggerGen();
             //Configurations
             //services.Configure<configSetting>(Configuration.GetSection("configSetting"));
             services.AddMvc(option => option.EnableEndpointRouting = false);
@@ -80,7 +110,6 @@ namespace TavalaExtension
                 }
 
                 //Configure Cors
-                app.UseRouting();
 
                 app.UseCors("CorsPolicy");
                 app.UseHttpsRedirection();
@@ -94,26 +123,55 @@ namespace TavalaExtension
                 });
 
                 app.UseStaticFiles();
+                app.UseRouting();
                 app.UseAuthorization();
 
                 //DS
                 app.UseDirectScale();
+
+                //Swagger
+                app.UseSwagger();
+                app.UseSwaggerUI(c => {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V2");
+                });
+
                 app.Use(async (context, next) =>
                 {
                     context.Response.Headers.Add("Content-Security-Policy", csPolicy);
                     context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
                     await next();
                 });
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllerRoute(
+                        name: "default",
+                        pattern: "{controller=Home}/{action=Index}/{id?}");
+                });
+                app.UseMvc();
             }
 
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
-            app.UseMvc();
+            
         }
+    }
+    internal class WebExtensionTokenProvider : ITokenProvider
+    {
+        public string DirectScaleUrl { get; set; }
+        public string DirectScaleSecret { get; set; }
+        public string[] ExtensionSecrets { get; set; }
+
+        public async Task<string> GetDirectScaleSecret()
+        {
+            return await Task.FromResult(DirectScaleSecret);
+        }
+        public async Task<string> GetDirectScaleServiceUrl()
+        {
+            return await Task.FromResult(DirectScaleUrl);
+        }
+        public async Task<IEnumerable<string>> GetExtensionSecrets()
+        {
+            return await Task.FromResult(ExtensionSecrets);
+        }
+
     }
 }
