@@ -25,13 +25,14 @@ namespace WebExtension.Services
         private readonly IHttpClientService _httpClientService;
         private readonly IAssociateService _associateService;
         private readonly ISettingsService _settingsService;
-        private const string NomadEwalletBaseUrlSandbox = "https://api.nomadewallet.dev/";
+        //private const string NomadEwalletBaseUrlSandbox = "https://api.nomadewallet.dev/";
+        private const string NomadEwalletBaseUrlSandbox = "https://api.nomadewallet.com/";
         private const string NomadEwalletBaseUrlLive = "https://api.nomadewallet.com/";
         private const string NomadEwalletUrlLive = "https://ewallet.agravitae.com/";
-        private const string NomadEwalletUrlStage = "";
-        private const string SandboxUsername = "";
+        private const string NomadEwalletUrlStage = "https://ewallet.agravitae.com/";
+        private const string SandboxUsername = "APIagravitae";
         private const string LiveUsername = "APIagravitae";
-        private const string SandboxPassword = "";
+        private const string SandboxPassword = "qQJn{S-RCcYt0{6";
         private const string LivePassword = "qQJn{S-RCcYt0{6";
         private readonly string tokenType = "authorization";
         private const string AuthMethod = "api/Authenticate/login";
