@@ -1,6 +1,7 @@
 using AgravitaeWebExtension.Hooks;
 using AgravitaeWebExtension.Services;
 using DirectScale.Disco.Extension.Middleware;
+using PaymentureEwallet;
 using WebExtension.Helper;
 using WebExtension.Helper.Interface;
 using WebExtension.Repositories;
@@ -64,6 +65,9 @@ namespace AgravitaeExtension
                 //options.AddHook<CreateAutoshipHook>();
                 //options.AddMerchant<StripeMoneyIn>();
                 //options.AddEventHandler("OrderCreated", "/api/webhooks/Order/CreateOrder");
+
+                options.AddMerchant<PaymentureEwalletMoneyOut>(9960, "EWallet", "Paymenture", "USD");
+                options.AddMerchant<PaymentureEwalletMoneyInMerchant>(9961, "EWallet", "Paymenture", "USD");
                 services.AddControllers();
             });
 
