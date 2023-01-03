@@ -1,11 +1,13 @@
 using AgravitaeWebExtension.Hooks;
 using AgravitaeWebExtension.Services;
 using DirectScale.Disco.Extension.Middleware;
+using DirectScale.Disco.Extension.Middleware.Models;
 using PaymentureEwallet;
 using WebExtension.Helper;
 using WebExtension.Helper.Interface;
 using WebExtension.Repositories;
 using WebExtension.Services;
+using AgravitaeWebExtension.Services.ZiplingoEngagement;
 
 namespace AgravitaeExtension
 {
@@ -66,6 +68,9 @@ namespace AgravitaeExtension
                 //options.AddMerchant<StripeMoneyIn>();
                 //options.AddEventHandler("OrderCreated", "/api/webhooks/Order/CreateOrder");
 
+                options.AddCustomPage(Menu.Settings, "EWalletSettings", "EWalletSettings", "/CustomPage/EWalletSettings");
+                options.AddCustomPage(Menu.Settings, "ZiplingoEngagementSetting", "ZiplingoEngagementSetting", "/CustomPage/ZiplingoEngagementSetting");
+
                 options.AddMerchant<PaymentureEwalletMoneyOut>(9960, "EWallet", "Paymenture", "USD");
                 options.AddMerchant<PaymentureEwalletMoneyInMerchant>(9961, "EWallet", "Paymenture", "USD");
                 services.AddControllers();
@@ -73,6 +78,8 @@ namespace AgravitaeExtension
 
             //Repositories
             services.AddSingleton<ICustomLogRepository, CustomLogRepository>();
+            services.AddSingleton<IZiplingoEngagementRepository, ZiplingoEngagementRepository>();
+
             // services.AddSingleton<IOrdersRepository, OrdersRepository>();
 
             //Services
@@ -83,8 +90,11 @@ namespace AgravitaeExtension
             services.AddSingleton<ICustomLogService, CustomLogService>();
             services.AddControllersWithViews();
 
-            //Swagger
-            services.AddSwaggerGen();
+           
+
+
+                //Swagger
+                services.AddSwaggerGen();
             //Configurations
             //services.Configure<configSetting>(Configuration.GetSection("configSetting"));
             services.AddMvc(option => option.EnableEndpointRouting = false);

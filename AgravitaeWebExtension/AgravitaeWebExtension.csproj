@@ -20,6 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\CustomPage\EWalletSettings.cshtml" />
+    <None Include="Views\CustomPage\ZiplingoEngagementSetting.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Home\Privacy.cshtml" />
     <None Include="wwwroot\js\site.js" />
