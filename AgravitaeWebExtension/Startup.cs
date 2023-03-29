@@ -9,6 +9,7 @@ using WebExtension.Merchants.EwalletMerchant.Ewallet;
 using WebExtension.Merchants;
 using WebExtension.Repositories;
 using WebExtension.Services;
+using WebExtension.Hooks.Associate;
 
 namespace AgravitaeExtension
 {
@@ -63,6 +64,8 @@ namespace AgravitaeExtension
             services.AddDirectScale(options =>
             {
                 options.AddHook<SubmitOrderHook>();
+                options.AddHook<WriteApplication>();
+                options.AddHook<UpdateAssociateHook>();
                 //options.AddHook<SubmitOrderHook>();
                 //options.AddCustomPage(Menu.AssociateDetail, "Hello Associate", "ViewAdministration", "/CustomPage/SecuredHelloWorld");
                 //options.AddHook<CreateAutoshipHook>();
