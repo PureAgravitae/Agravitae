@@ -132,7 +132,7 @@ namespace WebExtension.Merchants.EwalletMerchant.Ewallet
         {
             var response = new AddPaymentFrameData
             {
-                IFrameURL = "https://hellolove.clientextension.directscalestage.com/PaymentMethod",
+                IFrameURL = "https://agravitae.clientextension.directscalestage.com/PaymentMethod",
                 IFrameHeight = 500,
                 IFrameWidth = 400
             };
