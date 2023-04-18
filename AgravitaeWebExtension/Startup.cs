@@ -10,6 +10,7 @@ using WebExtension.Merchants;
 using WebExtension.Repositories;
 using WebExtension.Services;
 using WebExtension.Hooks.Associate;
+using WebExtension.Services.ZiplingoEngagementService;
 
 namespace AgravitaeExtension
 {
@@ -83,6 +84,7 @@ namespace AgravitaeExtension
 
             //Repositories
             services.AddSingleton<ICustomLogRepository, CustomLogRepository>();
+            services.AddSingleton<IZiplingoEngagementRepository, ZiplingoEngagementRepository>();
             // services.AddSingleton<IOrdersRepository, OrdersRepository>();
 
             //Ewallet
@@ -93,6 +95,7 @@ namespace AgravitaeExtension
             services.AddSingleton<ICambridgeService, CambridgeService>();
             services.AddSingleton<ICambridgeSetting, CambridgeSetting>();
             services.AddSingleton<IClientService, ClientService>();
+            services.AddSingleton<IZiplingoEngagementService, ZiplingoEngagementService>();
 
             //Services
             services.AddSingleton<IAVOrderService, AVOrderService>();
