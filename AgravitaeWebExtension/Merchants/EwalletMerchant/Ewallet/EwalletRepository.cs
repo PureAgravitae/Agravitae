@@ -5,7 +5,7 @@ using Dapper;
 using System.Collections.Generic;
 using WebExtension.Merchants.Models;
 using System.Linq;
-
+using DirectScale.Disco.Extension;
 
 namespace WebExtension.Merchants.EwalletMerchant.Ewallet
 {
@@ -14,23 +14,31 @@ namespace WebExtension.Merchants.EwalletMerchant.Ewallet
         EwalletSettings GetEwalletSettings();
         void UpdateEwalletSettings(EwalletSettingsRequest settings);
         void ResetEwalletSettings();
+        void SaveErrorLogResponse(int associateId, int orderId, string message, string error);
 
     }
     public class EwalletRepository : IEwalletRepository
     {
         private readonly IDataService _dataService;
-        public EwalletRepository(IDataService dataService)
+        private readonly ISettingsService _settingsService;
+        public EwalletRepository(IDataService dataService, ISettingsService settingsService)
         {
             _dataService = dataService ?? throw new ArgumentNullException(nameof(dataService));
+            _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         }
         public EwalletSettings GetEwalletSettings()
         {
             try
             {
+                EnvironmentType env = _settingsService.ExtensionContext().Result.EnvironmentType;
                 using (var dbConnection = new SqlConnection(_dataService.GetClientConnectionString().Result))
                 {
-                    var settingsQuery = "SELECT * FROM Client.Ewallet_Settings";
-                    return dbConnection.QueryFirstOrDefault<EwalletSettings>(settingsQuery);
+                    var parameters = new
+                    {
+                        Environment = (env == EnvironmentType.Live ? "Live" : "Stage")
+                    };
+                    var settingsQuery = "SELECT * FROM Client.Ewallet_Settings where Environment = @Environment";
+                    return dbConnection.QueryFirstOrDefault<EwalletSettings>(settingsQuery, parameters);
                 }
             }
             catch { return new EwalletSettings(); }
@@ -64,11 +72,11 @@ namespace WebExtension.Merchants.EwalletMerchant.Ewallet
                 var settings = GetEwalletSettings();
                 var parameters = new
                 {
-                    Username = "helloapiuser",
-                    Password = "7tE9TSUfgEMVKWU6",
+                    Username = "MPGXtremeApiUser",
+                    Password = "D3kX42mIuZeh",
                     ApiUrl = "https://rpmsapi.wsicloud.net/",
-                    CompanyId = "624ecf9a20437a1e34406953",
-                    PointAccountId = "624ed0d120437a1e34406958",
+                    CompanyId = "642544e41a2f620aac513863",
+                    PointAccountId = "642545541a2f620aac513866",
                     BackupMerchantId = 9012
                 };
 
@@ -91,6 +99,21 @@ namespace WebExtension.Merchants.EwalletMerchant.Ewallet
             catch (Exception e)
             {
                 throw e;
+            }
+        }
+        public void SaveErrorLogResponse(int associateId, int orderId, string message, string error)
+        {
+            using (var dbConnection = new SqlConnection(_dataService.GetClientConnectionString().Result))
+            {
+                var parameters = new
+                {
+                    associateId,
+                    orderId,
+                    message,
+                    error
+                };
+                var insertStatement = @"INSERT INTO Client.CheckErrorLogResponse(AssociateID,OrderID,Message,Error) VALUES(@associateId,@orderId,@message,@error)";
+                dbConnection.Execute(insertStatement, parameters);
             }
         }
     }

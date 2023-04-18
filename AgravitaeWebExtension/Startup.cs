@@ -74,6 +74,10 @@ namespace AgravitaeExtension
 
                 options.AddMerchant<PaymentureEwalletMoneyOut>(9960, "EWallet", "Paymenture", "USD");
                 options.AddMerchant<PaymentureEwalletMoneyInMerchant>(9961, "EWallet", "Paymenture", "USD");
+
+                options.AddMerchant<EwalletMoneyIn>(9012, "E-Wallet", "Pay with E-Wallet", "USD");
+                options.AddMerchant<EwalletMoneyOutMerchant>(9013, "E-Wallet", "Pay with E-Wallet", "USD");
+
                 services.AddControllers();
             });
 

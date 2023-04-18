@@ -17,14 +17,14 @@ namespace WebExtension.Merchants.EwalletMerchant.Ewallet
         string CreateCustomer(Application app, int responseAssociateId);
         dynamic CallEwallet(string requestUrl, object requestData);
         PointBalanceResponse GetPointBalance(GetPointBalanceRequest request);
-        string CreatePointTransaction(CustomerPointTransactionsRequest request);
+        CreatePointAccountTransaction CreatePointTransaction(CustomerPointTransactionsRequest request);
         string CreateToken();
         PaymentResponse CreditPayment(string payorId, int orderNumber, string currencyCode, decimal paymentAmount, decimal refundAmount, string cardNumber, string transactionNumber, string authorizationCode);
         int SetActiveCommissionMerchant(SetActiveCommissionMerchantRequest request);
         EwalletSettings GetEwalletSettings();
         void UpdateEwalletSettings(EwalletSettingsRequest settings);
         void ResetEwalletSettings();
-
+        void SaveErrorLogResponse(int associateId, int orderId, string message, string error);
     }
 
     public class EwalletService : IEwalletService
@@ -45,6 +45,7 @@ namespace WebExtension.Merchants.EwalletMerchant.Ewallet
             _moneyOutService = moneyOutService ?? throw new ArgumentNullException(nameof(moneyOutService));
             _currencyService = currencyService ?? throw new ArgumentNullException(nameof(currencyService));
             _associateService = associateService ?? throw new ArgumentNullException(nameof(associateService));
+            _ewalletRepository = ewalletRepository ?? throw new ArgumentNullException(nameof(ewalletRepository));
         }
 
         public string CreateCustomer(Application app, int responseAssociateId)
@@ -110,10 +111,10 @@ namespace WebExtension.Merchants.EwalletMerchant.Ewallet
                 }
                 else
                 {
-                    throw new Exception(data?.StatusCode.ToString() + data?.Content.ToString() + " URL: "+ apiUrl + " json: "+ jsonData + " reason: " + data.ReasonPhrase);
+                    throw new Exception(data?.StatusCode.ToString() + data?.Content.ToString() + " URL: " + apiUrl + " json: " + jsonData + " reason: " + data.ReasonPhrase);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw e;
             }
@@ -125,7 +126,7 @@ namespace WebExtension.Merchants.EwalletMerchant.Ewallet
             {
                 string token = CreateToken();
                 var settings = GetEwalletSettings();
-               
+
                 if (!string.IsNullOrEmpty(token))
                 {
                     token = "Bearer " + token;
@@ -150,7 +151,7 @@ namespace WebExtension.Merchants.EwalletMerchant.Ewallet
                     throw new Exception($"Error occured at Method {System.Reflection.MethodBase.GetCurrentMethod().Name} and Error = Invalid Token!");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception($"Error occured at Method {System.Reflection.MethodBase.GetCurrentMethod().Name} and error ='{ex.Message}'");
             }
@@ -188,7 +189,7 @@ namespace WebExtension.Merchants.EwalletMerchant.Ewallet
             return new PointBalanceResponse();
         }
 
-        public string CreatePointTransaction(CustomerPointTransactionsRequest request)
+        public CreatePointAccountTransaction CreatePointTransaction(CustomerPointTransactionsRequest request)
         {
             try
             {
@@ -203,19 +204,28 @@ namespace WebExtension.Merchants.EwalletMerchant.Ewallet
                 var jobject = jsonString?.Result;
                 dynamic data = JObject.Parse(jobject);
                 if (data.status == "Success" && data.data != null)
-                    return "success";
+                {
+                    return new CreatePointAccountTransaction { TransactionNumber = data.data, Status = data.status }; ;
+                }
+                else
+                {
+                    SaveErrorLogResponse(0, 0, "CreatePointTransaction Error", "Error in CreatePointTransaction " + "Response: " + jsonString);
+                    return new CreatePointAccountTransaction { TransactionNumber = "", Status = "failed" };
+                }
             }
             catch (Exception ex)
             {
-                //_logger.LogError($"{_className}.CreatePointTransaction", "Exception thrown when creating point Transaction for Associate: " + request.ExternalCustomerID + ". Exception: " + ex.Message);
+                SaveErrorLogResponse(0, 0, "CreatePointTransaction Exception", "Exception in CreatePointTransaction " + "Error: " + ex.InnerException);
+                return new CreatePointAccountTransaction { TransactionNumber = "", Status = "failed" };
+
             }
-            return "";
+
         }
 
         public PaymentResponse CreditPayment(string payorId, int orderNumber, string currencyCode, decimal paymentAmount, decimal refundAmount, string cardNumber, string transactionNumber, string authorizationCode)
         {
             var res = new PaymentResponse();
-            string response = "";
+            CreatePointAccountTransaction response = new CreatePointAccountTransaction();
             paymentAmount = _currencyService.Round(paymentAmount, currencyCode).Result;
             refundAmount = _currencyService.Round(refundAmount, currencyCode).Result;
 
@@ -232,14 +242,26 @@ namespace WebExtension.Merchants.EwalletMerchant.Ewallet
 
             try
             {
+                var paymentSource = "";
+                RedeemType redeemType = RedeemType.Commission;
+                if (authorizationCode == "commission")
+                {
+                    paymentSource = $"Commissions from Associate:{payorId} Amount:{paymentAmount.ToString()}";
+                    redeemType = RedeemType.Commission;
+                }
+                if (authorizationCode == "refund")
+                {
+                    paymentSource = $"Refund Amount:{refundAmount.ToString()} to Associate:{payorId} on Order:{orderNumber}";
+                    redeemType = RedeemType.Refund;
+                }
                 CustomerPointTransactionsRequest data = new CustomerPointTransactionsRequest
-                { 
-                    Amount = refundTrans.RefundData.Amount, 
+                {
+                    Amount = refundTrans.RefundData.Amount,
                     ExternalCustomerID = payorId,
-                    RedeemType = RedeemType.Commission, 
+                    RedeemType = redeemType,
                     TransactionType = TransactionType.Credit,
                     ReferenceNo = transactionNumber,
-                    Comment = $"Commissions from Associate:{payorId} Amount:{paymentAmount.ToString()}"
+                    Comment = paymentSource
                 };
 
                 if (!refundTrans.RefundData.Amount.Equals(refundTrans.RefundData.PartialAmount))
@@ -249,24 +271,25 @@ namespace WebExtension.Merchants.EwalletMerchant.Ewallet
 
                 response = CreatePointTransaction(data);
 
-                if (!string.IsNullOrEmpty(response))
+                if (!string.IsNullOrEmpty(response.Status))
                 {
-                    if (response.Contains("Error"))
+                    if (response.Status.Contains("Error") || response.Status.Contains("Failed"))
                     {
                         res.TransactionNumber = "";
                     }
                     else
                     {
                         res.Status = PaymentStatus.Accepted;
+                        res.TransactionNumber = response.TransactionNumber;
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                //_logger.LogError($"{_className}.ChargeSavedPayment", "Exception thrown when sending or processing Ewallet payment response for order " + orderNumber + ". Exception: " + e);
+                SaveErrorLogResponse(0, 0, "CreditPayment TO E-Wallet Exception", "Exception in CreditPaymen" + "Error: " + ex.InnerException);
             }
 
-            //_logger.LogInformation($"{_className}.CreditPayment", $"Processed refund for order {orderNumber}. TransactionId: {transactionNumber}, Amount: {refundTrans.RefundData.Amount}, Returned status: {response}.");
+            SaveErrorLogResponse(int.Parse(payorId), orderNumber, "Credit Payment", $"Processed refund for order {orderNumber}. TransactionId: {transactionNumber}, Amount: {refundTrans.RefundData.Amount}, Returned status: {response}.");
 
             return new PaymentResponse
             {
@@ -277,8 +300,8 @@ namespace WebExtension.Merchants.EwalletMerchant.Ewallet
                 TransactionNumber = transactionNumber,
                 ResponseId = "0",
                 PaymentType = "Credit",
-                Response = response,
-                Status = response.Equals("success", StringComparison.OrdinalIgnoreCase) ? PaymentStatus.Accepted : PaymentStatus.Rejected
+                Response = response.Status,
+                Status = response.Status.Equals("success", StringComparison.OrdinalIgnoreCase) ? PaymentStatus.Accepted : PaymentStatus.Rejected
             };
         }
 
@@ -311,6 +334,10 @@ namespace WebExtension.Merchants.EwalletMerchant.Ewallet
         public void ResetEwalletSettings()
         {
             _ewalletRepository.ResetEwalletSettings();
+        }
+        public void SaveErrorLogResponse(int associateId, int orderId, string message, string error)
+        {
+            _ewalletRepository.SaveErrorLogResponse(associateId, orderId, message, error);
         }
     }
 }

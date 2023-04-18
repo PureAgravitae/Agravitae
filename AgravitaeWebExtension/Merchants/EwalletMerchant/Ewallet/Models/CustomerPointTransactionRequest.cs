@@ -33,7 +33,8 @@ namespace WebExtension.Merchants.EwalletMerchant.Models
         ACHTransferfee,
         CambridgeTransferfee,
         CheckTransferfee,
-        Commission
+        Commission,
+        Refund
     }
 
     public enum TransactionType
