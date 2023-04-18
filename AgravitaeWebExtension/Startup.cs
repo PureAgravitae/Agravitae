@@ -4,8 +4,13 @@ using DirectScale.Disco.Extension.Middleware;
 using PaymentureEwallet;
 using WebExtension.Helper;
 using WebExtension.Helper.Interface;
+using WebExtension.Merchants.CambridgeMerchant.Services;
+using WebExtension.Merchants.EwalletMerchant.Ewallet;
+using WebExtension.Merchants;
 using WebExtension.Repositories;
 using WebExtension.Services;
+using WebExtension.Hooks.Associate;
+using WebExtension.Services.ZiplingoEngagementService;
 
 namespace AgravitaeExtension
 {
@@ -60,6 +65,8 @@ namespace AgravitaeExtension
             services.AddDirectScale(options =>
             {
                 options.AddHook<SubmitOrderHook>();
+                options.AddHook<WriteApplication>();
+                options.AddHook<UpdateAssociateHook>();
                 //options.AddHook<SubmitOrderHook>();
                 //options.AddCustomPage(Menu.AssociateDetail, "Hello Associate", "ViewAdministration", "/CustomPage/SecuredHelloWorld");
                 //options.AddHook<CreateAutoshipHook>();
@@ -68,12 +75,27 @@ namespace AgravitaeExtension
 
                 options.AddMerchant<PaymentureEwalletMoneyOut>(9960, "EWallet", "Paymenture", "USD");
                 options.AddMerchant<PaymentureEwalletMoneyInMerchant>(9961, "EWallet", "Paymenture", "USD");
+
+                options.AddMerchant<EwalletMoneyIn>(9012, "E-Wallet", "Pay with E-Wallet", "USD");
+                options.AddMerchant<EwalletMoneyOutMerchant>(9013, "E-Wallet", "Pay with E-Wallet", "USD");
+
                 services.AddControllers();
             });
 
             //Repositories
             services.AddSingleton<ICustomLogRepository, CustomLogRepository>();
+            services.AddSingleton<IZiplingoEngagementRepository, ZiplingoEngagementRepository>();
             // services.AddSingleton<IOrdersRepository, OrdersRepository>();
+
+            //Ewallet
+            services.AddSingleton<IEwalletRepository, EwalletRepository>();
+            services.AddSingleton<ICambridgeRepository, CambridgeRepository>();
+            services.AddSingleton<IClientRepository, ClientRepository>();
+            services.AddSingleton<IEwalletService, EwalletService>();
+            services.AddSingleton<ICambridgeService, CambridgeService>();
+            services.AddSingleton<ICambridgeSetting, CambridgeSetting>();
+            services.AddSingleton<IClientService, ClientService>();
+            services.AddSingleton<IZiplingoEngagementService, ZiplingoEngagementService>();
 
             //Services
             services.AddSingleton<IAVOrderService, AVOrderService>();
