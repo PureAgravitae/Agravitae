@@ -14,14 +14,16 @@ namespace WebExtension.Hooks.Associate
     {
         private readonly IZiplingoEngagementService _ziplingoEngagementService;
         private readonly IEwalletService _ewalletService;
-        private readonly IAssociateService _zlassociateservice;
+        private readonly IZLAssociateService _zlassociateservice;
 
 
 
-        public WriteApplication(IZiplingoEngagementService ziplingoEngagementService, IEwalletService ewalletService, IAssociateService zlassociateservice)
+        public WriteApplication(IZiplingoEngagementService ziplingoEngagementService, IEwalletService ewalletService, IZLAssociateService zlassociateservice)
         {
             _ziplingoEngagementService = ziplingoEngagementService ?? throw new ArgumentNullException(nameof(ziplingoEngagementService));
             _ewalletService = ewalletService ?? throw new ArgumentNullException(nameof(ewalletService));
+            _zlassociateservice = zlassociateservice ?? throw new ArgumentNullException(nameof(zlassociateservice));
+
         }
 
         public Task<WriteApplicationHookResponse> Invoke(WriteApplicationHookRequest request, Func<WriteApplicationHookRequest, Task<WriteApplicationHookResponse>> func)
@@ -53,7 +55,7 @@ namespace WebExtension.Hooks.Associate
 
             try
             {
-                _ziplingoEngagementService.CreateContact(request.Application, response.Result.ApplicationResponse);
+                _zlassociateservice.CreateContact(request.Application, response.Result.ApplicationResponse);
                 return response;
             }
             catch (Exception e)

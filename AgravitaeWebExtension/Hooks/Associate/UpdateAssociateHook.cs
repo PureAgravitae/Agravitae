@@ -17,7 +17,7 @@ namespace WebExtension.Hooks.Associate
        // private readonly IZiplingoEngagementService _ziplingoEngagementService;
         private readonly DirectScale.Disco.Extension.Services.IAssociateService _associateService;
         private readonly ICustomLogRepository _customLogRepository;
-        private readonly IAssociateService _zlassociateservice;
+        private readonly IZLAssociateService _zlassociateservice;
 
 
 
@@ -29,7 +29,7 @@ namespace WebExtension.Hooks.Associate
             DirectScale.Disco.Extension.Services.IAssociateService associateService, 
             //IZiplingoEngagementService ziplingoEngagementService, 
             ICustomLogRepository customLogRepository,
-            IAssociateService zlassociateservice
+            IZLAssociateService zlassociateservice
         )
         {
             _ewalletService = ewalletService ?? throw new ArgumentNullException(nameof(ewalletService));
