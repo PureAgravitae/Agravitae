@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebExtension.Model
+namespace AgravitaeWebExtension.Model
 {
     public class SingleSignOnRequest
     {

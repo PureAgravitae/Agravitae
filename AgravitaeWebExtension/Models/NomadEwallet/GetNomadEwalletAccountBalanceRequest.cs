@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebExtension.Models
+namespace AgravitaeWebExtension.Models
 {
     public class GetNomadEwalletAccountBalanceRequest
     {

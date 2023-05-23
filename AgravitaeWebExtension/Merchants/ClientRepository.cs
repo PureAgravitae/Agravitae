@@ -3,10 +3,10 @@ using System;
 using System.Data.SqlClient;
 using Dapper;
 using System.Collections.Generic;
-using WebExtension.Merchants.Models;
+using AgravitaeWebExtension.Merchants.Models;
 using System.Linq;
 
-namespace WebExtension.Merchants
+namespace AgravitaeWebExtension.Merchants
 {
     public interface IClientRepository
     {

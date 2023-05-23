@@ -2,14 +2,14 @@
 using DirectScale.Disco.Extension.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using WebExtension.Merchants.EwalletMerchant.Models;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Models;
 using System;
 using System.Net.Http;
 using System.Text;
-using WebExtension.Helper;
-using WebExtension.Merchants.Models;
+using AgravitaeWebExtension.Helper;
+using AgravitaeWebExtension.Merchants.Models;
 
-namespace WebExtension.Merchants.EwalletMerchant.Ewallet
+namespace AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet
 {
     public interface IEwalletService
     {

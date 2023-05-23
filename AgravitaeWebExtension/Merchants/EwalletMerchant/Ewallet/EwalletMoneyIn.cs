@@ -1,9 +1,9 @@
 ﻿using DirectScale.Disco.Extension;
 using DirectScale.Disco.Extension.Services;
-using WebExtension.Merchants.EwalletMerchant.Models;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Models;
 using DirectScale.Disco.Extension.MoneyIn.Custom.Models;
 
-namespace WebExtension.Merchants.EwalletMerchant.Ewallet
+namespace AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet
 {
     public class EwalletMoneyIn : SinglePaymentMoneyInMerchant
     {

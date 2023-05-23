@@ -2,15 +2,15 @@ using AgravitaeWebExtension.Hooks;
 using AgravitaeWebExtension.Services;
 using DirectScale.Disco.Extension.Middleware;
 using PaymentureEwallet;
-using WebExtension.Helper;
-using WebExtension.Helper.Interface;
-using WebExtension.Merchants.CambridgeMerchant.Services;
-using WebExtension.Merchants.EwalletMerchant.Ewallet;
-using WebExtension.Merchants;
-using WebExtension.Repositories;
-using WebExtension.Services;
-using WebExtension.Hooks.Associate;
-using WebExtension.Services.ZiplingoEngagementService;
+using AgravitaeWebExtension.Helper;
+using AgravitaeWebExtension.Helper.Interface;
+using AgravitaeWebExtension.Merchants.CambridgeMerchant.Services;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
+using AgravitaeWebExtension.Merchants;
+using AgravitaeWebExtension.Repositories;
+using AgravitaeWebExtension.Services;
+using AgravitaeWebExtension.Hooks.Associate;
+using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 using ZiplingoEngagement;
 
 namespace AgravitaeExtension
@@ -34,15 +34,15 @@ namespace AgravitaeExtension
             //
             //
             //Remark This section before upload
-            if (CurrentEnvironment.IsDevelopment())
-            {
-                services.AddSingleton<ITokenProvider>(x => new WebExtensionTokenProvider
-                {
-                    DirectScaleUrl = Configuration["configSetting:BaseURL"].Replace("{clientId}", Configuration["configSetting:Client"]).Replace("{environment}", Configuration["configSetting:Environment"]),
-                    DirectScaleSecret = Configuration["configSetting:DirectScaleSecret"],
-                    ExtensionSecrets = new[] { Configuration["configSetting:ExtensionSecrets"] }
-                });
-            }
+            //if (CurrentEnvironment.IsDevelopment())
+            //{
+            //    services.AddSingleton<ITokenProvider>(x => new AgravitaeWebExtensionTokenProvider
+            //    {
+            //        DirectScaleUrl = Configuration["configSetting:BaseURL"].Replace("{clientId}", Configuration["configSetting:Client"]).Replace("{environment}", Configuration["configSetting:Environment"]),
+            //        DirectScaleSecret = Configuration["configSetting:DirectScaleSecret"],
+            //        ExtensionSecrets = new[] { Configuration["configSetting:ExtensionSecrets"] }
+            //    });
+            //}
             //Remark This section before upload
             //
             //
@@ -150,7 +150,7 @@ namespace AgravitaeExtension
             });
         }
     }
-    internal class WebExtensionTokenProvider : ITokenProvider
+    internal class AgravitaeWebExtensionTokenProvider : ITokenProvider
     {
         public string DirectScaleUrl { get; set; }
         public string DirectScaleSecret { get; set; }

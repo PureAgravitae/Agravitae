@@ -1,12 +1,12 @@
-﻿using WebExtension.Merchants.CambridgeMerchant.Models;
-using WebExtension.Merchants.CambridgeMerchant.Services;
-using WebExtension.Helper;
-using WebExtension.Merchants.EwalletMerchant.Models;
+﻿using AgravitaeWebExtension.Merchants.CambridgeMerchant.Models;
+using AgravitaeWebExtension.Merchants.CambridgeMerchant.Services;
+using AgravitaeWebExtension.Helper;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
 
-namespace WebExtension.Controllers.Ewallet
+namespace AgravitaeWebExtension.Controllers.Ewallet
 {
     [Route("api/[controller]")]
     [ApiController]

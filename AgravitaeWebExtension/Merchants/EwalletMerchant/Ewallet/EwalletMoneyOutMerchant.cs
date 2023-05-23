@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace WebExtension.Merchants.EwalletMerchant.Ewallet
+namespace AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet
 {
     public class EwalletMoneyOutMerchant : CommissionMerchant
     {

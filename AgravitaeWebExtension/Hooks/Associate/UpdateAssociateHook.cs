@@ -2,14 +2,14 @@
 using DirectScale.Disco.Extension.Hooks;
 using DirectScale.Disco.Extension.Hooks.Orders;
 using DirectScale.Disco.Extension.Hooks.Associates;
-using WebExtension.Repositories;
-using WebExtension.Services.ZiplingoEngagement;
-using WebExtension.Services;
-using WebExtension.Merchants.EwalletMerchant.Ewallet;
-using WebExtension.Services.ZiplingoEngagementService;
+using AgravitaeWebExtension.Repositories;
+using AgravitaeWebExtension.Services.ZiplingoEngagement;
+using AgravitaeWebExtension.Services;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
+using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 using ZiplingoEngagement.Services.Interface;
 
-namespace WebExtension.Hooks.Associate
+namespace AgravitaeWebExtension.Hooks.Associate
 {
     public class UpdateAssociateHook : IHook<UpdateAssociateHookRequest, UpdateAssociateHookResponse>
     {

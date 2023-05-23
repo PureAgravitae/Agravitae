@@ -2,7 +2,7 @@
 using DirectScale.Disco.Extension.Services;
 using System;
 
-namespace WebExtension.Merchants.CambridgeMerchant.Services
+namespace AgravitaeWebExtension.Merchants.CambridgeMerchant.Services
 {
     public interface ICambridgeSetting
     {

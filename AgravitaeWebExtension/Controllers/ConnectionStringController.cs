@@ -1,9 +1,9 @@
 ﻿using DirectScale.Disco.Extension.Services;
 using Microsoft.AspNetCore.Mvc;
-using WebExtension.Helper;
-using WebExtension.Models;
+using AgravitaeWebExtension.Helper;
+using AgravitaeWebExtension.Models;
 
-namespace AgravitaeWebExtension.Controllers
+namespace AgravitaeAgravitaeWebExtension.Controllers
 {
     public class ConnectionStringController  : ControllerBase
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebExtension.Services.ZiplingoEngagement.Model
+namespace AgravitaeWebExtension.Services.ZiplingoEngagement.Model
 {
     public class OrderDetailModel
     {

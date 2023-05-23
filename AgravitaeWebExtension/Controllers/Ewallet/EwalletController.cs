@@ -3,17 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebExtension.Models;
-using WebExtension.Merchants.Models;
-using WebExtension.Merchants;
-using WebExtension.Helper;
-using WebExtension.Merchants.EwalletMerchant.Ewallet;
+using AgravitaeWebExtension.Models;
+using AgravitaeWebExtension.Merchants.Models;
+using AgravitaeWebExtension.Merchants;
+using AgravitaeWebExtension.Helper;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
 using DirectScale.Disco.Extension;
 using DirectScale.Disco.Extension.Services;
-using WebExtension.Merchants.EwalletMerchant.Models;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Models;
 using Newtonsoft.Json.Linq;
 
-namespace WebExtension.Controllers.Ewallet
+namespace AgravitaeWebExtension.Controllers.Ewallet
 {
     [Route("api/[controller]")]
     [ApiController]
