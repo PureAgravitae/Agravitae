@@ -55,7 +55,7 @@ namespace WebExtension.Hooks.Associate
                 //    _customAssociateService.PlaceInBinaryTree(associateId);
                 //}
 
-                var OldAssociateType = await _associateService.GetAssociateTypeName(oldAssociateType);
+                  var OldAssociateType = await _associateService.GetAssociateTypeName(oldAssociateType);
                 var UpdatedAssociateType = await _associateService.GetAssociateTypeName(newAssociateType);
                 if (request.OldAssociateInfo.AssociateBaseType != request.UpdatedAssociateInfo.AssociateBaseType)
                 {
