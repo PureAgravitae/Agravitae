@@ -2,7 +2,7 @@
 using DirectScale.Disco.Extension.Hooks;
 using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 
-namespace AgravitaeAgravitaeWebExtension.Hooks
+namespace AgravitaeWebExtension.Hooks
 {
     public class MarkPackageShippedHook : IHook<MarkPackagesShippedHookRequest, MarkPackagesShippedHookResponse>
     {

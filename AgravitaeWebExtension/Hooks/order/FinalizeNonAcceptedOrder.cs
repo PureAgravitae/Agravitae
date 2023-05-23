@@ -3,7 +3,7 @@ using DirectScale.Disco.Extension.Hooks;
 using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 using DirectScale.Disco.Extension;
 
-namespace AgravitaeAgravitaeWebExtension.Hooks.order
+namespace AgravitaeWebExtension.Hooks.order
 {
     public class FinalizeNonAcceptedOrder : IHook<FinalizeNonAcceptedOrderHookRequest, FinalizeNonAcceptedOrderHookResponse>
     {

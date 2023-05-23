@@ -1,5 +1,5 @@
-using AgravitaeAgravitaeWebExtension.Hooks;
-using AgravitaeAgravitaeWebExtension.Services;
+using AgravitaeWebExtension.Hooks;
+using AgravitaeWebExtension.Services;
 using DirectScale.Disco.Extension.Middleware;
 using PaymentureEwallet;
 using AgravitaeWebExtension.Helper;
@@ -11,6 +11,8 @@ using AgravitaeWebExtension.Repositories;
 using AgravitaeWebExtension.Services;
 using AgravitaeWebExtension.Hooks.Associate;
 using AgravitaeWebExtension.Services.ZiplingoEngagementService;
+using AgravitaeWebExtension.Hooks.Autoship;
+using AgravitaeWebExtension.Hooks.order;
 
 namespace AgravitaeExtension
 {
@@ -67,6 +69,14 @@ namespace AgravitaeExtension
                 options.AddHook<SubmitOrderHook>();
                 options.AddHook<WriteApplication>();
                 options.AddHook<UpdateAssociateHook>();
+                options.AddHook<CreateAutoshipHook>();
+                options.AddHook<UpdateAutoshipHook>();
+                options.AddHook<FinalizeAcceptedOrderHook>();
+                options.AddHook<FinalizeNonAcceptedOrder>();
+                options.AddHook<FullRefundOrderHook>();
+                options.AddHook<LogRealtimeRankAdvanceHook>();
+                options.AddHook<MarkPackageShippedHook>();
+
                 //options.AddHook<SubmitOrderHook>();
                 //options.AddCustomPage(Menu.AssociateDetail, "Hello Associate", "ViewAdministration", "/CustomPage/SecuredHelloWorld");
                 //options.AddHook<CreateAutoshipHook>();

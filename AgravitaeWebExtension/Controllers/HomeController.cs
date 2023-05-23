@@ -1,4 +1,4 @@
-﻿using AgravitaeAgravitaeWebExtension.Models;
+﻿using AgravitaeWebExtension.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;

@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "AgravitaeAgravitaeWebExtension": {
+    "AgravitaeWebExtension": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

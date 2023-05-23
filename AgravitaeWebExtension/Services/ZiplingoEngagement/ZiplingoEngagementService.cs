@@ -14,7 +14,7 @@ using System.Net.Security;
 using AgravitaeWebExtension.Repositories;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using AgravitaeAgravitaeWebExtension.Services.ZiplingoEngagement.Model;
+using AgravitaeWebExtension.Services.ZiplingoEngagement.Model;
 //using AgravitaeWebExtension.Services.DailyRun.Models;
 
 namespace AgravitaeWebExtension.Services.ZiplingoEngagementService

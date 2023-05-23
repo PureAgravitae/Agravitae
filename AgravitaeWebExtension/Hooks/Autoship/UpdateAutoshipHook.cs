@@ -3,7 +3,7 @@ using DirectScale.Disco.Extension.Hooks;
 using DirectScale.Disco.Extension.Services;
 using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 
-namespace AgravitaeAgravitaeWebExtension.Hooks.Autoship
+namespace AgravitaeWebExtension.Hooks.Autoship
 {
     public class UpdateAutoshipHook : IHook<UpdateAutoshipHookRequest, UpdateAutoshipHookResponse>
     {

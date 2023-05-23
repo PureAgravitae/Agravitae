@@ -4,7 +4,7 @@ using DirectScale.Disco.Extension.Hooks.Orders;
 using DirectScale.Disco.Extension.Services;
 using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 
-namespace AgravitaeAgravitaeWebExtension.Hooks.order
+namespace AgravitaeWebExtension.Hooks.order
 {
     public class FinalizeAcceptedOrderHook : IHook<FinalizeAcceptedOrderHookRequest, FinalizeAcceptedOrderHookResponse>
     {

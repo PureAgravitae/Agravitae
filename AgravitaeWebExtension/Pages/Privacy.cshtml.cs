@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace AgravitaeAgravitaeWebExtension.Pages
+namespace AgravitaeWebExtension.Pages
 {
     public class PrivacyModel : PageModel
     {

@@ -4,7 +4,7 @@ using DirectScale.Disco.Extension.Services;
 using AgravitaeWebExtension.Repositories;
 using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 
-namespace AgravitaeAgravitaeWebExtension.Hooks
+namespace AgravitaeWebExtension.Hooks
 {
     public class LogRealtimeRankAdvanceHook : IHook<LogRealtimeRankAdvanceHookRequest, LogRealtimeRankAdvanceHookResponse>
     {

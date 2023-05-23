@@ -1,6 +1,6 @@
 ﻿using DirectScale.Disco.Extension;
 
-namespace AgravitaeAgravitaeWebExtension.Services.ZiplingoEngagement.Model
+namespace AgravitaeWebExtension.Services.ZiplingoEngagement.Model
 {
     public class RefundOrder
     {

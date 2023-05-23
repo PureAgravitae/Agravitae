@@ -2,7 +2,7 @@
 using DirectScale.Disco.Extension.Hooks;
 using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 
-namespace AgravitaeAgravitaeWebExtension.Hooks.order
+namespace AgravitaeWebExtension.Hooks.order
 {
     public class FullRefundOrderHook : IHook<FullRefundOrderHookRequest, FullRefundOrderHookResponse>
     {
