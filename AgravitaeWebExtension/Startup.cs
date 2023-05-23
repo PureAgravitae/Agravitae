@@ -11,6 +11,7 @@ using WebExtension.Repositories;
 using WebExtension.Services;
 using WebExtension.Hooks.Associate;
 using WebExtension.Services.ZiplingoEngagementService;
+using ZiplingoEngagement;
 
 namespace AgravitaeExtension
 {
@@ -62,6 +63,7 @@ namespace AgravitaeExtension
             });
             services.AddRazorPages();
             services.AddMvc();
+            services.AddZiplingoEngagement();
             services.AddDirectScale(options =>
             {
                 options.AddHook<SubmitOrderHook>();
