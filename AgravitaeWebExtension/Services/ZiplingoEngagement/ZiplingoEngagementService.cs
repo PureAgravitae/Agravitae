@@ -1507,7 +1507,6 @@ namespace AgravitaeWebExtension.Services.ZiplingoEngagementService
                         sponsorSummary = enrollerSummary;
                     }
                     var CardLastFourDegit = _ZiplingoEngagementRepository.GetLastFoutDegitByOrderNumber(order.OrderNumber);
-
                     RefundOrder data = new RefundOrder
                     {
                         ShipMethodId = order.Packages.Select(a => a.ShipMethodId).FirstOrDefault(),
@@ -1526,12 +1525,11 @@ namespace AgravitaeWebExtension.Services.ZiplingoEngagementService
                         ShipCost = order.Totals.Select(m => m.Shipping).FirstOrDefault(),
                         Subtotal = order.Totals.Select(m => m.SubTotal).FirstOrDefault(),
                         USDTotal = order.USDTotal,
-                        RefundAmount = order.Totals.Select(m => m.SubTotal).FirstOrDefault(),
-                        RefundDate = DateTime.Now,
                         Total = order.Totals.Select(m => m.Total).FirstOrDefault(),
-                        Discount = order.Totals.Select(m => m.DiscountTotal).FirstOrDefault(),
                         PaymentMethod = CardLastFourDegit,
                         ProductInfo = order.LineItems,
+                        RefundAmount = order.Totals.Select(m => m.SubTotal).FirstOrDefault(),
+                        RefundDate = DateTime.Now,
                         ProductNames = string.Join(",", order.LineItems.Select(x => x.ProductName).ToArray()),
                         ErrorDetails = FailedAutoship ? order.Payments.FirstOrDefault().PaymentResponse.ToString() : "",
                         CompanyDomain = company.Result.BackOfficeHomePageURL,
