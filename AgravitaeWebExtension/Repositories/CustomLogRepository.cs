@@ -4,7 +4,7 @@ using System;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace WebExtension.Repositories
+namespace AgravitaeWebExtension.Repositories
 {
     public interface ICustomLogRepository
     {

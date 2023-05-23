@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
 using DirectScale.Disco.Extension.Hooks.Associates;
-using WebExtension.Repositories;
-using WebExtension.Services.ZiplingoEngagement;
-using WebExtension.Services;
-using WebExtension.Merchants.EwalletMerchant.Ewallet;
-using WebExtension.Services.ZiplingoEngagementService;
+using AgravitaeWebExtension.Repositories;
+using AgravitaeWebExtension.Services.ZiplingoEngagement;
+using AgravitaeWebExtension.Services;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
+using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 
-namespace WebExtension.Hooks.Associate
+namespace AgravitaeWebExtension.Hooks.Associate
 {
     public class UpdateAssociateHook : IHook<UpdateAssociateHookRequest, UpdateAssociateHookResponse>
     {
@@ -29,7 +29,7 @@ namespace WebExtension.Hooks.Associate
             IAssociateService associateService, 
             IZiplingoEngagementService ziplingoEngagementService, 
             ICustomLogRepository customLogRepository
-            //IAssociateWebService customAssociateService
+        //IAssociateWebService customAssociateService
         )
         {
             _ewalletService = ewalletService ?? throw new ArgumentNullException(nameof(ewalletService));
@@ -55,7 +55,7 @@ namespace WebExtension.Hooks.Associate
                 //    _customAssociateService.PlaceInBinaryTree(associateId);
                 //}
 
-                var OldAssociateType = await _associateService.GetAssociateTypeName(oldAssociateType);
+                  var OldAssociateType = await _associateService.GetAssociateTypeName(oldAssociateType);
                 var UpdatedAssociateType = await _associateService.GetAssociateTypeName(newAssociateType);
                 if (request.OldAssociateInfo.AssociateBaseType != request.UpdatedAssociateInfo.AssociateBaseType)
                 {

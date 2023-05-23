@@ -1,13 +1,14 @@
 ﻿using System;
-using WebExtension.Services.ZiplingoEngagementService.Model;
+using AgravitaeWebExtension.Services.ZiplingoEngagementService.Model;
 using System.Collections.Generic;
 using Dapper;
 using DirectScale.Disco.Extension.Services;
 using System.Linq;
-using WebExtension.Services.ZiplingoEngagement.Model;
-using WebExtension.Models;
+using AgravitaeWebExtension.Services.ZiplingoEngagement.Model;
+using AgravitaeWebExtension.Models;
+using DirectScale.Disco.Extension;
 
-namespace WebExtension.Services.ZiplingoEngagementService
+namespace AgravitaeWebExtension.Services.ZiplingoEngagementService
 {
     public interface IZiplingoEngagementRepository
     {
@@ -29,23 +30,31 @@ namespace WebExtension.Services.ZiplingoEngagementService
     public class ZiplingoEngagementRepository : IZiplingoEngagementRepository
     {
         private readonly IDataService _dataService;
+        private readonly ISettingsService _settingsService;
 
         public ZiplingoEngagementRepository(
-            IDataService dataService
+            IDataService dataService,
+             ISettingsService settingsService
             )
         {
             _dataService = dataService ?? throw new ArgumentNullException(nameof(dataService));
+            _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         }
 
-        
+
 
         public ZiplingoEngagementSettings GetSettings()
         {
+            EnvironmentType env = _settingsService.ExtensionContext().Result.EnvironmentType;
             using (var dbConnection = new System.Data.SqlClient.SqlConnection(_dataService.GetClientConnectionString().Result))
-            {                
-                var settingsQuery = "SELECT * FROM Client.ZiplingoEngagementSettings";
+            {
+                var parameters = new
+                {
+                    Environment = (env == EnvironmentType.Live ? "Live" : "Stage")
+                };
+                var settingsQuery = "SELECT * FROM Client.ZiplingoEngagementSettings where Environment = @Environment";
 
-                return dbConnection.QueryFirstOrDefault<ZiplingoEngagementSettings>(settingsQuery);
+                return dbConnection.QueryFirstOrDefault<ZiplingoEngagementSettings>(settingsQuery, parameters);
             }
         }
 
@@ -99,6 +108,7 @@ namespace WebExtension.Services.ZiplingoEngagementService
 
         public void UpdateSettings(ZiplingoEngagementSettingsRequest settings)
         {
+            EnvironmentType env = _settingsService.ExtensionContext().Result.EnvironmentType;
             using (var dbConnection = new System.Data.SqlClient.SqlConnection(_dataService.GetClientConnectionString().Result))
             {
                 var parameters = new
@@ -107,10 +117,14 @@ namespace WebExtension.Services.ZiplingoEngagementService
                     settings.Username,
                     settings.Password,
                     settings.LogoUrl,
-                    settings.CompanyName
+                    settings.CompanyName,
+                    settings.AllowBirthday,
+                    settings.AllowAnniversary,
+                    settings.AllowRankAdvancement,
+                    Environment = (env == EnvironmentType.Live ? "Live" : "Stage")
                 };
 
-                var updateStatement = @"UPDATE Client.ZiplingoEngagementSettings SET ApiUrl = @ApiUrl,  Username = @Username, Password = @Password, LogoUrl = @LogoUrl, CompanyName = @CompanyName";
+                var updateStatement = @"UPDATE Client.ZiplingoEngagementSettings SET ApiUrl = @ApiUrl,  Username = @Username, Password = @Password, LogoUrl = @LogoUrl, CompanyName = @CompanyName, AllowBirthday = @AllowBirthday, AllowAnniversary = @AllowAnniversary, AllowRankAdvancement = @AllowRankAdvancement where Environment = @Environment";
                 dbConnection.Execute(updateStatement, parameters);
             }
         }

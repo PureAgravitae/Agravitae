@@ -1,11 +1,11 @@
 ﻿using DirectScale.Disco.Extension.Services;
 using System;
 using System.Collections.Generic;
-using WebExtension.Merchants.CambridgeMerchant.Models;
-using WebExtension.Merchants.CambridgeMerchant.Services.Models;
-using WebExtension.Merchants.EwalletMerchant.Models;
+using AgravitaeWebExtension.Merchants.CambridgeMerchant.Models;
+using AgravitaeWebExtension.Merchants.CambridgeMerchant.Services.Models;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Models;
 
-namespace WebExtension.Merchants.CambridgeMerchant.Services
+namespace AgravitaeWebExtension.Merchants.CambridgeMerchant.Services
 {
     public interface ICambridgeService
     {

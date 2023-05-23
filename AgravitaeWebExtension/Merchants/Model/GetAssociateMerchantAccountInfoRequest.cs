@@ -1,5 +1,5 @@
 ﻿
-namespace WebExtension.Merchants.Models
+namespace AgravitaeWebExtension.Merchants.Models
 {
     public class GetAssociateMerchantAccountInfoRequest
     {

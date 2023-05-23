@@ -1,14 +1,14 @@
 ﻿using System;
 using DirectScale.Disco.Extension.Services;
-using WebExtension.Merchants.Models;
+using AgravitaeWebExtension.Merchants.Models;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using DirectScale.Disco.Extension;
 using System.Text;
-using WebExtension.Helper;
+using AgravitaeWebExtension.Helper;
 
-namespace WebExtension.Merchants
+namespace AgravitaeWebExtension.Merchants
 {
     public interface IClientService
     {

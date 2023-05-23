@@ -2,15 +2,17 @@ using AgravitaeWebExtension.Hooks;
 using AgravitaeWebExtension.Services;
 using DirectScale.Disco.Extension.Middleware;
 using PaymentureEwallet;
-using WebExtension.Helper;
-using WebExtension.Helper.Interface;
-using WebExtension.Merchants.CambridgeMerchant.Services;
-using WebExtension.Merchants.EwalletMerchant.Ewallet;
-using WebExtension.Merchants;
-using WebExtension.Repositories;
-using WebExtension.Services;
-using WebExtension.Hooks.Associate;
-using WebExtension.Services.ZiplingoEngagementService;
+using AgravitaeWebExtension.Helper;
+using AgravitaeWebExtension.Helper.Interface;
+using AgravitaeWebExtension.Merchants.CambridgeMerchant.Services;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
+using AgravitaeWebExtension.Merchants;
+using AgravitaeWebExtension.Repositories;
+using AgravitaeWebExtension.Services;
+using AgravitaeWebExtension.Hooks.Associate;
+using AgravitaeWebExtension.Services.ZiplingoEngagementService;
+using AgravitaeWebExtension.Hooks.Autoship;
+using AgravitaeWebExtension.Hooks.order;
 
 namespace AgravitaeExtension
 {
@@ -35,7 +37,7 @@ namespace AgravitaeExtension
             //Remark This section before upload
             //if (CurrentEnvironment.IsDevelopment())
             //{
-            //    services.AddSingleton<ITokenProvider>(x => new WebExtensionTokenProvider
+            //    services.AddSingleton<ITokenProvider>(x => new AgravitaeWebExtensionTokenProvider
             //    {
             //        DirectScaleUrl = Configuration["configSetting:BaseURL"].Replace("{clientId}", Configuration["configSetting:Client"]).Replace("{environment}", Configuration["configSetting:Environment"]),
             //        DirectScaleSecret = Configuration["configSetting:DirectScaleSecret"],
@@ -67,6 +69,14 @@ namespace AgravitaeExtension
                 options.AddHook<SubmitOrderHook>();
                 options.AddHook<WriteApplication>();
                 options.AddHook<UpdateAssociateHook>();
+                options.AddHook<CreateAutoshipHook>();
+                options.AddHook<UpdateAutoshipHook>();
+                options.AddHook<FinalizeAcceptedOrderHook>();
+                options.AddHook<FinalizeNonAcceptedOrder>();
+                options.AddHook<FullRefundOrderHook>();
+                options.AddHook<LogRealtimeRankAdvanceHook>();
+                options.AddHook<MarkPackageShippedHook>();
+
                 //options.AddHook<SubmitOrderHook>();
                 //options.AddCustomPage(Menu.AssociateDetail, "Hello Associate", "ViewAdministration", "/CustomPage/SecuredHelloWorld");
                 //options.AddHook<CreateAutoshipHook>();
@@ -180,7 +190,7 @@ namespace AgravitaeExtension
             
         }
     }
-    internal class WebExtensionTokenProvider : ITokenProvider
+    internal class AgravitaeWebExtensionTokenProvider : ITokenProvider
     {
         public string DirectScaleUrl { get; set; }
         public string DirectScaleSecret { get; set; }

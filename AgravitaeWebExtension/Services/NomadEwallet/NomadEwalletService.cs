@@ -8,11 +8,11 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using WebExtension.Helper;
-using WebExtension.Model;
-using WebExtension.Models;
+using AgravitaeWebExtension.Helper;
+using AgravitaeWebExtension.Model;
+using AgravitaeWebExtension.Models;
 
-namespace WebExtension.Services
+namespace AgravitaeWebExtension.Services
 {
     public interface INomadEwalletService
     {

@@ -7,9 +7,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebExtension.Helper.Models;
+using AgravitaeWebExtension.Helper.Models;
 
-namespace WebExtension.Helper
+namespace AgravitaeWebExtension.Helper
 {
     public static class CommonMethod
     {

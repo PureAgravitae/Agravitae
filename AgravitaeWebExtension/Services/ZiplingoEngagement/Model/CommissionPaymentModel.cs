@@ -1,6 +1,6 @@
 ﻿using DirectScale.Disco.Extension;
 
-namespace WebExtension.Services.ZiplingoEngagement.Model
+namespace AgravitaeWebExtension.Services.ZiplingoEngagement.Model
 {
     public class CommissionPaymentModel
     {

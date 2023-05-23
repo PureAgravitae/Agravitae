@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebExtension.Merchants.EwalletMerchant.Models
+namespace AgravitaeWebExtension.Merchants.EwalletMerchant.Models
 {
     public class TokenRequest
     {

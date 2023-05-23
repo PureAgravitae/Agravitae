@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using WebExtension.Models;
+using AgravitaeWebExtension.Models;
 
-namespace WebExtension.Controllers
+namespace AgravitaeWebExtension.Controllers
 {
     public class HomeController : Controller
     {

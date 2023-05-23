@@ -5,8 +5,8 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net;
-using WebExtension.Merchants.CambridgeMerchant.Models;
-using WebExtension.Merchants.CambridgeMerchant.Services.Models;
+using AgravitaeWebExtension.Merchants.CambridgeMerchant.Models;
+using AgravitaeWebExtension.Merchants.CambridgeMerchant.Services.Models;
 using System.Net.Http;
 using System.Text;
 using System.Net.Http.Headers;
@@ -14,9 +14,9 @@ using System.Data.SqlClient;
 using Dapper;
 using System.Collections;
 using DirectScale.Disco.Extension;
-using WebExtension.Merchants.EwalletMerchant.Models;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Models;
 
-namespace WebExtension.Merchants.CambridgeMerchant.Services
+namespace AgravitaeWebExtension.Merchants.CambridgeMerchant.Services
 {
     public interface ICambridgeRepository
     {

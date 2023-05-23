@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebExtension.Services.ZiplingoEngagementService.Model
+namespace AgravitaeWebExtension.Services.ZiplingoEngagementService.Model
 {
     public class AssociateCardInfoModel
     {
