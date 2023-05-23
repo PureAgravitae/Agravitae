@@ -1,4 +1,4 @@
-﻿using AgravitaeWebExtension.Models;
+﻿using AgravitaeAgravitaeWebExtension.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using WebExtension.Models;
+using AgravitaeWebExtension.Models;
 
-namespace WebExtension.Controllers
+namespace AgravitaeWebExtension.Controllers
 {
     public class HomeController : Controller
     {

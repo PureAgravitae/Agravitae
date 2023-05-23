@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace AgravitaeWebExtension.Pages
+namespace AgravitaeAgravitaeWebExtension.Pages
 {
     public class IndexModel : PageModel
     {

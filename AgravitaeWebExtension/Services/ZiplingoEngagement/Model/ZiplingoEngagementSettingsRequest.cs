@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebExtension.Services.ZiplingoEngagement.Model;
+using AgravitaeWebExtension.Services.ZiplingoEngagement.Model;
 
-namespace WebExtension.Services.ZiplingoEngagementService.Model
+namespace AgravitaeWebExtension.Services.ZiplingoEngagementService.Model
 {
     public class ZiplingoEngagementSettingsRequest : CommandRequest
     {

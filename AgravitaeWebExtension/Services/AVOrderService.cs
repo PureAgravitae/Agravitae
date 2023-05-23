@@ -1,10 +1,10 @@
-﻿using AgravitaeWebExtension.Hooks;
+﻿using AgravitaeAgravitaeWebExtension.Hooks;
 using Dapper;
 using DirectScale.Disco.Extension;
 using DirectScale.Disco.Extension.Services;
 using System.Data.SqlClient;
 
-namespace AgravitaeWebExtension.Services
+namespace AgravitaeAgravitaeWebExtension.Services
 {
     public interface IAVOrderService
     {

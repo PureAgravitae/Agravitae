@@ -1,7 +1,7 @@
 ﻿using DirectScale.Disco.Extension.Middleware;
 using AgravitaeExtension;
 
-namespace AgravitaeWebExtension
+namespace AgravitaeAgravitaeWebExtension
 {
     public class Program
     {

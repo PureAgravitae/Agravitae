@@ -1,6 +1,6 @@
 using System;
 
-namespace AgravitaeWebExtension.Models
+namespace AgravitaeAgravitaeWebExtension.Models
 {
     public class ErrorViewModel
     {

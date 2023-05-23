@@ -2,12 +2,12 @@
 using DirectScale.Disco.Extension.Hooks.Associates.Enrollment;
 using System;
 using System.Threading.Tasks;
-using WebExtension.Merchants.EwalletMerchant.Ewallet;
-using WebExtension.Merchants.EwalletMerchant.Models;
-using WebExtension.Services.ZiplingoEngagementService;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Models;
+using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 using DirectScale.Disco.Extension;
 
-namespace WebExtension.Hooks.Associate
+namespace AgravitaeWebExtension.Hooks.Associate
 {
     public class WriteApplication : IHook<WriteApplicationHookRequest, WriteApplicationHookResponse>
     {

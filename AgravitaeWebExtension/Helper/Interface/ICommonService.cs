@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebExtension.Helper.Models;
+using AgravitaeWebExtension.Helper.Models;
 
-namespace WebExtension.Helper.Interface
+namespace AgravitaeWebExtension.Helper.Interface
 {
     public interface ICommonService
     {

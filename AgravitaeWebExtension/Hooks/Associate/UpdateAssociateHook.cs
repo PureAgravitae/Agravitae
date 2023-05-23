@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
 using DirectScale.Disco.Extension.Hooks.Associates;
-using WebExtension.Repositories;
-using WebExtension.Services.ZiplingoEngagement;
-using WebExtension.Services;
-using WebExtension.Merchants.EwalletMerchant.Ewallet;
-using WebExtension.Services.ZiplingoEngagementService;
-using ZiplingoEngagement.Services.Interface;
+using AgravitaeWebExtension.Repositories;
+using AgravitaeWebExtension.Services.ZiplingoEngagement;
+using AgravitaeWebExtension.Services;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
+using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 
-namespace WebExtension.Hooks.Associate
+namespace AgravitaeWebExtension.Hooks.Associate
 {
     public class UpdateAssociateHook : IHook<UpdateAssociateHookRequest, UpdateAssociateHookResponse>
     {
@@ -23,15 +22,13 @@ namespace WebExtension.Hooks.Associate
         private readonly IAssociateService _associateService;
         private readonly ICustomLogRepository _customLogRepository;
         //private readonly IAssociateWebService _customAssociateService;
-        private readonly IZLAssociateService _zlassociateService;
 
         public UpdateAssociateHook
         (
             IEwalletService ewalletService,
             IAssociateService associateService, 
             IZiplingoEngagementService ziplingoEngagementService, 
-            ICustomLogRepository customLogRepository,
-            IZLAssociateService zlassociateService
+            ICustomLogRepository customLogRepository
         //IAssociateWebService customAssociateService
         )
         {
@@ -39,7 +36,6 @@ namespace WebExtension.Hooks.Associate
             _ziplingoEngagementService = ziplingoEngagementService ?? throw new ArgumentNullException(nameof(ziplingoEngagementService));
             _associateService = associateService ?? throw new ArgumentNullException(nameof(associateService));
             _customLogRepository = customLogRepository ?? throw new ArgumentNullException(nameof(customLogRepository));
-            _zlassociateService = zlassociateService ?? throw new ArgumentNullException(nameof(zlassociateService));
             //_customAssociateService = customAssociateService;
         }
 
@@ -63,7 +59,7 @@ namespace WebExtension.Hooks.Associate
                 var UpdatedAssociateType = await _associateService.GetAssociateTypeName(newAssociateType);
                 if (request.OldAssociateInfo.AssociateBaseType != request.UpdatedAssociateInfo.AssociateBaseType)
                 {
-                   await _zlassociateService.AssociateTypeChange(associateId, OldAssociateType, UpdatedAssociateType, newAssociateType);
+                    _ziplingoEngagementService.UpdateAssociateType(associateId, OldAssociateType, UpdatedAssociateType, newAssociateType);
                 }
                 var associate = await _associateService.GetAssociate(associateId);
                 _ziplingoEngagementService.UpdateContact(associate);

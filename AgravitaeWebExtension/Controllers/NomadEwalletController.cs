@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using WebExtension.Helper;
-using WebExtension.Model;
-using WebExtension.Models;
-using WebExtension.Services;
+using AgravitaeWebExtension.Helper;
+using AgravitaeWebExtension.Model;
+using AgravitaeWebExtension.Models;
+using AgravitaeWebExtension.Services;
 
-namespace WebExtension.Controllers
+namespace AgravitaeWebExtension.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

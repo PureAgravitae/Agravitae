@@ -1,4 +1,4 @@
-﻿namespace AgravitaeWebExtension.Services.ZiplingoEngagement.Model
+﻿namespace AgravitaeAgravitaeWebExtension.Services.ZiplingoEngagement.Model
 {
     public class GetAssociateStatusModel
     {

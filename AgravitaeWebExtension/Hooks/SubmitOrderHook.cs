@@ -1,8 +1,8 @@
 ﻿using DirectScale.Disco.Extension.Hooks.Orders;
 using DirectScale.Disco.Extension.Hooks;
-using AgravitaeWebExtension.Services;
+using AgravitaeAgravitaeWebExtension.Services;
 
-namespace AgravitaeWebExtension.Hooks
+namespace AgravitaeAgravitaeWebExtension.Hooks
 {
     public class SubmitOrderHook : IHook<SubmitOrderHookRequest, SubmitOrderHookResponse>
     {

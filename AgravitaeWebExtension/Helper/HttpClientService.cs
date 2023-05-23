@@ -7,9 +7,9 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using WebExtension.Merchants.EwalletMerchant.Models;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Models;
 
-namespace WebExtension.Helper
+namespace AgravitaeWebExtension.Helper
 {
     public interface IHttpClientService
     {

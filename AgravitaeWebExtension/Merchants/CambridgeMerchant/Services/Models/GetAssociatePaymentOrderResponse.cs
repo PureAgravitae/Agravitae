@@ -1,6 +1,6 @@
 ﻿
 
-namespace WebExtension.Merchants.CambridgeMerchant.Services.Models
+namespace AgravitaeWebExtension.Merchants.CambridgeMerchant.Services.Models
 {
     public class GetAssociatePaymentOrderResponse
     {
