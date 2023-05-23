@@ -6,6 +6,7 @@ using WebExtension.Merchants.EwalletMerchant.Ewallet;
 using WebExtension.Merchants.EwalletMerchant.Models;
 using WebExtension.Services.ZiplingoEngagementService;
 using DirectScale.Disco.Extension;
+using ZiplingoEngagement.Services.Interface;
 
 namespace WebExtension.Hooks.Associate
 {
@@ -13,9 +14,11 @@ namespace WebExtension.Hooks.Associate
     {
         private readonly IZiplingoEngagementService _ziplingoEngagementService;
         private readonly IEwalletService _ewalletService;
+        private readonly IAssociateService _zlassociateservice;
 
 
-        public WriteApplication(IZiplingoEngagementService ziplingoEngagementService, IEwalletService ewalletService)
+
+        public WriteApplication(IZiplingoEngagementService ziplingoEngagementService, IEwalletService ewalletService, IAssociateService zlassociateservice)
         {
             _ziplingoEngagementService = ziplingoEngagementService ?? throw new ArgumentNullException(nameof(ziplingoEngagementService));
             _ewalletService = ewalletService ?? throw new ArgumentNullException(nameof(ewalletService));
