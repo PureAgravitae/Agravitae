@@ -1,7 +1,7 @@
 ﻿using DirectScale.Disco.Extension;
 using System;
 
-namespace WebExtension.Services.ZiplingoEngagement.Model
+namespace AgravitaeWebExtension.Services.ZiplingoEngagement.Model
 {
     public class AutoshipInfoMap
     {

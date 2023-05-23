@@ -2,23 +2,28 @@
 using DirectScale.Disco.Extension.Hooks.Associates.Enrollment;
 using System;
 using System.Threading.Tasks;
-using WebExtension.Merchants.EwalletMerchant.Ewallet;
-using WebExtension.Merchants.EwalletMerchant.Models;
-using WebExtension.Services.ZiplingoEngagementService;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Models;
+using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 using DirectScale.Disco.Extension;
+using ZiplingoEngagement.Services.Interface;
 
-namespace WebExtension.Hooks.Associate
+namespace AgravitaeWebExtension.Hooks.Associate
 {
     public class WriteApplication : IHook<WriteApplicationHookRequest, WriteApplicationHookResponse>
     {
         private readonly IZiplingoEngagementService _ziplingoEngagementService;
         private readonly IEwalletService _ewalletService;
+        private readonly IZLAssociateService _zlassociateservice;
 
 
-        public WriteApplication(IZiplingoEngagementService ziplingoEngagementService, IEwalletService ewalletService)
+
+        public WriteApplication(IZiplingoEngagementService ziplingoEngagementService, IEwalletService ewalletService, IZLAssociateService zlassociateservice)
         {
             _ziplingoEngagementService = ziplingoEngagementService ?? throw new ArgumentNullException(nameof(ziplingoEngagementService));
             _ewalletService = ewalletService ?? throw new ArgumentNullException(nameof(ewalletService));
+            _zlassociateservice = zlassociateservice ?? throw new ArgumentNullException(nameof(zlassociateservice));
+
         }
 
         public Task<WriteApplicationHookResponse> Invoke(WriteApplicationHookRequest request, Func<WriteApplicationHookRequest, Task<WriteApplicationHookResponse>> func)
@@ -50,7 +55,7 @@ namespace WebExtension.Hooks.Associate
 
             try
             {
-                _ziplingoEngagementService.CreateContact(request.Application, response.Result.ApplicationResponse);
+                _zlassociateservice.CreateContact(request.Application, response.Result.ApplicationResponse);
                 return response;
             }
             catch (Exception e)

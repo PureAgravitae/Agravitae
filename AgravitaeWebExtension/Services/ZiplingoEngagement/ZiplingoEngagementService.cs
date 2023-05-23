@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Linq;
-using WebExtension.Services.ZiplingoEngagementService.Model;
-using WebExtension.Services.ZiplingoEngagement.Model;
+using AgravitaeWebExtension.Services.ZiplingoEngagementService.Model;
+using AgravitaeWebExtension.Services.ZiplingoEngagement.Model;
 using DirectScale.Disco.Extension.Services;
 using DirectScale.Disco.Extension;
 using System.Collections.Generic;
@@ -11,13 +11,13 @@ using RestSharp;
 using RestSharp.Authenticators;
 using System.Net;
 using System.Net.Security;
-using WebExtension.Repositories;
+using AgravitaeWebExtension.Repositories;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AgravitaeWebExtension.Services.ZiplingoEngagement.Model;
-//using WebExtension.Services.DailyRun.Models;
+//using AgravitaeWebExtension.Services.DailyRun.Models;
 
-namespace WebExtension.Services.ZiplingoEngagementService
+namespace AgravitaeWebExtension.Services.ZiplingoEngagementService
 {
 
     public interface IZiplingoEngagementService

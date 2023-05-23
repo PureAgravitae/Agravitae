@@ -1,13 +1,13 @@
 ﻿using System;
-using WebExtension.Services.ZiplingoEngagementService.Model;
+using AgravitaeWebExtension.Services.ZiplingoEngagementService.Model;
 using System.Collections.Generic;
 using Dapper;
 using DirectScale.Disco.Extension.Services;
 using System.Linq;
-using WebExtension.Services.ZiplingoEngagement.Model;
-using WebExtension.Models;
+using AgravitaeWebExtension.Services.ZiplingoEngagement.Model;
+using AgravitaeWebExtension.Models;
 
-namespace WebExtension.Services.ZiplingoEngagementService
+namespace AgravitaeWebExtension.Services.ZiplingoEngagementService
 {
     public interface IZiplingoEngagementRepository
     {

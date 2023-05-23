@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebExtension.Merchants.Models
+namespace AgravitaeWebExtension.Merchants.Models
 {
     public class EwalletSettingsRequest
     {

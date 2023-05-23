@@ -2,15 +2,16 @@ using AgravitaeWebExtension.Hooks;
 using AgravitaeWebExtension.Services;
 using DirectScale.Disco.Extension.Middleware;
 using PaymentureEwallet;
-using WebExtension.Helper;
-using WebExtension.Helper.Interface;
-using WebExtension.Merchants.CambridgeMerchant.Services;
-using WebExtension.Merchants.EwalletMerchant.Ewallet;
-using WebExtension.Merchants;
-using WebExtension.Repositories;
-using WebExtension.Services;
-using WebExtension.Hooks.Associate;
-using WebExtension.Services.ZiplingoEngagementService;
+using AgravitaeWebExtension.Helper;
+using AgravitaeWebExtension.Helper.Interface;
+using AgravitaeWebExtension.Merchants.CambridgeMerchant.Services;
+using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
+using AgravitaeWebExtension.Merchants;
+using AgravitaeWebExtension.Repositories;
+using AgravitaeWebExtension.Services;
+using AgravitaeWebExtension.Hooks.Associate;
+using AgravitaeWebExtension.Services.ZiplingoEngagementService;
+using ZiplingoEngagement;
 
 namespace AgravitaeExtension
 {
@@ -62,6 +63,7 @@ namespace AgravitaeExtension
             });
             services.AddRazorPages();
             services.AddMvc();
+            services.AddZiplingoEngagement();
             services.AddDirectScale(options =>
             {
                 options.AddHook<SubmitOrderHook>();
@@ -119,7 +121,7 @@ namespace AgravitaeExtension
             if (environmentUrl != null)
             {
                 var serverUrl = environmentUrl.Replace("https://agravitae.corpadmin.", "");
-                var appendUrl = @" http://"+ serverUrl + " " + "https://" + serverUrl + " " + "http://*." + serverUrl + " " + "https://*." + serverUrl;
+                var appendUrl = @" http://" + serverUrl + " " + "https://" + serverUrl + " " + "http://*." + serverUrl + " " + "https://*." + serverUrl;
 
                 var csPolicy = "frame-ancestors https://agravitae.corpadmin.directscale.com https://agravitae.corpadmin.directscalestage.com" + appendUrl + ";";
                 app.UseRequestLocalization();
@@ -177,10 +179,10 @@ namespace AgravitaeExtension
             }
 
 
-            
+
         }
     }
-    internal class WebExtensionTokenProvider : ITokenProvider
+    internal class AgravitaeWebExtensionTokenProvider : ITokenProvider
     {
         public string DirectScaleUrl { get; set; }
         public string DirectScaleSecret { get; set; }

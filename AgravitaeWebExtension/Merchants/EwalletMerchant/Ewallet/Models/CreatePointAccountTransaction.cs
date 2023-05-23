@@ -1,4 +1,4 @@
-﻿namespace WebExtension.Merchants.EwalletMerchant.Models
+﻿namespace AgravitaeWebExtension.Merchants.EwalletMerchant.Models
 {
     public class CreatePointAccountTransaction
     {

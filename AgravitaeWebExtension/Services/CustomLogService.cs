@@ -1,8 +1,8 @@
-﻿using WebExtension.Repositories;
+﻿using AgravitaeWebExtension.Repositories;
 using System;
 using System.Threading.Tasks;
 
-namespace WebExtension.Services
+namespace AgravitaeWebExtension.Services
 {
     public interface ICustomLogService
     {

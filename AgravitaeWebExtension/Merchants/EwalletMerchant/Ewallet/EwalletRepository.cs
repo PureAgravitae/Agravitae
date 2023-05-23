@@ -3,11 +3,11 @@ using System;
 using System.Data.SqlClient;
 using Dapper;
 using System.Collections.Generic;
-using WebExtension.Merchants.Models;
+using AgravitaeWebExtension.Merchants.Models;
 using System.Linq;
 using DirectScale.Disco.Extension;
 
-namespace WebExtension.Merchants.EwalletMerchant.Ewallet
+namespace AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet
 {
     public interface IEwalletRepository
     {

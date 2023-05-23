@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebExtension.Helper.Models
+namespace AgravitaeWebExtension.Helper.Models
 {
     public class RequestBasePara
     {

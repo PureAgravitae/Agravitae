@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebExtension.Merchants.EwalletMerchant.Models
+namespace AgravitaeWebExtension.Merchants.EwalletMerchant.Models
 {
     public class CustomerDetails
     {

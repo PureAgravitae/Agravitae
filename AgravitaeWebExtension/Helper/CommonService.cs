@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebExtension.Helper.Interface;
-using WebExtension.Helper.Models;
+using AgravitaeWebExtension.Helper.Interface;
+using AgravitaeWebExtension.Helper.Models;
 
-namespace WebExtension.Helper
+namespace AgravitaeWebExtension.Helper
 {
     public class CommonService : ICommonService
     {
