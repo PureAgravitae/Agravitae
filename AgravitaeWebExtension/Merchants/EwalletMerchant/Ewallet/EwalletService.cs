@@ -273,7 +273,7 @@ namespace AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet
 
                 if (!string.IsNullOrEmpty(response.Status))
                 {
-                    if (response.Status.Contains("Error") || response.Status.Contains("Failed"))
+                    if (response.Status.Contains("error") || response.Status.Contains("failed"))
                     {
                         res.TransactionNumber = "";
                     }

@@ -104,9 +104,9 @@ namespace AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet
                 CreatePointAccountTransaction response = _ewalletService.CreatePointTransaction(data);
                 if (!string.IsNullOrEmpty(response.Status))
                 {
-                    if (response.Status.Contains("Error") || response.Status.Contains("Failed"))
+                    if (response.Status.Contains("error") || response.Status.Contains("failed"))
                     {
-                        res.Response = response.Status;
+                        res.Response = response.ErrorDescription;
                         res.TransactionNumber = "";
                         res.ResponseId = "2";
                         _ewalletService.SaveErrorLogResponse(Convert.ToInt32(payerId), orderNumber, "CreatePointTransaction Contains error", "Got Error when sending or processing Ewallet payment response for order " + orderNumber + ". response: " + response);
@@ -116,7 +116,6 @@ namespace AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet
                         res.Status = PaymentStatus.Accepted;
                         res.TransactionNumber = response.TransactionNumber;
                         res.AuthorizationCode = response.TransactionNumber;
-
                     }
                 }
             }
