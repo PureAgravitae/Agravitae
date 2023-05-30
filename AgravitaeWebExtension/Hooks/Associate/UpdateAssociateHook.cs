@@ -12,6 +12,7 @@ using AgravitaeWebExtension.Services.ZiplingoEngagement;
 using AgravitaeWebExtension.Services;
 using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
 using AgravitaeWebExtension.Services.ZiplingoEngagementService;
+using ZiplingoEngagement.Services.Interface;
 
 namespace AgravitaeWebExtension.Hooks.Associate
 {
@@ -21,6 +22,8 @@ namespace AgravitaeWebExtension.Hooks.Associate
         private readonly IZiplingoEngagementService _ziplingoEngagementService;
         private readonly IAssociateService _associateService;
         private readonly ICustomLogRepository _customLogRepository;
+        private readonly IZLAssociateService _zlassociateservices;
+
         //private readonly IAssociateWebService _customAssociateService;
 
         public UpdateAssociateHook
@@ -28,7 +31,8 @@ namespace AgravitaeWebExtension.Hooks.Associate
             IEwalletService ewalletService,
             IAssociateService associateService, 
             IZiplingoEngagementService ziplingoEngagementService, 
-            ICustomLogRepository customLogRepository
+            ICustomLogRepository customLogRepository,
+            IZLAssociateService zlassociateservices
         //IAssociateWebService customAssociateService
         )
         {
@@ -36,6 +40,8 @@ namespace AgravitaeWebExtension.Hooks.Associate
             _ziplingoEngagementService = ziplingoEngagementService ?? throw new ArgumentNullException(nameof(ziplingoEngagementService));
             _associateService = associateService ?? throw new ArgumentNullException(nameof(associateService));
             _customLogRepository = customLogRepository ?? throw new ArgumentNullException(nameof(customLogRepository));
+            _zlassociateservices = zlassociateservices ?? throw new ArgumentNullException(nameof(zlassociateservices));
+
             //_customAssociateService = customAssociateService;
         }
 
@@ -59,7 +65,8 @@ namespace AgravitaeWebExtension.Hooks.Associate
                 var UpdatedAssociateType = await _associateService.GetAssociateTypeName(newAssociateType);
                 if (request.OldAssociateInfo.AssociateBaseType != request.UpdatedAssociateInfo.AssociateBaseType)
                 {
-                    _ziplingoEngagementService.UpdateAssociateType(associateId, OldAssociateType, UpdatedAssociateType, newAssociateType);
+                  await  _zlassociateservices.AssociateTypeChange(associateId, OldAssociateType, UpdatedAssociateType, newAssociateType);
+                    //_ziplingoEngagementService.UpdateAssociateType(associateId, OldAssociateType, UpdatedAssociateType, newAssociateType);
                 }
                 var associate = await _associateService.GetAssociate(associateId);
                 _ziplingoEngagementService.UpdateContact(associate);

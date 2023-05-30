@@ -13,6 +13,7 @@ using AgravitaeWebExtension.Hooks.Associate;
 using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 using AgravitaeWebExtension.Hooks.Autoship;
 using AgravitaeWebExtension.Hooks.order;
+using ZiplingoEngagement;
 
 namespace AgravitaeExtension
 {
@@ -117,9 +118,11 @@ namespace AgravitaeExtension
 
             //Swagger
             services.AddSwaggerGen();
+            services.AddZiplingoEngagement();
             //Configurations
             //services.Configure<configSetting>(Configuration.GetSection("configSetting"));
             services.AddMvc(option => option.EnableEndpointRouting = false);
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
