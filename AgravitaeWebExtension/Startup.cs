@@ -65,6 +65,7 @@ namespace AgravitaeExtension
             });
             services.AddRazorPages();
             services.AddMvc();
+            services.AddZiplingoEngagement();
             services.AddDirectScale(options =>
             {
                 options.AddHook<SubmitOrderHook>();
@@ -118,7 +119,6 @@ namespace AgravitaeExtension
 
             //Swagger
             services.AddSwaggerGen();
-            services.AddZiplingoEngagement();
             //Configurations
             //services.Configure<configSetting>(Configuration.GetSection("configSetting"));
             services.AddMvc(option => option.EnableEndpointRouting = false);
