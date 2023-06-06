@@ -18,6 +18,8 @@ namespace AgravitaeWebExtension.Merchants.EwalletMerchant.Models
         public string ReferenceNo { get; set; }
         public decimal Amount { get; set; }
         public string Comment { get; set; }
+        public string BatchId { get; set; }
+        public string Source { get; set; }
     }
 
     public enum RedeemType

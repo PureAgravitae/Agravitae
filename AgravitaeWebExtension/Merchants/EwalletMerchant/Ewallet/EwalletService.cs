@@ -19,7 +19,7 @@ namespace AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet
         PointBalanceResponse GetPointBalance(GetPointBalanceRequest request);
         CreatePointAccountTransaction CreatePointTransaction(CustomerPointTransactionsRequest request);
         string CreateToken();
-        PaymentResponse CreditPayment(string payorId, int orderNumber, string currencyCode, decimal paymentAmount, decimal refundAmount, string cardNumber, string transactionNumber, string authorizationCode);
+        PaymentResponse CreditPayment(string payorId, int orderNumber, string currencyCode, decimal paymentAmount, decimal refundAmount, string cardNumber, string transactionNumber, string authorizationCode, string batchId, string source);
         int SetActiveCommissionMerchant(SetActiveCommissionMerchantRequest request);
         EwalletSettings GetEwalletSettings();
         void UpdateEwalletSettings(EwalletSettingsRequest settings);
@@ -222,7 +222,7 @@ namespace AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet
 
         }
 
-        public PaymentResponse CreditPayment(string payorId, int orderNumber, string currencyCode, decimal paymentAmount, decimal refundAmount, string cardNumber, string transactionNumber, string authorizationCode)
+        public PaymentResponse CreditPayment(string payorId, int orderNumber, string currencyCode, decimal paymentAmount, decimal refundAmount, string cardNumber, string transactionNumber, string authorizationCode, string batchId, string source)
         {
             var res = new PaymentResponse();
             CreatePointAccountTransaction response = new CreatePointAccountTransaction();
@@ -261,7 +261,9 @@ namespace AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet
                     RedeemType = redeemType,
                     TransactionType = TransactionType.Credit,
                     ReferenceNo = transactionNumber,
-                    Comment = paymentSource
+                    Comment = paymentSource,
+                    BatchId = batchId,
+                    Source = source
                 };
 
                 if (!refundTrans.RefundData.Amount.Equals(refundTrans.RefundData.PartialAmount))
