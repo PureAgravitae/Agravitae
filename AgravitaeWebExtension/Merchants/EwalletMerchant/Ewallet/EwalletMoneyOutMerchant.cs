@@ -43,7 +43,7 @@ namespace AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet
                         }
                         string comment = $"Commissions amount {Convert.ToDecimal(payment.Amount)} transfer";
 
-                        var creditResult = _ewalletservice.CreditPayment(accountnumber, payment.Id, "usd", payment.Amount, payment.Amount, "", payment.PaymentUniqueId, payment.Notes, Convert.ToString(batchId), "Disco Commission");
+                        var creditResult = _ewalletservice.CreditPayment(accountnumber, payment.Id, "usd", payment.Amount, payment.Amount, "", payment.PaymentUniqueId, "commission", payment.Notes, Convert.ToString(batchId), "Disco Commission");
 
                         if (creditResult.Status != PaymentStatus.Accepted)
                         {

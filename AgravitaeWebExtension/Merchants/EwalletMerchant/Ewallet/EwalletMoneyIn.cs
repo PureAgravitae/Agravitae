@@ -131,7 +131,7 @@ namespace AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet
         public override async Task<ExtendedPaymentResult> RefundPayment(string payerId, int orderNumber, string currencyCode, double paymentAmount, double refundAmount, string referenceNumber, string transactionNumber, string authorizationCode)
         {
             _ewalletService.SaveErrorLogResponse(Convert.ToInt32(payerId), orderNumber, "Refund Amount", "Refund Order" + orderNumber + ". Refund Amount: " + refundAmount);
-            var response = _ewalletService.CreditPayment(payerId, orderNumber, currencyCode, Convert.ToDecimal(paymentAmount), Convert.ToDecimal(refundAmount), "", transactionNumber, "refund", "", "Refund from disco");
+            var response = _ewalletService.CreditPayment(payerId, orderNumber, currencyCode, Convert.ToDecimal(paymentAmount), Convert.ToDecimal(refundAmount), "", transactionNumber, "refund", "Disco Refund", "", "Refund from disco");
             ExtendedPaymentResult paymentResult = new ExtendedPaymentResult
             {
                 Amount = refundAmount,
