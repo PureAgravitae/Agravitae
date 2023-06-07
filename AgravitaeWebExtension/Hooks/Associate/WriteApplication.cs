@@ -4,21 +4,20 @@ using System;
 using System.Threading.Tasks;
 using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
 using AgravitaeWebExtension.Merchants.EwalletMerchant.Models;
-using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 using DirectScale.Disco.Extension;
+using ZiplingoEngagement.Services.Interface;
 
 namespace AgravitaeWebExtension.Hooks.Associate
 {
     public class WriteApplication : IHook<WriteApplicationHookRequest, WriteApplicationHookResponse>
     {
-        private readonly IZiplingoEngagementService _ziplingoEngagementService;
         private readonly IEwalletService _ewalletService;
+        private readonly IZLAssociateService _zlassociateServices;
 
-
-        public WriteApplication(IZiplingoEngagementService ziplingoEngagementService, IEwalletService ewalletService)
+        public WriteApplication(IEwalletService ewalletService, IZLAssociateService zlassociateservices)
         {
-            _ziplingoEngagementService = ziplingoEngagementService ?? throw new ArgumentNullException(nameof(ziplingoEngagementService));
             _ewalletService = ewalletService ?? throw new ArgumentNullException(nameof(ewalletService));
+            _zlassociateServices = zlassociateservices ?? throw new ArgumentNullException(nameof(zlassociateservices));
         }
 
         public Task<WriteApplicationHookResponse> Invoke(WriteApplicationHookRequest request, Func<WriteApplicationHookRequest, Task<WriteApplicationHookResponse>> func)
@@ -42,7 +41,6 @@ namespace AgravitaeWebExtension.Hooks.Associate
             };
             _ewalletService.CreateCustomer(app, Convert.ToInt32(newUserID));
 
-
             var provisionReq = new SetActiveCommissionMerchantRequest { AssociateId = Convert.ToInt32(newUserID), MerchantId = 9012 };
             _ewalletService.SetActiveCommissionMerchant(provisionReq);
 
@@ -50,7 +48,7 @@ namespace AgravitaeWebExtension.Hooks.Associate
 
             try
             {
-                _ziplingoEngagementService.CreateContact(request.Application, response.Result.ApplicationResponse);
+                _zlassociateServices.CreateContact(request.Application, response.Result.ApplicationResponse);
                 return response;
             }
             catch (Exception e)

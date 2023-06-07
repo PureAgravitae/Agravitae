@@ -10,9 +10,9 @@ using AgravitaeWebExtension.Merchants;
 using AgravitaeWebExtension.Repositories;
 using AgravitaeWebExtension.Services;
 using AgravitaeWebExtension.Hooks.Associate;
-using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 using AgravitaeWebExtension.Hooks.Autoship;
 using AgravitaeWebExtension.Hooks.order;
+using ZiplingoEngagement;
 
 namespace AgravitaeExtension
 {
@@ -64,6 +64,7 @@ namespace AgravitaeExtension
             });
             services.AddRazorPages();
             services.AddMvc();
+            services.AddZiplingoEngagement();
             services.AddDirectScale(options =>
             {
                 options.AddHook<SubmitOrderHook>();
@@ -94,7 +95,6 @@ namespace AgravitaeExtension
 
             //Repositories
             services.AddSingleton<ICustomLogRepository, CustomLogRepository>();
-            services.AddSingleton<IZiplingoEngagementRepository, ZiplingoEngagementRepository>();
             // services.AddSingleton<IOrdersRepository, OrdersRepository>();
 
             //Ewallet
@@ -105,7 +105,6 @@ namespace AgravitaeExtension
             services.AddSingleton<ICambridgeService, CambridgeService>();
             services.AddSingleton<ICambridgeSetting, CambridgeSetting>();
             services.AddSingleton<IClientService, ClientService>();
-            services.AddSingleton<IZiplingoEngagementService, ZiplingoEngagementService>();
 
             //Services
             services.AddSingleton<IAVOrderService, AVOrderService>();
@@ -120,6 +119,7 @@ namespace AgravitaeExtension
             //Configurations
             //services.Configure<configSetting>(Configuration.GetSection("configSetting"));
             services.AddMvc(option => option.EnableEndpointRouting = false);
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,34 +8,37 @@ using System.Linq;
 using System.Collections.Generic;
 using DirectScale.Disco.Extension.Hooks.Associates;
 using AgravitaeWebExtension.Repositories;
-using AgravitaeWebExtension.Services.ZiplingoEngagement;
 using AgravitaeWebExtension.Services;
 using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
-using AgravitaeWebExtension.Services.ZiplingoEngagementService;
+using ZiplingoEngagement.Services.Interface;
 
 namespace AgravitaeWebExtension.Hooks.Associate
 {
     public class UpdateAssociateHook : IHook<UpdateAssociateHookRequest, UpdateAssociateHookResponse>
     {
         private readonly IEwalletService _ewalletService;
-        private readonly IZiplingoEngagementService _ziplingoEngagementService;
         private readonly IAssociateService _associateService;
         private readonly ICustomLogRepository _customLogRepository;
+        private readonly IZLAssociateService _zlassociateServices;
+
+
+
         //private readonly IAssociateWebService _customAssociateService;
 
         public UpdateAssociateHook
         (
             IEwalletService ewalletService,
             IAssociateService associateService, 
-            IZiplingoEngagementService ziplingoEngagementService, 
-            ICustomLogRepository customLogRepository
+            ICustomLogRepository customLogRepository,
+            IZLAssociateService zlassociateservices
         //IAssociateWebService customAssociateService
         )
         {
             _ewalletService = ewalletService ?? throw new ArgumentNullException(nameof(ewalletService));
-            _ziplingoEngagementService = ziplingoEngagementService ?? throw new ArgumentNullException(nameof(ziplingoEngagementService));
             _associateService = associateService ?? throw new ArgumentNullException(nameof(associateService));
             _customLogRepository = customLogRepository ?? throw new ArgumentNullException(nameof(customLogRepository));
+            _zlassociateServices = zlassociateservices ?? throw new ArgumentNullException(nameof(zlassociateservices));
+
             //_customAssociateService = customAssociateService;
         }
 
@@ -59,10 +62,10 @@ namespace AgravitaeWebExtension.Hooks.Associate
                 var UpdatedAssociateType = await _associateService.GetAssociateTypeName(newAssociateType);
                 if (request.OldAssociateInfo.AssociateBaseType != request.UpdatedAssociateInfo.AssociateBaseType)
                 {
-                    _ziplingoEngagementService.UpdateAssociateType(associateId, OldAssociateType, UpdatedAssociateType, newAssociateType);
+                  await  _zlassociateServices.AssociateTypeChange(associateId, OldAssociateType, UpdatedAssociateType, newAssociateType);
                 }
                 var associate = await _associateService.GetAssociate(associateId);
-                _ziplingoEngagementService.UpdateContact(associate);
+                await _zlassociateServices.UpdateContact(associate);
                 _ewalletService.UpdateCustomer(associate);
             }
             catch (Exception ex)

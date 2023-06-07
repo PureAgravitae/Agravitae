@@ -1,17 +1,18 @@
 ﻿using DirectScale.Disco.Extension.Hooks.Orders;
 using DirectScale.Disco.Extension.Hooks;
-using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 using DirectScale.Disco.Extension;
+using ZiplingoEngagement.Services.Interface;
 
 namespace AgravitaeWebExtension.Hooks.order
 {
     public class FinalizeNonAcceptedOrder : IHook<FinalizeNonAcceptedOrderHookRequest, FinalizeNonAcceptedOrderHookResponse>
     {
-        private readonly IZiplingoEngagementService _ziplingoEngagementService;
+        private readonly IZLOrderZiplingoService _zlorderziplingoService;
 
-        public FinalizeNonAcceptedOrder(IZiplingoEngagementService ziplingoEngagementService)
+
+        public FinalizeNonAcceptedOrder(IZLOrderZiplingoService zlorderziplingoService)
         {
-            _ziplingoEngagementService = ziplingoEngagementService ?? throw new ArgumentNullException(nameof(ziplingoEngagementService));
+            _zlorderziplingoService = zlorderziplingoService ?? throw new ArgumentNullException(nameof(zlorderziplingoService));
         }
 
         public async Task<FinalizeNonAcceptedOrderHookResponse> Invoke(FinalizeNonAcceptedOrderHookRequest request, Func<FinalizeNonAcceptedOrderHookRequest, Task<FinalizeNonAcceptedOrderHookResponse>> func)
@@ -21,7 +22,7 @@ namespace AgravitaeWebExtension.Hooks.order
             {
                 if (request.Order.OrderType == OrderType.Autoship)
                 {
-                    _ziplingoEngagementService.CallOrderZiplingoEngagementTrigger(request.Order, "AutoShipFailed", true);
+                    await _zlorderziplingoService.CallOrderZiplingoEngagement(request.Order, "AutoShipFailed", true);
                 }
             }
             catch (Exception ex)

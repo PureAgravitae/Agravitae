@@ -28,7 +28,6 @@ namespace AgravitaeWebExtension.Hooks
                         addProp65 = customFields.Select(x => x.Field1.Equals("Prop65")).FirstOrDefault();
                         if (addProp65)
                             break;
-
                     }
                     if (addProp65)
                         request.Order.LineItems = await _orderService.AddAdditionalItems(request.Order, _logger);
