@@ -24,6 +24,8 @@ namespace AgravitaeWebExtension.Hooks.Associate
         private readonly ICustomLogRepository _customLogRepository;
         private readonly IZLAssociateService _zlassociateservices;
 
+
+
         //private readonly IAssociateWebService _customAssociateService;
 
         public UpdateAssociateHook
