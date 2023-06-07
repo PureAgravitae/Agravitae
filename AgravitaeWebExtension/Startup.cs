@@ -10,7 +10,6 @@ using AgravitaeWebExtension.Merchants;
 using AgravitaeWebExtension.Repositories;
 using AgravitaeWebExtension.Services;
 using AgravitaeWebExtension.Hooks.Associate;
-using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 using AgravitaeWebExtension.Hooks.Autoship;
 using AgravitaeWebExtension.Hooks.order;
 using ZiplingoEngagement;
@@ -96,7 +95,6 @@ namespace AgravitaeExtension
 
             //Repositories
             services.AddSingleton<ICustomLogRepository, CustomLogRepository>();
-            services.AddSingleton<IZiplingoEngagementRepository, ZiplingoEngagementRepository>();
             // services.AddSingleton<IOrdersRepository, OrdersRepository>();
 
             //Ewallet
@@ -107,7 +105,6 @@ namespace AgravitaeExtension
             services.AddSingleton<ICambridgeService, CambridgeService>();
             services.AddSingleton<ICambridgeSetting, CambridgeSetting>();
             services.AddSingleton<IClientService, ClientService>();
-            services.AddSingleton<IZiplingoEngagementService, ZiplingoEngagementService>();
 
             //Services
             services.AddSingleton<IAVOrderService, AVOrderService>();

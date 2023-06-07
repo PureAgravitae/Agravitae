@@ -1,21 +1,24 @@
 ﻿using DirectScale.Disco.Extension.Hooks.Autoships;
 using DirectScale.Disco.Extension.Hooks;
 using DirectScale.Disco.Extension.Services;
-using AgravitaeWebExtension.Services.ZiplingoEngagementService;
+using ZiplingoEngagement.Services.Interface;
 
 namespace AgravitaeWebExtension.Hooks.Autoship
 {
     public class UpdateAutoshipHook : IHook<UpdateAutoshipHookRequest, UpdateAutoshipHookResponse>
     {
-        private readonly IZiplingoEngagementService _ziplingoEngagementService;
         private readonly IAutoshipService _autoshipService;
         private readonly IAssociateService _associateService;
+        private readonly IZLOrderZiplingoService _zlorderziplingoService;
+        private readonly IZLAssociateService _zlassociateService;
 
-        public UpdateAutoshipHook(IZiplingoEngagementService ziplingoEngagementService, IAutoshipService autoshipService, IAssociateService associateService)
+
+        public UpdateAutoshipHook(IAutoshipService autoshipService, IAssociateService associateService, IZLOrderZiplingoService zlorderziplingoservice, IZLAssociateService zlassociateService)
         {
-            _ziplingoEngagementService = ziplingoEngagementService;
+            _zlorderziplingoService = zlorderziplingoservice;
             _autoshipService = autoshipService;
             _associateService = associateService;
+            _zlassociateService = zlassociateService;
         }
         public async Task<UpdateAutoshipHookResponse> Invoke(UpdateAutoshipHookRequest request, Func<UpdateAutoshipHookRequest, Task<UpdateAutoshipHookResponse>> func)
         {
@@ -24,9 +27,10 @@ namespace AgravitaeWebExtension.Hooks.Autoship
             try
             {
                 var updatedAutoshipInfo = await _autoshipService.GetAutoship(request.AutoshipInfo.AutoshipId);
-                _ziplingoEngagementService.UpdateAutoshipTrigger(updatedAutoshipInfo);
+
+                 await _zlorderziplingoService.UpdateAutoship(updatedAutoshipInfo);
                 var associateSummary = await _associateService.GetAssociate(request.AutoshipInfo.AssociateId);
-                _ziplingoEngagementService.UpdateContact(associateSummary);
+                await _zlassociateService.UpdateContact(associateSummary);
             }
             catch (Exception ex)
             {
