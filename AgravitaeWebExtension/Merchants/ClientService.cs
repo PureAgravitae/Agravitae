@@ -1,12 +1,12 @@
 ﻿using System;
 using DirectScale.Disco.Extension.Services;
-using AgravitaeWebExtension.Merchants.Models;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using DirectScale.Disco.Extension;
 using System.Text;
 using AgravitaeWebExtension.Helper;
+using AgravitaeWebExtension.Merchants.Models;
 
 namespace AgravitaeWebExtension.Merchants
 {

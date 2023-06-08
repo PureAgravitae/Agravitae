@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using AgravitaeWebExtension.Merchants.CambridgeMerchant.Models;
 using AgravitaeWebExtension.Merchants.CambridgeMerchant.Services.Models;
-using AgravitaeWebExtension.Merchants.EwalletMerchant.Models;
+using RPMSEwallet.Models;
 
 namespace AgravitaeWebExtension.Merchants.CambridgeMerchant.Services
 {

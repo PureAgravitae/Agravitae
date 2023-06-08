@@ -5,7 +5,6 @@ using PaymentureEwallet;
 using AgravitaeWebExtension.Helper;
 using AgravitaeWebExtension.Helper.Interface;
 using AgravitaeWebExtension.Merchants.CambridgeMerchant.Services;
-using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
 using AgravitaeWebExtension.Merchants;
 using AgravitaeWebExtension.Repositories;
 using AgravitaeWebExtension.Services;
@@ -13,6 +12,11 @@ using AgravitaeWebExtension.Hooks.Associate;
 using AgravitaeWebExtension.Hooks.Autoship;
 using AgravitaeWebExtension.Hooks.order;
 using ZiplingoEngagement;
+using RPMSEwallet;
+using RPMSEwallet.Repositories.Interface;
+using RPMSEwallet.Repositories;
+using RPMSEwallet.Services.Interface;
+using RPMSEwallet.Services;
 
 namespace AgravitaeExtension
 {
@@ -65,6 +69,7 @@ namespace AgravitaeExtension
             services.AddRazorPages();
             services.AddMvc();
             services.AddZiplingoEngagement();
+            services.AddRPMSEwallet();
             services.AddDirectScale(options =>
             {
                 options.AddHook<SubmitOrderHook>();
@@ -86,9 +91,6 @@ namespace AgravitaeExtension
 
                 options.AddMerchant<PaymentureEwalletMoneyOut>(9960, "EWallet", "Paymenture", "USD");
                 options.AddMerchant<PaymentureEwalletMoneyInMerchant>(9961, "EWallet", "Paymenture", "USD");
-
-                options.AddMerchant<EwalletMoneyIn>(9012, "E-Wallet", "Pay with E-Wallet", "USD");
-                options.AddMerchant<EwalletMoneyOutMerchant>(9013, "E-Wallet", "Pay with E-Wallet", "USD");
 
                 services.AddControllers();
             });
