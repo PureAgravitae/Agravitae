@@ -89,8 +89,8 @@ namespace AgravitaeExtension
                 //options.AddMerchant<StripeMoneyIn>();
                 //options.AddEventHandler("OrderCreated", "/api/webhooks/Order/CreateOrder");
 
-                options.AddMerchant<PaymentureEwalletMoneyOut>(9960, "EWallet", "Paymenture", "USD");
-                options.AddMerchant<PaymentureEwalletMoneyInMerchant>(9961, "EWallet", "Paymenture", "USD");
+                //options.AddMerchant<PaymentureEwalletMoneyOut>(9960, "EWallet", "Paymenture", "USD");
+                //options.AddMerchant<PaymentureEwalletMoneyInMerchant>(9961, "EWallet", "Paymenture", "USD");
 
                 services.AddControllers();
             });
@@ -100,13 +100,13 @@ namespace AgravitaeExtension
             // services.AddSingleton<IOrdersRepository, OrdersRepository>();
 
             //Ewallet
-            services.AddSingleton<IEwalletRepository, EwalletRepository>();
+            //services.AddSingleton<IEwalletRepository, EwalletRepository>();
             services.AddSingleton<ICambridgeRepository, CambridgeRepository>();
             services.AddSingleton<IClientRepository, ClientRepository>();
-            services.AddSingleton<IEwalletService, EwalletService>();
+            //services.AddSingleton<IEwalletService, EwalletService>();
             services.AddSingleton<ICambridgeService, CambridgeService>();
             services.AddSingleton<ICambridgeSetting, CambridgeSetting>();
-            services.AddSingleton<IClientService, ClientService>();
+            //services.AddSingleton<IClientService, ClientService>();
 
             //Services
             services.AddSingleton<IAVOrderService, AVOrderService>();
