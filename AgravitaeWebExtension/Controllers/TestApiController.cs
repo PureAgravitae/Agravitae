@@ -19,7 +19,7 @@ namespace AgravitaeWebExtension.Controllers
         public IActionResult TestApi()
         {
             var dbConnection = new System.Data.SqlClient.SqlConnection(_dataService.GetClientConnectionString().Result);
-            return Ok(dbConnection);
+            return Ok(dbConnection.ConnectionString);
         }
     }
 }
