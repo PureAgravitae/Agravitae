@@ -18,7 +18,7 @@ namespace AgravitaeWebExtension.Helper
         HttpResponseMessage MakeRequestByUsername(HttpRequestMessage request, string username, string password);
         HttpResponseMessage PostRequestByUsername(HttpRequestMessage request, string username, string password);
         HttpResponseMessage PostRequest(string apiUrl, TokenRequest request);
-
+        HttpResponseMessage MakePostRequest(HttpRequestMessage request);
     }
     public class HttpClientService : IHttpClientService
     {
@@ -111,6 +111,27 @@ namespace AgravitaeWebExtension.Helper
                     Task<HttpResponseMessage> task = Task.Run(async () => await SendtokenAsync(request, apiUrl));
 
                     return task.Result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public HttpResponseMessage MakePostRequest(HttpRequestMessage request)
+        {
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.DefaultRequestHeaders.Accept.Clear();
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    //httpClient.DefaultRequestHeaders.Add(tokenType, token);
+                    httpClient.DefaultRequestHeaders.Add("cache-control", "no-cache");
+                    HttpResponseMessage response = httpClient.SendAsync(request).Result;
+                    return response;
                 }
             }
             catch (Exception ex)

@@ -8,11 +8,12 @@ using AgravitaeWebExtension.Merchants.CambridgeMerchant.Services;
 using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
 using AgravitaeWebExtension.Merchants;
 using AgravitaeWebExtension.Repositories;
-using AgravitaeWebExtension.Services;
 using AgravitaeWebExtension.Hooks.Associate;
 using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 using AgravitaeWebExtension.Hooks.Autoship;
 using AgravitaeWebExtension.Hooks.order;
+using AgravitaeExtension.Merchants.Tyga.Interfaces;
+using AgravitaeExtension.Merchants.Tyga.Tyga;
 
 namespace AgravitaeExtension
 {
@@ -89,6 +90,8 @@ namespace AgravitaeExtension
                 options.AddMerchant<EwalletMoneyIn>(9012, "E-Wallet", "Pay with E-Wallet", "USD");
                 options.AddMerchant<EwalletMoneyOutMerchant>(9013, "E-Wallet", "Pay with E-Wallet", "USD");
 
+                options.AddMerchant<TygaMoneyIn>(9014, "Tyga Wallet", "Pay with crypto", "USD"); //TygaPay
+
                 services.AddControllers();
             });
 
@@ -109,6 +112,10 @@ namespace AgravitaeExtension
             services.AddSingleton<ICambridgeSetting, CambridgeSetting>();
             services.AddSingleton<IClientService, ClientService>();
             services.AddSingleton<IZiplingoEngagementService, ZiplingoEngagementService>();
+
+            //Tyga services and repo
+            services.AddSingleton<ITygaService, TygaService>();
+            services.AddSingleton<ITygaRepository, TygaRepository>();
 
             //Services
             services.AddSingleton<IAVOrderService, AVOrderService>();
