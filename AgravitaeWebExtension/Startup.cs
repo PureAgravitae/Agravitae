@@ -17,6 +17,7 @@ using RPMSEwallet.Repositories.Interface;
 using RPMSEwallet.Repositories;
 using RPMSEwallet.Services.Interface;
 using RPMSEwallet.Services;
+using RPMSEwallet.Merchants.EwalletMerchant.Ewallet;
 
 namespace AgravitaeExtension
 {
@@ -89,8 +90,11 @@ namespace AgravitaeExtension
                 //options.AddMerchant<StripeMoneyIn>();
                 //options.AddEventHandler("OrderCreated", "/api/webhooks/Order/CreateOrder");
 
-                //options.AddMerchant<PaymentureEwalletMoneyOut>(9960, "EWallet", "Paymenture", "USD");
-                //options.AddMerchant<PaymentureEwalletMoneyInMerchant>(9961, "EWallet", "Paymenture", "USD");
+                options.AddMerchant<PaymentureEwalletMoneyOut>(9960, "EWallet", "Paymenture", "USD");
+                options.AddMerchant<PaymentureEwalletMoneyInMerchant>(9961, "EWallet", "Paymenture", "USD");
+
+                options.AddMerchant<EwalletMoneyIn>(9012, "E-Wallet", "Pay with E-Wallet", "USD");
+                options.AddMerchant<EwalletMoneyOut>(9013, "E-Wallet", "Pay with E-Wallet", "USD");
 
                 services.AddControllers();
             });
