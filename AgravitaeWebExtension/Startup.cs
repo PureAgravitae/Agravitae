@@ -5,15 +5,17 @@ using PaymentureEwallet;
 using AgravitaeWebExtension.Helper;
 using AgravitaeWebExtension.Helper.Interface;
 using AgravitaeWebExtension.Merchants.CambridgeMerchant.Services;
-using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
+
 using AgravitaeWebExtension.Merchants;
 using AgravitaeWebExtension.Repositories;
 using AgravitaeWebExtension.Hooks.Associate;
-using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 using AgravitaeWebExtension.Hooks.Autoship;
 using AgravitaeWebExtension.Hooks.order;
 using AgravitaeExtension.Merchants.Tyga.Interfaces;
 using AgravitaeExtension.Merchants.Tyga.Tyga;
+using ZiplingoEngagement;
+using RPMSEwallet;
+using RPMSEwallet.Merchants.EwalletMerchant.Ewallet;
 
 namespace AgravitaeExtension
 {
@@ -65,6 +67,8 @@ namespace AgravitaeExtension
             });
             services.AddRazorPages();
             services.AddMvc();
+            services.AddZiplingoEngagement();
+            services.AddRPMSEwallet();
             services.AddDirectScale(options =>
             {
                 options.AddHook<SubmitOrderHook>();
@@ -88,7 +92,7 @@ namespace AgravitaeExtension
                 options.AddMerchant<PaymentureEwalletMoneyInMerchant>(9961, "EWallet", "Paymenture", "USD");
 
                 options.AddMerchant<EwalletMoneyIn>(9012, "E-Wallet", "Pay with E-Wallet", "USD");
-                options.AddMerchant<EwalletMoneyOutMerchant>(9013, "E-Wallet", "Pay with E-Wallet", "USD");
+                options.AddMerchant<EwalletMoneyOut>(9013, "E-Wallet", "Pay with E-Wallet", "USD");
 
                 options.AddMerchant<TygaMoneyIn>(9014, "Tyga Wallet", "Pay with crypto", "USD"); //TygaPay
 
@@ -100,18 +104,18 @@ namespace AgravitaeExtension
             services.AddSingleton<IGenericReportRepository, GenericReportRepository>();
             services.AddSingleton<IReportSourceRepository, ReportSourceRepository>();
 
-            services.AddSingleton<IZiplingoEngagementRepository, ZiplingoEngagementRepository>();
+            //services.AddSingleton<IZiplingoEngagementRepository, ZiplingoEngagementRepository>();
             // services.AddSingleton<IOrdersRepository, OrdersRepository>();
 
             //Ewallet
-            services.AddSingleton<IEwalletRepository, EwalletRepository>();
+            
             services.AddSingleton<ICambridgeRepository, CambridgeRepository>();
             services.AddSingleton<IClientRepository, ClientRepository>();
-            services.AddSingleton<IEwalletService, EwalletService>();
+           
             services.AddSingleton<ICambridgeService, CambridgeService>();
             services.AddSingleton<ICambridgeSetting, CambridgeSetting>();
             services.AddSingleton<IClientService, ClientService>();
-            services.AddSingleton<IZiplingoEngagementService, ZiplingoEngagementService>();
+           // services.AddSingleton<IZiplingoEngagementService, ZiplingoEngagementService>();
 
             //Tyga services and repo
             services.AddSingleton<ITygaService, TygaService>();

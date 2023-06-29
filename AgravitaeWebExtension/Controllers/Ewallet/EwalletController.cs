@@ -7,11 +7,11 @@ using AgravitaeWebExtension.Models;
 using AgravitaeWebExtension.Merchants.Models;
 using AgravitaeWebExtension.Merchants;
 using AgravitaeWebExtension.Helper;
-using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
 using DirectScale.Disco.Extension;
 using DirectScale.Disco.Extension.Services;
-using AgravitaeWebExtension.Merchants.EwalletMerchant.Models;
 using Newtonsoft.Json.Linq;
+using RPMSEwallet.Services.Interface;
+using RPMSEwallet.Models;
 
 namespace AgravitaeWebExtension.Controllers.Ewallet
 {
@@ -59,44 +59,12 @@ namespace AgravitaeWebExtension.Controllers.Ewallet
 
         [HttpPost]
         [Route("GetPointBalance")]
-        public IActionResult GetPointBalance(GetPointBalanceApiRequest rObject)
+        public async Task<IActionResult> GetPointBalance(GetPointBalanceRequest rObject)
         {
             try
             {
-                var settings = _ewalletService.GetEwalletSettings();
-                if (settings != null)
-                {
-                    GetPointBalanceRequest brequest = new GetPointBalanceRequest
-                    {
-                        ExternalCustomerId = rObject.CustomerId,
-                        CompanyId = settings.CompanyId,
-                        PointAccountId = settings.PointAccountId
-                    };
-
-                    var response = _ewalletService.CallEwallet("api/CustomerPointBalances/GetCustomerPointBalances", brequest);
-                    var jsonString = response?.Content?.ReadAsStringAsync();
-                    jsonString.Wait();
-                    var jobject = jsonString?.Result;
-                    dynamic data = JObject.Parse(jobject);
-
-
-                    if (data.status == "Success" && data.data != null)
-                    {
-
-                        var balance = new PointBalanceResponse
-                        { Amount = data.data.amount, HoldAmount = data.data.holdAmount };
-
-                        return new Responses().OkResult(balance);
-                    }
-                    else
-                    {
-                        return new Responses().BadRequestResult();
-                    }
-                }
-                else
-                {
-                    return new Responses().BadRequestResult("Ewallet Settings not found");
-                }
+               var response= await _ewalletService.GetPointBalance(rObject);
+                return new Responses().OkResult(response);
             }
             catch (Exception e)
             {
@@ -142,7 +110,7 @@ namespace AgravitaeWebExtension.Controllers.Ewallet
 
         [HttpPost]
         [Route("UpdateEwalletSettings")]
-        public IActionResult UpdateEwalletSettings(EwalletSettingsRequest rObject)
+        public IActionResult UpdateEwalletSettings(RPMSEwallet.Models.EwalletSettingsRequest rObject)
         {
             try
             {

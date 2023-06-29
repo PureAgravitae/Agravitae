@@ -12,13 +12,17 @@ namespace AgravitaeWebExtension.Repositories
     public interface IGenericReportRepository
     {
         QueryResult GetReportDetails(int recordnumber, int maxRowCount, string replaceChars = "");
+
         //Task<List<string>> GetReportDetails1(int recordnumber);
     }
     public class GenericReportRepository : IGenericReportRepository
     {
         private const int CommandTimeoutSeconds = 240;
         private readonly IDataService _dataService;
+
+
         private readonly IReportSourceManager _reportSourceManager;
+        
         public GenericReportRepository(IDataService dataService)
         {
             _dataService = dataService ?? throw new ArgumentNullException(nameof(dataService));
@@ -782,5 +786,6 @@ namespace AgravitaeWebExtension.Repositories
                 return result;
             }
         }
+
     }
 }

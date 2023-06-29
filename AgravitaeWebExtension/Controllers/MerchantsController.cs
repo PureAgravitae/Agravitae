@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AgravitaeWebExtension.Helper;
 using AgravitaeWebExtension.Repositories;
-using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 using AgravitaeExtension.Merchants.Tyga.Interfaces;
 using AgravitaeExtension.Merchants.Tyga.Models;
 
@@ -10,36 +9,36 @@ namespace AgravitaeWebExtension.Controllers
     [Route("api/[controller]")]
     public class MerchantsController : Controller
     {
-        private readonly IZiplingoEngagementRepository _ziplingoEngagementRepository;
+        //private readonly IZiplingoEngagementRepository _ziplingoEngagementRepository;
         private readonly ICustomLogRepository _customLogRepository;
         private readonly ITygaService _tygaService;
 
         public MerchantsController(
-            IZiplingoEngagementRepository ziplingoEngagementRepository, 
+            //IZiplingoEngagementRepository ziplingoEngagementRepository, 
             ICustomLogRepository customLogRepository,
             ITygaService tygaService
             )
         {
             _customLogRepository = customLogRepository ?? throw new ArgumentNullException(nameof(customLogRepository));
             _tygaService = tygaService ?? throw new ArgumentNullException(nameof(tygaService));
-            _ziplingoEngagementRepository = ziplingoEngagementRepository ?? throw new ArgumentNullException(nameof(ziplingoEngagementRepository));
+            //_ziplingoEngagementRepository = ziplingoEngagementRepository ?? throw new ArgumentNullException(nameof(ziplingoEngagementRepository));
         }
 
-        [HttpPost]
-        [Route("DbCopyAfter")]
-        public IActionResult DbCopyAfter()
-        {
-            try
-            {
-                _ziplingoEngagementRepository.ResetSettings();
-                return new Responses().OkResult(1);
-            }
-            catch (Exception e)
-            {
-                _customLogRepository.CustomErrorLog(0, 0, $"An error occurred with in DbCopy Function", $"Error :  {e.Message}");
-                return new Responses().BadRequestResult(e.Message);
-            }
-        }
+        //[HttpPost]
+        //[Route("DbCopyAfter")]
+        //public IActionResult DbCopyAfter()
+        //{
+        //    try
+        //    {
+        //        _ziplingoEngagementRepository.ResetSettings();
+        //        return new Responses().OkResult(1);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        _customLogRepository.CustomErrorLog(0, 0, $"An error occurred with in DbCopy Function", $"Error :  {e.Message}");
+        //        return new Responses().BadRequestResult(e.Message);
+        //    }
+        //}
 
         [HttpPost]
         [Route("Tyga/TygaPaymentResponse")]
