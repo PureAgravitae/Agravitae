@@ -1,10 +1,9 @@
 ﻿using AgravitaeWebExtension.Merchants.CambridgeMerchant.Models;
 using AgravitaeWebExtension.Merchants.CambridgeMerchant.Services;
 using AgravitaeWebExtension.Helper;
-using AgravitaeWebExtension.Merchants.EwalletMerchant.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
-
+using RPMSEwallet.Models;
 
 namespace AgravitaeWebExtension.Controllers.Ewallet
 {

@@ -9,8 +9,8 @@ using System.Collections.Generic;
 using DirectScale.Disco.Extension.Hooks.Associates;
 using AgravitaeWebExtension.Repositories;
 using AgravitaeWebExtension.Services;
-using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
 using ZiplingoEngagement.Services.Interface;
+using RPMSEwallet.Services.Interface;
 
 namespace AgravitaeWebExtension.Hooks.Associate
 {
@@ -62,7 +62,7 @@ namespace AgravitaeWebExtension.Hooks.Associate
                 }
                 var associate = await _associateService.GetAssociate(associateId);
                 await _zlassociateService.UpdateContact(associate);
-                _ewalletService.UpdateCustomer(associate);
+                await _ewalletService.UpdateCustomer(associate);
             }
             catch (Exception ex)
             {

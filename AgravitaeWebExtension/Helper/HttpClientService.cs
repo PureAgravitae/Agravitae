@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RPMSEwallet.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +8,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using AgravitaeWebExtension.Merchants.EwalletMerchant.Models;
 
 namespace AgravitaeWebExtension.Helper
 {
