@@ -1,16 +1,17 @@
 ﻿using DirectScale.Disco.Extension.Hooks.Orders.Packages;
 using DirectScale.Disco.Extension.Hooks;
-using AgravitaeWebExtension.Services.ZiplingoEngagementService;
+using ZiplingoEngagement.Services.Interface;
 
 namespace AgravitaeWebExtension.Hooks
 {
     public class MarkPackageShippedHook : IHook<MarkPackagesShippedHookRequest, MarkPackagesShippedHookResponse>
     {
-        private readonly IZiplingoEngagementService _ziplingoEngagementService;
+        private readonly IZLOrderZiplingoService _zlorderService;
 
-        public MarkPackageShippedHook(IZiplingoEngagementService ziplingoEngagementService)
+
+        public MarkPackageShippedHook(IZLOrderZiplingoService zlorderService)
         {
-            _ziplingoEngagementService = ziplingoEngagementService ?? throw new ArgumentNullException(nameof(ziplingoEngagementService));
+            _zlorderService = zlorderService ?? throw new ArgumentNullException(nameof(zlorderService));
         }
         public async Task<MarkPackagesShippedHookResponse> Invoke(MarkPackagesShippedHookRequest request, Func<MarkPackagesShippedHookRequest, Task<MarkPackagesShippedHookResponse>> func)
         {
@@ -19,7 +20,7 @@ namespace AgravitaeWebExtension.Hooks
             {
                 foreach (var shipInfo in request.PackageStatusUpdates)
                 {
-                    _ziplingoEngagementService.SendOrderShippedEmail(shipInfo.PackageId, shipInfo.TrackingNumber);
+                   await _zlorderService.SendOrderShippedEmail(shipInfo.PackageId, shipInfo.TrackingNumber);
                 }
             }
             catch (Exception ex)

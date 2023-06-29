@@ -9,11 +9,11 @@ using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
 using AgravitaeWebExtension.Merchants;
 using AgravitaeWebExtension.Repositories;
 using AgravitaeWebExtension.Hooks.Associate;
-using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 using AgravitaeWebExtension.Hooks.Autoship;
 using AgravitaeWebExtension.Hooks.order;
 using AgravitaeExtension.Merchants.Tyga.Interfaces;
 using AgravitaeExtension.Merchants.Tyga.Tyga;
+using ZiplingoEngagement;
 
 namespace AgravitaeExtension
 {
@@ -65,6 +65,7 @@ namespace AgravitaeExtension
             });
             services.AddRazorPages();
             services.AddMvc();
+            services.AddZiplingoEngagement();
             services.AddDirectScale(options =>
             {
                 options.AddHook<SubmitOrderHook>();
@@ -100,7 +101,6 @@ namespace AgravitaeExtension
             services.AddSingleton<IGenericReportRepository, GenericReportRepository>();
             services.AddSingleton<IReportSourceRepository, ReportSourceRepository>();
 
-            services.AddSingleton<IZiplingoEngagementRepository, ZiplingoEngagementRepository>();
             // services.AddSingleton<IOrdersRepository, OrdersRepository>();
 
             //Ewallet
@@ -111,7 +111,6 @@ namespace AgravitaeExtension
             services.AddSingleton<ICambridgeService, CambridgeService>();
             services.AddSingleton<ICambridgeSetting, CambridgeSetting>();
             services.AddSingleton<IClientService, ClientService>();
-            services.AddSingleton<IZiplingoEngagementService, ZiplingoEngagementService>();
 
             //Tyga services and repo
             services.AddSingleton<ITygaService, TygaService>();

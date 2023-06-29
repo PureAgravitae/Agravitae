@@ -2,18 +2,21 @@
 using DirectScale.Disco.Extension.Hooks;
 using DirectScale.Disco.Extension.Hooks.Orders;
 using DirectScale.Disco.Extension.Services;
-using AgravitaeWebExtension.Services.ZiplingoEngagementService;
+using ZiplingoEngagement.Services.Interface;
 
 namespace AgravitaeWebExtension.Hooks.order
 {
     public class FinalizeAcceptedOrderHook : IHook<FinalizeAcceptedOrderHookRequest, FinalizeAcceptedOrderHookResponse>
     {
-           private readonly IZiplingoEngagementService _ziplingoEngagementService;
+           //private readonly IZiplingoEngagementService _ziplingoEngagementService;
            private readonly IOrderService _orderService;
-        public FinalizeAcceptedOrderHook(IZiplingoEngagementService ziplingoEngagementService, IOrderService orderService)
+           private readonly IZLAssociateService _zlassociateService;
+           private readonly IZLOrderZiplingoService _zlorderService;
+        public FinalizeAcceptedOrderHook(IZLAssociateService zlassociateService, IOrderService orderService, IZLOrderZiplingoService zlorderService)
         {
-            _ziplingoEngagementService = ziplingoEngagementService ?? throw new ArgumentNullException(nameof(ziplingoEngagementService));
+            _zlassociateService = zlassociateService ?? throw new ArgumentNullException(nameof(zlassociateService));
             _orderService = orderService ?? throw new ArgumentNullException(nameof(orderService));
+            _zlorderService = zlorderService ?? throw new ArgumentNullException(nameof(zlorderService));
         }
         public async Task<FinalizeAcceptedOrderHookResponse> Invoke(FinalizeAcceptedOrderHookRequest request, Func<FinalizeAcceptedOrderHookRequest, Task<FinalizeAcceptedOrderHookResponse>> func)
         {
@@ -23,24 +26,25 @@ namespace AgravitaeWebExtension.Hooks.order
                 DirectScale.Disco.Extension.Order order = await _orderService.GetOrderByOrderNumber(request.Order.OrderNumber);
                 if (order.OrderType == OrderType.Enrollment)
                 {
-                    _ziplingoEngagementService.CreateEnrollContact(order);
+                    await _zlassociateService.CreateEnrollContact(order);
                 }
                 if (order.Status == OrderStatus.Paid || order.IsPaid)
                 {
                     var totalOrders = _orderService.GetOrdersByAssociateId(request.Order.AssociateId, "").Result;
                     if (totalOrders.Length == 1)
                     {
-                        _ziplingoEngagementService.CallOrderZiplingoEngagementTrigger(order, "FirstOrderCreated", false);
-                        _ziplingoEngagementService.CallOrderZiplingoEngagementTrigger(order, "OrderCreated", false);
+                       await  _zlorderService.CallOrderZiplingoEngagement(order, "FirstOrderCreated", false);
+                       await  _zlorderService.CallOrderZiplingoEngagement(order, "OrderCreated", false);
                     }
                     else
                     {
-                        _ziplingoEngagementService.CallOrderZiplingoEngagementTrigger(order, "OrderCreated", false);
+                       
+                        await _zlorderService.CallOrderZiplingoEngagement(order, "OrderCreated", false);
                     }
                 }
                 if (order.OrderType == OrderType.Autoship && (order.Status == OrderStatus.Declined || order.Status == OrderStatus.FraudRejected))
                 {
-                    _ziplingoEngagementService.CallOrderZiplingoEngagementTrigger(order, "AutoShipFailed", true);
+                    await _zlorderService.CallOrderZiplingoEngagement(order, "AutoShipFailed", true);
                 }
             }
             catch (Exception ex)

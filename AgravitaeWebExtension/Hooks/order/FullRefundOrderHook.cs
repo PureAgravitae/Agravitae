@@ -1,19 +1,19 @@
 ﻿using DirectScale.Disco.Extension.Hooks.Orders;
 using DirectScale.Disco.Extension.Hooks;
-using AgravitaeWebExtension.Services.ZiplingoEngagementService;
+using ZiplingoEngagement.Services.Interface;
 
 namespace AgravitaeWebExtension.Hooks.order
 {
     public class FullRefundOrderHook : IHook<FullRefundOrderHookRequest, FullRefundOrderHookResponse>
     {
 
+        private IZLOrderZiplingoService _zloderZiplingoService;
+       // public IZiplingoEngagementService _ziplingoEngagementService;
 
-        public IZiplingoEngagementService _ziplingoEngagementService;
-
-        public FullRefundOrderHook(IZiplingoEngagementService ZiplingoEngagementService)
+        public FullRefundOrderHook(IZLOrderZiplingoService zloderZiplingoService)
         {
 
-            _ziplingoEngagementService = ZiplingoEngagementService ?? throw new ArgumentNullException(nameof(ZiplingoEngagementService));
+            _zloderZiplingoService = zloderZiplingoService ?? throw new ArgumentNullException(nameof(zloderZiplingoService));
         }
 
         public async Task<FullRefundOrderHookResponse> Invoke(FullRefundOrderHookRequest request, Func<FullRefundOrderHookRequest, Task<FullRefundOrderHookResponse>> func)
@@ -22,7 +22,7 @@ namespace AgravitaeWebExtension.Hooks.order
             {
                 var response = await func(request);
 
-                _ziplingoEngagementService.CallFullRefundOrderZiplingoEngagementTrigger(request.Order, "FullRefundOrder", false);
+                await _zloderZiplingoService.CallFullRefundOrderZiplingoEngagementTrigger(request.Order, "FullRefundOrder", false);
                 return response;
             }
             catch (Exception e)
