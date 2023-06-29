@@ -14,7 +14,7 @@ using System.Data.SqlClient;
 using Dapper;
 using System.Collections;
 using DirectScale.Disco.Extension;
-using AgravitaeWebExtension.Merchants.EwalletMerchant.Models;
+using RPMSEwallet.Models;
 
 namespace AgravitaeWebExtension.Merchants.CambridgeMerchant.Services
 {

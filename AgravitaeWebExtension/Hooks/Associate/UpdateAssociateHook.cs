@@ -10,13 +10,14 @@ using DirectScale.Disco.Extension.Hooks.Associates;
 using AgravitaeWebExtension.Repositories;
 using AgravitaeWebExtension.Services.ZiplingoEngagement;
 using AgravitaeWebExtension.Services;
-using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
 using AgravitaeWebExtension.Services.ZiplingoEngagementService;
+using RPMSEwallet.Services.Interface;
 
 namespace AgravitaeWebExtension.Hooks.Associate
 {
     public class UpdateAssociateHook : IHook<UpdateAssociateHookRequest, UpdateAssociateHookResponse>
     {
+        //private readonly IEwalletService _ewalletService;
         private readonly IEwalletService _ewalletService;
         private readonly IZiplingoEngagementService _ziplingoEngagementService;
         private readonly IAssociateService _associateService;
@@ -63,7 +64,7 @@ namespace AgravitaeWebExtension.Hooks.Associate
                 }
                 var associate = await _associateService.GetAssociate(associateId);
                 _ziplingoEngagementService.UpdateContact(associate);
-                _ewalletService.UpdateCustomer(associate);
+               await  _ewalletService.UpdateCustomer(associate);
             }
             catch (Exception ex)
             {

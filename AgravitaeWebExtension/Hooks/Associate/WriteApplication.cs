@@ -2,10 +2,10 @@
 using DirectScale.Disco.Extension.Hooks.Associates.Enrollment;
 using System;
 using System.Threading.Tasks;
-using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
-using AgravitaeWebExtension.Merchants.EwalletMerchant.Models;
 using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 using DirectScale.Disco.Extension;
+using RPMSEwallet.Services.Interface;
+using RPMSEwallet.Models;
 
 namespace AgravitaeWebExtension.Hooks.Associate
 {

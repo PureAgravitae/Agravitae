@@ -5,7 +5,6 @@ using PaymentureEwallet;
 using AgravitaeWebExtension.Helper;
 using AgravitaeWebExtension.Helper.Interface;
 using AgravitaeWebExtension.Merchants.CambridgeMerchant.Services;
-using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
 using AgravitaeWebExtension.Merchants;
 using AgravitaeWebExtension.Repositories;
 using AgravitaeWebExtension.Hooks.Associate;
@@ -14,6 +13,8 @@ using AgravitaeWebExtension.Hooks.Autoship;
 using AgravitaeWebExtension.Hooks.order;
 using AgravitaeExtension.Merchants.Tyga.Interfaces;
 using AgravitaeExtension.Merchants.Tyga.Tyga;
+using RPMSEwallet;
+using RPMSEwallet.Merchants.EwalletMerchant.Ewallet;
 
 namespace AgravitaeExtension
 {
@@ -65,6 +66,7 @@ namespace AgravitaeExtension
             });
             services.AddRazorPages();
             services.AddMvc();
+            services.AddRPMSEwallet();
             services.AddDirectScale(options =>
             {
                 options.AddHook<SubmitOrderHook>();
@@ -88,7 +90,7 @@ namespace AgravitaeExtension
                 options.AddMerchant<PaymentureEwalletMoneyInMerchant>(9961, "EWallet", "Paymenture", "USD");
 
                 options.AddMerchant<EwalletMoneyIn>(9012, "E-Wallet", "Pay with E-Wallet", "USD");
-                options.AddMerchant<EwalletMoneyOutMerchant>(9013, "E-Wallet", "Pay with E-Wallet", "USD");
+                options.AddMerchant<EwalletMoneyOut>(9013, "E-Wallet", "Pay with E-Wallet", "USD");
 
                 options.AddMerchant<TygaMoneyIn>(9014, "Tyga Wallet", "Pay with crypto", "USD"); //TygaPay
 
@@ -104,10 +106,8 @@ namespace AgravitaeExtension
             // services.AddSingleton<IOrdersRepository, OrdersRepository>();
 
             //Ewallet
-            services.AddSingleton<IEwalletRepository, EwalletRepository>();
             services.AddSingleton<ICambridgeRepository, CambridgeRepository>();
             services.AddSingleton<IClientRepository, ClientRepository>();
-            services.AddSingleton<IEwalletService, EwalletService>();
             services.AddSingleton<ICambridgeService, CambridgeService>();
             services.AddSingleton<ICambridgeSetting, CambridgeSetting>();
             services.AddSingleton<IClientService, ClientService>();
