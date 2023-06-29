@@ -69,8 +69,6 @@ namespace AgravitaeExtension
             });
             services.AddRazorPages();
             services.AddMvc();
-            services.AddZiplingoEngagement();
-            services.AddRPMSEwallet();
             services.AddDirectScale(options =>
             {
                 options.AddHook<SubmitOrderHook>();
@@ -99,6 +97,9 @@ namespace AgravitaeExtension
                 services.AddControllers();
             });
 
+            //ThirdPartyIntegration
+            services.AddZiplingoEngagement();
+            services.AddRPMSEwallet();
             //Repositories
             services.AddSingleton<ICustomLogRepository, CustomLogRepository>();
             // services.AddSingleton<IOrdersRepository, OrdersRepository>();
