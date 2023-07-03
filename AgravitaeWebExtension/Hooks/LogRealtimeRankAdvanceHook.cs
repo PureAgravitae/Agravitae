@@ -2,22 +2,23 @@
 using DirectScale.Disco.Extension.Hooks;
 using DirectScale.Disco.Extension.Services;
 using AgravitaeWebExtension.Repositories;
-using AgravitaeWebExtension.Services.ZiplingoEngagementService;
+using ZiplingoEngagement.Services.Interface;
 
 namespace AgravitaeWebExtension.Hooks
 {
     public class LogRealtimeRankAdvanceHook : IHook<LogRealtimeRankAdvanceHookRequest, LogRealtimeRankAdvanceHookResponse>
     {
-        private readonly IZiplingoEngagementService _ziplingoEngagementService;
+        private readonly IZLOrderZiplingoService _zlorderService;
         private readonly ICustomLogRepository _customLogRepository;
         private readonly IAssociateService _associateService;
+        private readonly IZLAssociateService _zlassociateService;
 
-        public LogRealtimeRankAdvanceHook(IAssociateService associateService, IZiplingoEngagementService ziplingoEngagementService, ICustomLogRepository customLogRepository)
+        public LogRealtimeRankAdvanceHook(IAssociateService associateService, IZLOrderZiplingoService zlorderService, ICustomLogRepository customLogRepository, IZLAssociateService zlassociateService)
         {
-            _ziplingoEngagementService = ziplingoEngagementService ?? throw new ArgumentNullException(nameof(ziplingoEngagementService));
+            _zlorderService = zlorderService ?? throw new ArgumentNullException(nameof(zlorderService));
             _customLogRepository = customLogRepository ?? throw new ArgumentNullException(nameof(customLogRepository));
             _associateService = associateService ?? throw new ArgumentNullException(nameof(associateService));
-
+            _zlassociateService = zlassociateService ?? throw new ArgumentNullException(nameof(zlassociateService));
         }
         public async Task<LogRealtimeRankAdvanceHookResponse> Invoke(LogRealtimeRankAdvanceHookRequest request, Func<LogRealtimeRankAdvanceHookRequest, Task<LogRealtimeRankAdvanceHookResponse>> func)
         {
@@ -25,8 +26,8 @@ namespace AgravitaeWebExtension.Hooks
             var associate = await _associateService.GetAssociate(request.AssociateId);
             try
             {
-                _ziplingoEngagementService.LogRealtimeRankAdvanceEvent(request);
-                _ziplingoEngagementService.UpdateContact(associate);
+                _zlorderService.LogRealtimeRankAdvanceEvent(request);
+               await  _zlassociateService.UpdateContact(associate);
             }
             catch (Exception ex)
             {

@@ -2,22 +2,23 @@
 using DirectScale.Disco.Extension.Hooks.Associates.Enrollment;
 using System;
 using System.Threading.Tasks;
-using AgravitaeWebExtension.Merchants.EwalletMerchant.Ewallet;
-using AgravitaeWebExtension.Merchants.EwalletMerchant.Models;
-using AgravitaeWebExtension.Services.ZiplingoEngagementService;
 using DirectScale.Disco.Extension;
+using ZiplingoEngagement.Services.Interface;
+using RPMSEwallet.Services.Interface;
+using RPMSEwallet.Models;
 
 namespace AgravitaeWebExtension.Hooks.Associate
 {
     public class WriteApplication : IHook<WriteApplicationHookRequest, WriteApplicationHookResponse>
     {
-        private readonly IZiplingoEngagementService _ziplingoEngagementService;
+        
+        private readonly IZLAssociateService _zlassociateService;
         private readonly IEwalletService _ewalletService;
 
 
-        public WriteApplication(IZiplingoEngagementService ziplingoEngagementService, IEwalletService ewalletService)
+        public WriteApplication(IZLAssociateService zlassociateService, IEwalletService ewalletService)
         {
-            _ziplingoEngagementService = ziplingoEngagementService ?? throw new ArgumentNullException(nameof(ziplingoEngagementService));
+            _zlassociateService = zlassociateService ?? throw new ArgumentNullException(nameof(zlassociateService));
             _ewalletService = ewalletService ?? throw new ArgumentNullException(nameof(ewalletService));
         }
 
@@ -50,7 +51,7 @@ namespace AgravitaeWebExtension.Hooks.Associate
 
             try
             {
-                _ziplingoEngagementService.CreateContact(request.Application, response.Result.ApplicationResponse);
+                _zlassociateService.CreateContact(request.Application, response.Result.ApplicationResponse);
                 return response;
             }
             catch (Exception e)
