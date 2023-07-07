@@ -27,7 +27,7 @@ namespace AgravitaeWebExtension.Hooks
             try
             {
                 _zlorderService.LogRealtimeRankAdvanceEvent(request);
-               await  _zlassociateService.UpdateContact(associate);
+                 _zlassociateService.UpdateContact(associate);
             }
             catch (Exception ex)
             {

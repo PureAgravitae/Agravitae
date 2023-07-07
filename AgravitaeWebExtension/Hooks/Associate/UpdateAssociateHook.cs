@@ -58,10 +58,10 @@ namespace AgravitaeWebExtension.Hooks.Associate
                 var UpdatedAssociateType = await _associateService.GetAssociateTypeName(newAssociateType);
                 if (request.OldAssociateInfo.AssociateBaseType != request.UpdatedAssociateInfo.AssociateBaseType)
                 {
-                   await _zlassociateService.AssociateTypeChange(associateId, OldAssociateType, UpdatedAssociateType, newAssociateType);
+                   _zlassociateService.AssociateTypeChange(associateId, OldAssociateType, UpdatedAssociateType, newAssociateType);
                 }
                 var associate = await _associateService.GetAssociate(associateId);
-                await _zlassociateService.UpdateContact(associate);
+                _zlassociateService.UpdateContact(associate);
                 await _ewalletService.UpdateCustomer(associate);
             }
             catch (Exception ex)

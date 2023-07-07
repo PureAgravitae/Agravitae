@@ -20,7 +20,7 @@ namespace AgravitaeWebExtension.Hooks
             {
                 foreach (var shipInfo in request.PackageStatusUpdates)
                 {
-                   await _zlorderService.SendOrderShippedEmail(shipInfo.PackageId, shipInfo.TrackingNumber);
+                    _zlorderService.SendOrderShippedEmail(shipInfo.PackageId, shipInfo.TrackingNumber);
                 }
             }
             catch (Exception ex)
