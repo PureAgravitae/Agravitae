@@ -22,7 +22,7 @@ namespace AgravitaeWebExtension.Hooks.order
             {
                 var response = await func(request);
 
-                await _zloderZiplingoService.CallFullRefundOrderZiplingoEngagementTrigger(request.Order, "FullRefundOrder", false);
+                _zloderZiplingoService.CallFullRefundOrderZiplingoEngagementTrigger(request.Order, "FullRefundOrder", false);
                 return response;
             }
             catch (Exception e)

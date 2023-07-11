@@ -27,9 +27,9 @@ namespace AgravitaeWebExtension.Hooks.Autoship
             try
             {
                 var updatedAutoshipInfo = await _autoshipService.GetAutoship(request.AutoshipInfo.AutoshipId);
-                await _zlorderService.UpdateAutoship(updatedAutoshipInfo);
+                 _zlorderService.UpdateAutoship(updatedAutoshipInfo);
                 var associateSummary = await _associateService.GetAssociate(request.AutoshipInfo.AssociateId);
-               await _zlassociateService.UpdateContact(associateSummary);
+                _zlassociateService.UpdateContact(associateSummary);
             }
             catch (Exception ex)
             {
