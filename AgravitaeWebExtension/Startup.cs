@@ -102,6 +102,8 @@ namespace AgravitaeExtension
             services.AddSingleton<ICustomLogRepository, CustomLogRepository>();
             services.AddSingleton<IGenericReportRepository, GenericReportRepository>();
             services.AddSingleton<IReportSourceRepository, ReportSourceRepository>();
+            services.AddSingleton<IDailyRunCustomRepository, DailyRunCustomRepository>();
+
 
             // services.AddSingleton<IOrdersRepository, OrdersRepository>();
 
@@ -122,6 +124,7 @@ namespace AgravitaeExtension
             services.AddSingleton<IHttpClientService, HttpClientService>();
             services.AddSingleton<INomadEwalletService, NomadEwalletService>();
             services.AddSingleton<IGenericReportService, GenericReportService>();
+            services.AddSingleton<IDailyRunCustomService, DailyRunCustomService>();
 
             services.AddSingleton<ICustomLogService, CustomLogService>();
             services.AddControllersWithViews();
