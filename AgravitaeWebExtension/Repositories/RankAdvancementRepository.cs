@@ -30,6 +30,11 @@ namespace AgravitaeWebExtension.Repositories
             {
                 var retVal = new RankAdvancementResponse();
                 var scores = new List<RankScore>();
+                var highRank = await _historyService.GetHighRankDate(associateId);
+                var lastRank = await _historyService.GetLastRankDate(associateId);                
+
+                if (highRank.Rank == 0)
+                    return retVal;
                 var statInfo = await _statsService.GetStats(new int[] { associateId }, DateTime.Now);
                 var stats = statInfo.Values.Select(x => x.Ranks).FirstOrDefault();
 
@@ -39,6 +44,7 @@ namespace AgravitaeWebExtension.Repositories
 
                     foreach (var option in stats)
                     {
+
                         var rankScore = new RankScore
                         {
                             RankID = option.RankId,
@@ -82,24 +88,33 @@ namespace AgravitaeWebExtension.Repositories
                             }
                         }
 
-                        scores.Add(rankScore);
+                        if (rankScore.Score >= 75)
+                        {
+                            var hundredScore = scores.Where(h => h.Score.Equals(100)).FirstOrDefault();
+                            if(hundredScore != null && rankScore.Score == 100)
+                            {
+                                scores.Remove(hundredScore);
+                            }
+
+                            scores.Add(rankScore);
+
+                        }
                     }
 
-                    var highRank = await _historyService.GetHighRankDate(associateId);
-                    var lastRank = await _historyService.GetLastRankDate(associateId);
-
-
-                    retVal.AssociateID = associateId;
-                    retVal.HighestRankID = highestCurrentRankId;
-                    retVal.HighestRankDescription = await _rankService.GetRankName(highestCurrentRankId);
-                    retVal.HighestRankAchievedDate = highRank.Date;
-                    retVal.RankID = highestCurrentRankId;
-                    retVal.RankDescription = await _rankService.GetRankName(highestCurrentRankId);
-                    retVal.LastRankID = lastRank.Rank;
-                    retVal.LastRankDescription = await _rankService.GetRankName(lastRank.Rank);
-                    retVal.LastCommissionRunDate = lastRank.Date;
-                    retVal.CurrentRank = await _rankService.GetRankName(highestCurrentRankId);
-                    retVal.Scores = scores.ToArray();
+                    if (scores.Count > 0)
+                    {
+                        retVal.AssociateID = associateId;
+                        retVal.HighestRankID = highestCurrentRankId;
+                        retVal.HighestRankDescription = await _rankService.GetRankName(highestCurrentRankId);
+                        retVal.HighestRankAchievedDate = highRank.Date;
+                        retVal.RankID = highestCurrentRankId;
+                        retVal.RankDescription = await _rankService.GetRankName(highestCurrentRankId);
+                        retVal.LastRankID = lastRank.Rank;
+                        retVal.LastRankDescription = await _rankService.GetRankName(lastRank.Rank);
+                        retVal.LastCommissionRunDate = lastRank.Date;
+                        retVal.CurrentRank = await _rankService.GetRankName(highestCurrentRankId);
+                        retVal.Scores = scores.ToArray();
+                    }
                 }
 
 

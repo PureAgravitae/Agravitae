@@ -12,12 +12,14 @@ namespace AgravitaeWebExtension.Controllers
     public class CustomerController : Controller
     {
         private readonly ITreeService _treeService;
-        private readonly IRankAdvancementService _rankAdvancementService;       
+        private readonly IRankAdvancementService _rankAdvancementService;
+        private readonly IAssociateService _associateService;
 
-        public CustomerController(IRankAdvancementService rankAdvancementService, ITreeService treeService)
+        public CustomerController(IRankAdvancementService rankAdvancementService, ITreeService treeService, IAssociateService associateService)
         {
             _rankAdvancementService = rankAdvancementService ?? throw new ArgumentNullException(nameof(rankAdvancementService));
             _treeService = treeService ?? throw new ArgumentNullException(nameof(treeService));
+            _associateService = associateService;
         }
 
 
@@ -33,13 +35,21 @@ namespace AgravitaeWebExtension.Controllers
                 var downline = await _treeService.GetDownlineIds(new DirectScale.Disco.Extension.NodeId() { AssociateId = associateId },
                                                                  DirectScale.Disco.Extension.TreeType.Unilevel,
                                                                  1);
-                foreach(var id in downline)
+                foreach (var id in downline)
                 {
-                    retVal = await _rankAdvancementService.GetRankAdvancementDetail(id.NodeId.AssociateId);
-                    if(retVal != null) 
-                        rankAdvancementList.Add(retVal);
+                    var assoc = await _associateService.GetAssociate(id.NodeId.AssociateId);
+                    if (assoc != null)
+                    {
+                        if(assoc.StatusId.Equals(1) && assoc.AssociateType.Equals(1))
+                        {
+                            retVal = await _rankAdvancementService.GetRankAdvancementDetail(id.NodeId.AssociateId);
+                            if (retVal != null && retVal.AssociateID > 0)
+                                rankAdvancementList.Add(retVal);
+                        }
+                    }
+
                 }
-                
+
                 return new Responses().OkResult(rankAdvancementList);
             }
             catch (Exception ex)
