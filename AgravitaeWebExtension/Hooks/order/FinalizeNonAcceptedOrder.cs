@@ -22,7 +22,7 @@ namespace AgravitaeWebExtension.Hooks.order
             {
                 if (request.Order.OrderType == OrderType.Autoship)
                 {
-                     _zlorderService.CallOrderZiplingoEngagement(request.Order, "AutoShipFailed", true);
+                     _zlorderService.AutoshipRetryProcess(request.Order.AssociateId, request.Order.OrderNumber);
                 }
             }
             catch (Exception ex)

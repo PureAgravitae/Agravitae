@@ -44,7 +44,7 @@ namespace AgravitaeWebExtension.Hooks.order
                 }
                 if (order.OrderType == OrderType.Autoship && (order.Status == OrderStatus.Declined || order.Status == OrderStatus.FraudRejected))
                 {
-                     _zlorderService.CallOrderZiplingoEngagement(order, "AutoShipFailed", true);
+                    _zlorderService.AutoshipRetryProcess(order.AssociateId, order.OrderNumber);
                 }
             }
             catch (Exception ex)
