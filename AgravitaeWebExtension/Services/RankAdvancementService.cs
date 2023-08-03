@@ -1,6 +1,9 @@
 ﻿using AgravitaeWebExtension.Models;
 using AgravitaeWebExtension.Models.GenericReports;
 using AgravitaeWebExtension.Repositories;
+using Newtonsoft.Json;
+using RestSharp;
+using System.Data;
 
 namespace AgravitaeWebExtension.Services
 {
@@ -22,6 +25,17 @@ namespace AgravitaeWebExtension.Services
         public async Task<RankAdvancementResponse> GetRankAdvancementDetail(int associateId)
         {
             return await _rankAdvancementRepository.GetRankAdvancementDetail(associateId);
+        }
+
+        private DataTable? UseNewtonsoftJson(string sampleJson )
+        {
+            DataTable? dataTable = new();
+            if (string.IsNullOrWhiteSpace(sampleJson))
+            {
+                return dataTable;
+            }
+            dataTable = JsonConvert.DeserializeObject<DataTable>(sampleJson);
+            return dataTable;
         }
     }
 }
