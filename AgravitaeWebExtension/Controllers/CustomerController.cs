@@ -26,8 +26,8 @@ namespace AgravitaeWebExtension.Controllers
 
 
         [HttpPost]
-        [Route("GetRankAdvancementDetail")]
-        public async Task<IActionResult> GetRankAdvancementDetail(int associateId)
+        [Route("GetRankAdvancementDetails")]
+        public async Task<IActionResult> GetRankAdvancementDetails(int associateId)
         {
             try
             {
@@ -37,6 +37,22 @@ namespace AgravitaeWebExtension.Controllers
                 var downline = await _treeService.GetDownlineIds(new DirectScale.Disco.Extension.NodeId() { AssociateId = associateId },
                                                                  DirectScale.Disco.Extension.TreeType.Unilevel,
                                                                  1);
+                //Creating dummy datatable for testing
+                DataTable dt = new DataTable("RankAdvancement");
+                DataColumn dc = new DataColumn("Name", typeof(String));
+                dt.Columns.Add(dc);
+
+                dc = new DataColumn("CurrentRank", typeof(String));
+                dt.Columns.Add(dc);
+
+                dc = new DataColumn("NextRank", typeof(String));
+                dt.Columns.Add(dc);
+
+                dc = new DataColumn("PercentAdvanced", typeof(String));
+                dt.Columns.Add(dc);
+                int counter = 0;
+
+
                 foreach (var id in downline)
                 {
                     var assoc = await _associateService.GetAssociate(id.NodeId.AssociateId);
@@ -46,37 +62,45 @@ namespace AgravitaeWebExtension.Controllers
                         {
                             retVal = await _rankAdvancementService.GetRankAdvancementDetail(id.NodeId.AssociateId);
                             if (retVal != null && retVal.AssociateID > 0)
+                            {
+                                DataRow dr = dt.NewRow();
+
+                                dr[0] = assoc.Name;
+
+
+                                foreach (var rankItem in retVal.Scores)
+                                {
+
+                                    if (counter == 0)
+                                    {
+                                        dr[1] = rankItem.RankName;
+                                        counter++;
+                                        continue;
+                      
+                                    }
+
+                                    if (counter == 1)
+                                    {
+
+                                        dr[2] = rankItem.RankName;
+                                        dr[3] = rankItem.Score;
+                                        counter = 0;
+
+                                        dt.Rows.Add(dr);
+                                        break;
+                                    }
+
+                                }
                                 rankAdvancementList.Add(retVal);
+                            }
+
                         }
                     }
 
                 }
 
-                DataTable rankAdvancementTable = new DataTable("RankAdvancement");
-                DataColumn headerColumn;
-                DataRow myDataRow;
-
-                // Create id column
-                headerColumn = new DataColumn();
-                headerColumn.DataType = typeof(string);
-                headerColumn.ColumnName = "Name";
-                headerColumn.Caption = "Name";
-                headerColumn.ReadOnly = true;
-                headerColumn.Unique = true;
-                // Add column to the DataColumnCollection.
-                rankAdvancementTable.Columns.Add(headerColumn);
-
-
-                foreach (var rank in rankAdvancementList)
-                {
-                    List<RankScore>? rankScoreList = rank.Scores?.ToList<RankScore>();
-                    foreach (var rankItem in rankScoreList)
-                    {
-                    }
-                }
-
-
-                return new Responses().OkResult(rankAdvancementList);
+                string result = Newtonsoft.Json.JsonConvert.SerializeObject(dt);
+                return new Responses().OkResult(result);
             }
             catch (Exception ex)
             {
