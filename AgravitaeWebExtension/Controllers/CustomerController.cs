@@ -38,16 +38,13 @@ namespace AgravitaeWebExtension.Controllers
                                                                  DirectScale.Disco.Extension.TreeType.Unilevel,
                                                                  1);
 
-
-      
-
                 var result = new QueryResult()
                 {
                     Columns = new List<ColumnInfo>(),
                     Rows = new List<List<string>>()
                 };
                 List<string> row = new List<string>();
-               // row.Add("Permission Denied");
+
                 result.Columns.Add(new ColumnInfo()
                 {
                     ColumnName = "Name",
@@ -71,23 +68,8 @@ namespace AgravitaeWebExtension.Controllers
                     ColumnName = "PercentAdvanced",
                     DataType = SqlDataType.String
                 });
-                // result.Rows.Add(row);
 
 
-
-                //Creating dummy datatable for testing
-                DataTable dt = new DataTable("RankAdvancement");
-                DataColumn dc = new DataColumn("Name", typeof(String));
-                dt.Columns.Add(dc);
-
-                dc = new DataColumn("CurrentRank", typeof(String));
-                dt.Columns.Add(dc);
-
-                dc = new DataColumn("NextRank", typeof(String));
-                dt.Columns.Add(dc);
-
-                dc = new DataColumn("PercentAdvanced", typeof(String));
-                dt.Columns.Add(dc);
                 int counter = 0;
 
 
@@ -102,9 +84,6 @@ namespace AgravitaeWebExtension.Controllers
                             if (retVal != null && retVal.AssociateID > 0)
                             {
                                 List<string> rowa = new List<string>();
-                                DataRow dr = dt.NewRow();
-
-                                dr[0] = assoc.Name;
                                 rowa.Add(assoc.Name);
 
                                 foreach (var rankItem in retVal.Scores)
@@ -112,7 +91,6 @@ namespace AgravitaeWebExtension.Controllers
 
                                     if (counter == 0)
                                     {
-                                        dr[1] = rankItem.RankName;
                                         rowa.Add(rankItem.RankName);
                                         counter++;
                                         continue;
@@ -121,14 +99,9 @@ namespace AgravitaeWebExtension.Controllers
 
                                     if (counter == 1)
                                     {
-
-                                        dr[2] = rankItem.RankName;
-                                        dr[3] = rankItem.Score;
                                         rowa.Add(rankItem.RankName);
                                         rowa.Add(rankItem.Score.ToString());
                                         counter = 0;
-
-                                        dt.Rows.Add(dr);
                                         result.Rows.Add(rowa);
                                         break;
                                     }
@@ -141,9 +114,6 @@ namespace AgravitaeWebExtension.Controllers
                     }
 
                 }
-
-                //string result1 = Newtonsoft.Json.JsonConvert.SerializeObject(dt);
-                // return new Responses().OkResult(result1);
                 return new Responses().OkResult(result);
                 
             }
