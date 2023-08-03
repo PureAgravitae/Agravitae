@@ -76,24 +76,26 @@ namespace AgravitaeWebExtension.Controllers
                             retVal = await _rankAdvancementService.GetRankAdvancementDetail(id.NodeId.AssociateId);
                             if (retVal != null && retVal.AssociateID > 0)
                             {
-                                List<string> rowa = new List<string>();
-                                rowa.Add(assoc.Name);
+                                List<string> alertRow = new List<string>();
+                                alertRow.Add(assoc.Name);
 
                                 foreach (var rankItem in retVal.Scores)
                                 {
                                     if (counter == 0)
                                     {
-                                        rowa.Add(rankItem.RankName);
+                                        alertRow.Add(rankItem.RankName);
                                         counter++;
                                         continue;
                       
                                     }
                                     if (counter == 1)
                                     {
-                                        rowa.Add(rankItem.RankName);
-                                        rowa.Add(rankItem.Score.ToString());
+                                        int scoreTruncated = (int)rankItem.Score;
+
+                                        alertRow.Add(rankItem.RankName);
+                                        alertRow.Add(scoreTruncated.ToString());
                                         counter = 0;
-                                        result.Rows.Add(rowa);
+                                        result.Rows.Add(alertRow);
                                         break;
                                     }
 
