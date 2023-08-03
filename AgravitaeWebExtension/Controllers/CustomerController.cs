@@ -37,6 +37,44 @@ namespace AgravitaeWebExtension.Controllers
                 var downline = await _treeService.GetDownlineIds(new DirectScale.Disco.Extension.NodeId() { AssociateId = associateId },
                                                                  DirectScale.Disco.Extension.TreeType.Unilevel,
                                                                  1);
+
+
+      
+
+                var result = new QueryResult()
+                {
+                    Columns = new List<ColumnInfo>(),
+                    Rows = new List<List<string>>()
+                };
+                List<string> row = new List<string>();
+               // row.Add("Permission Denied");
+                result.Columns.Add(new ColumnInfo()
+                {
+                    ColumnName = "Name",
+                    DataType = SqlDataType.String
+                });
+
+                result.Columns.Add(new ColumnInfo()
+                {
+                    ColumnName = "CurrentRank",
+                    DataType = SqlDataType.String
+                });
+
+                result.Columns.Add(new ColumnInfo()
+                {
+                    ColumnName = "NextRank",
+                    DataType = SqlDataType.String
+                });
+
+                result.Columns.Add(new ColumnInfo()
+                {
+                    ColumnName = "PercentAdvanced",
+                    DataType = SqlDataType.String
+                });
+                // result.Rows.Add(row);
+
+
+
                 //Creating dummy datatable for testing
                 DataTable dt = new DataTable("RankAdvancement");
                 DataColumn dc = new DataColumn("Name", typeof(String));
@@ -63,10 +101,11 @@ namespace AgravitaeWebExtension.Controllers
                             retVal = await _rankAdvancementService.GetRankAdvancementDetail(id.NodeId.AssociateId);
                             if (retVal != null && retVal.AssociateID > 0)
                             {
+                                List<string> rowa = new List<string>();
                                 DataRow dr = dt.NewRow();
 
                                 dr[0] = assoc.Name;
-
+                                rowa.Add(assoc.Name);
 
                                 foreach (var rankItem in retVal.Scores)
                                 {
@@ -74,6 +113,7 @@ namespace AgravitaeWebExtension.Controllers
                                     if (counter == 0)
                                     {
                                         dr[1] = rankItem.RankName;
+                                        rowa.Add(rankItem.RankName);
                                         counter++;
                                         continue;
                       
@@ -84,9 +124,12 @@ namespace AgravitaeWebExtension.Controllers
 
                                         dr[2] = rankItem.RankName;
                                         dr[3] = rankItem.Score;
+                                        rowa.Add(rankItem.RankName);
+                                        rowa.Add(rankItem.Score.ToString());
                                         counter = 0;
 
                                         dt.Rows.Add(dr);
+                                        result.Rows.Add(rowa);
                                         break;
                                     }
 
@@ -99,8 +142,10 @@ namespace AgravitaeWebExtension.Controllers
 
                 }
 
-                string result = Newtonsoft.Json.JsonConvert.SerializeObject(dt);
+                //string result1 = Newtonsoft.Json.JsonConvert.SerializeObject(dt);
+                // return new Responses().OkResult(result1);
                 return new Responses().OkResult(result);
+                
             }
             catch (Exception ex)
             {
