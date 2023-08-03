@@ -6,6 +6,8 @@ using AgravitaeWebExtension.Models.Client_Requests;
 using AgravitaeWebExtension.Models.GenericReports;
 using AgravitaeWebExtension.Models;
 using DirectScale.Disco.Extension.Services;
+using System.Data;
+
 namespace AgravitaeWebExtension.Controllers
 {
     [Route("api/[controller]")]
@@ -49,6 +51,30 @@ namespace AgravitaeWebExtension.Controllers
                     }
 
                 }
+
+                DataTable rankAdvancementTable = new DataTable("RankAdvancement");
+                DataColumn headerColumn;
+                DataRow myDataRow;
+
+                // Create id column
+                headerColumn = new DataColumn();
+                headerColumn.DataType = typeof(string);
+                headerColumn.ColumnName = "Name";
+                headerColumn.Caption = "Name";
+                headerColumn.ReadOnly = true;
+                headerColumn.Unique = true;
+                // Add column to the DataColumnCollection.
+                rankAdvancementTable.Columns.Add(headerColumn);
+
+
+                foreach (var rank in rankAdvancementList)
+                {
+                    List<RankScore>? rankScoreList = rank.Scores?.ToList<RankScore>();
+                    foreach (var rankItem in rankScoreList)
+                    {
+                    }
+                }
+
 
                 return new Responses().OkResult(rankAdvancementList);
             }
