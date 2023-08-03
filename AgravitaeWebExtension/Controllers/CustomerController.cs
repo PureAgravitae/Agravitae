@@ -31,13 +31,10 @@ namespace AgravitaeWebExtension.Controllers
         {
             try
             {
-                var rankAdvancementList = new List<RankAdvancementResponse>();
                 var retVal = new RankAdvancementResponse();
-
                 var downline = await _treeService.GetDownlineIds(new DirectScale.Disco.Extension.NodeId() { AssociateId = associateId },
                                                                  DirectScale.Disco.Extension.TreeType.Unilevel,
                                                                  1);
-
                 var result = new QueryResult()
                 {
                     Columns = new List<ColumnInfo>(),
@@ -68,11 +65,7 @@ namespace AgravitaeWebExtension.Controllers
                     ColumnName = "PercentAdvanced",
                     DataType = SqlDataType.String
                 });
-
-
                 int counter = 0;
-
-
                 foreach (var id in downline)
                 {
                     var assoc = await _associateService.GetAssociate(id.NodeId.AssociateId);
@@ -88,7 +81,6 @@ namespace AgravitaeWebExtension.Controllers
 
                                 foreach (var rankItem in retVal.Scores)
                                 {
-
                                     if (counter == 0)
                                     {
                                         rowa.Add(rankItem.RankName);
@@ -96,7 +88,6 @@ namespace AgravitaeWebExtension.Controllers
                                         continue;
                       
                                     }
-
                                     if (counter == 1)
                                     {
                                         rowa.Add(rankItem.RankName);
@@ -107,9 +98,7 @@ namespace AgravitaeWebExtension.Controllers
                                     }
 
                                 }
-                                rankAdvancementList.Add(retVal);
                             }
-
                         }
                     }
 
