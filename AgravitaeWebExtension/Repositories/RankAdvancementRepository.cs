@@ -33,8 +33,8 @@ namespace AgravitaeWebExtension.Repositories
                 var highRank = await _historyService.GetHighRankDate(associateId);
                 var lastRank = await _historyService.GetLastRankDate(associateId);                
 
-                if (highRank.Rank == 0)
-                    return retVal;
+                //if (highRank.Rank == 0)
+                //    return retVal;
                 var statInfo = await _statsService.GetStats(new int[] { associateId }, DateTime.Now);
                 var stats = statInfo.Values.Select(x => x.Ranks).FirstOrDefault();
 
