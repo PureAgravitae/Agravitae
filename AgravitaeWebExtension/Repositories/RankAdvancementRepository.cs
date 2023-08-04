@@ -88,7 +88,7 @@ namespace AgravitaeWebExtension.Repositories
                             }
                         }
 
-                        if (rankScore.Score >= 75)
+                        if (rankScore.Score >= 75 && highestCurrentRankId > 0)
                         {
                             var hundredScore = scores.Where(h => h.Score.Equals(100)).FirstOrDefault();
                             if(hundredScore != null && rankScore.Score == 100)
@@ -101,7 +101,7 @@ namespace AgravitaeWebExtension.Repositories
                         }
                     }
 
-                    if (scores.Count > 0)
+                    if (scores.Count > 1)
                     {
                         retVal.AssociateID = associateId;
                         retVal.HighestRankID = highestCurrentRankId;
