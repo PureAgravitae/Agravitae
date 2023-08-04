@@ -74,10 +74,12 @@ namespace AgravitaeWebExtension.Controllers
                         if(assoc.StatusId.Equals(1) && assoc.AssociateType.Equals(1))
                         {
                             retVal = await _rankAdvancementService.GetRankAdvancementDetail(id.NodeId.AssociateId);
-                            if (retVal != null && retVal.AssociateID > 0)
+                            if (retVal != null && retVal.AssociateID > 0 && retVal.Scores != null)
                             {
-                                List<string> alertRow = new List<string>();
-                                alertRow.Add(assoc.Name);
+                                List<string> alertRow = new()
+                                {
+                                    assoc.Name
+                                };
 
                                 foreach (var rankItem in retVal.Scores)
                                 {

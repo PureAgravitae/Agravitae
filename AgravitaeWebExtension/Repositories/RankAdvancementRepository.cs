@@ -41,9 +41,11 @@ namespace AgravitaeWebExtension.Repositories
                 if (stats != null && stats.Length > 0)
                 {
                     int highestCurrentRankId = 0;
-
+                    int count75 = 0, noRankCount = 0;
                     foreach (var option in stats)
                     {
+                        if (count75 == 1 || noRankCount == 1)
+                            break;
 
                         var rankScore = new RankScore
                         {
@@ -65,9 +67,26 @@ namespace AgravitaeWebExtension.Repositories
 
                                 double currScore = (pctScore / rankGroup.Details.Length) * 100;
 
+                                if (currScore < 75)
+                                {
+                                    if(currScore == 0)
+                                    {
+                                        noRankCount++;
+                                    }
+                                    continue;
+                                }
+
                                 if (currScore > 100)
                                 {
                                     currScore = 100;
+                                }
+
+                                if (currScore >= 75)
+                                {
+                                    if (currScore != 100)
+                                    {
+                                        count75++;
+                                    }
                                 }
 
                                 if (currScore > rankScore.Score)
@@ -88,7 +107,7 @@ namespace AgravitaeWebExtension.Repositories
                             }
                         }
 
-                        if (rankScore.Score >= 75)
+                        if (rankScore.Score >= 75 && highestCurrentRankId > 0)
                         {
                             var hundredScore = scores.Where(h => h.Score.Equals(100)).FirstOrDefault();
                             if(hundredScore != null && rankScore.Score == 100)
@@ -101,7 +120,7 @@ namespace AgravitaeWebExtension.Repositories
                         }
                     }
 
-                    if (scores.Count > 0)
+                    if (scores.Count > 1)
                     {
                         retVal.AssociateID = associateId;
                         retVal.HighestRankID = highestCurrentRankId;
