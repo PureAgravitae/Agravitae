@@ -41,9 +41,11 @@ namespace AgravitaeWebExtension.Repositories
                 if (stats != null && stats.Length > 0)
                 {
                     int highestCurrentRankId = 0;
-
+                    int count75 = 0, noRankCount = 0;
                     foreach (var option in stats)
                     {
+                        if (count75 == 1 || noRankCount == 1)
+                            break;
 
                         var rankScore = new RankScore
                         {
@@ -65,9 +67,26 @@ namespace AgravitaeWebExtension.Repositories
 
                                 double currScore = (pctScore / rankGroup.Details.Length) * 100;
 
+                                if (currScore < 75)
+                                {
+                                    if(currScore == 0)
+                                    {
+                                        noRankCount++;
+                                    }
+                                    continue;
+                                }
+
                                 if (currScore > 100)
                                 {
                                     currScore = 100;
+                                }
+
+                                if (currScore >= 75)
+                                {
+                                    if (currScore != 100)
+                                    {
+                                        count75++;
+                                    }
                                 }
 
                                 if (currScore > rankScore.Score)
