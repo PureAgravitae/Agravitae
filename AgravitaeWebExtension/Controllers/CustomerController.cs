@@ -50,19 +50,19 @@ namespace AgravitaeWebExtension.Controllers
 
                 result.Columns.Add(new ColumnInfo()
                 {
-                    ColumnName = "CurrentRank",
+                    ColumnName = "Current Rank",
                     DataType = SqlDataType.String
                 });
 
                 result.Columns.Add(new ColumnInfo()
                 {
-                    ColumnName = "NextRank",
+                    ColumnName = "Next Rank",
                     DataType = SqlDataType.String
                 });
 
                 result.Columns.Add(new ColumnInfo()
                 {
-                    ColumnName = "PercentAdvanced",
+                    ColumnName = "Percent Advanced",
                     DataType = SqlDataType.String
                 });
                 int counter = 0;
