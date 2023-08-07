@@ -80,8 +80,10 @@ namespace AgravitaeExtension
                 options.AddHook<FullRefundOrderHook>();
                 options.AddHook<LogRealtimeRankAdvanceHook>();
                 options.AddHook<MarkPackageShippedHook>();
-                options.AddHook<ProcessCouponCodesHook>();
-                options.AddHook<GetCouponAdjustedVolumeHook>();
+
+                // Functionality for 201450 
+                // options.AddHook<ProcessCouponCodesHook>();
+                // options.AddHook<GetCouponAdjustedVolumeHook>();
 
                 //options.AddHook<SubmitOrderHook>();
                 //options.AddCustomPage(Menu.AssociateDetail, "Hello Associate", "ViewAdministration", "/CustomPage/SecuredHelloWorld");
