@@ -17,7 +17,7 @@ namespace AgravitaeWebExtension.Hooks.order
         public async Task<ProcessCouponCodesHookResponse> Invoke(ProcessCouponCodesHookRequest request, Func<ProcessCouponCodesHookRequest, Task<ProcessCouponCodesHookResponse>> func)
         {
             var response = await func(request);
-          /*  try
+            try
             {
                 if (request.OrderType == OrderType.Autoship)
                 {
@@ -26,32 +26,39 @@ namespace AgravitaeWebExtension.Hooks.order
                     {
                         //add 10% discount to order
                         var subTotal = request.SubTotal;
-                        double discount = (double)subTotal / 100 * 10;
-                        var usedCoupons = response.OrderCoupons.UsedCoupons?.ToList() ?? new List<OrderCoupon>();                        
+                        if (subTotal > 0)
+                        {
+                            double discount = (double)subTotal / 100 * 10;
+                            var usedCoupons = response.OrderCoupons.UsedCoupons?.ToList() ?? new List<OrderCoupon>();
+                            discount = Math.Round(discount, 2);
 
-                        usedCoupons.Add(
-                            new OrderCoupon(
-                                new Coupon
-                                {
-                                    Code = AUTOSHIP_COUPON_NAME,
-                                    Discount = discount,
-                                    CouponType = CouponType.OrderDiscount
-                                })
+                            if (discount > 0 && subTotal > discount)
                             {
-                                DiscountAmount = discount
-                            });
+                                usedCoupons.Add(
+                                    new OrderCoupon(
+                                        new Coupon
+                                        {
+                                            Code = AUTOSHIP_COUPON_NAME,
+                                            Discount = discount,
+                                            CouponType = CouponType.OrderDiscount
+                                        })
+                                    {
+                                        DiscountAmount = discount
+                                    });
 
 
-                        response.OrderCoupons.UsedCoupons = usedCoupons.ToArray();
-                        response.OrderCoupons.DiscountTotal += discount;
+                                response.OrderCoupons.UsedCoupons = usedCoupons.ToArray();
+                                response.OrderCoupons.DiscountTotal += discount;
+                            }
+                        }
+
                     }
-
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"ProcessCouponCodesHookRequest: Error applying 10% discount to order for associate {request.AssociateId} - {ex.Message}");
-            }*/
+            }
             return response;
         }
 
