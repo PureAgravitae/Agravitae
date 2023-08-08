@@ -26,30 +26,33 @@ namespace AgravitaeWebExtension.Hooks.order
                     {
                         //add 10% discount to order
                         var subTotal = request.SubTotal;
-                        double discount = (double)subTotal / 100 * 10;
-                        var usedCoupons = response.OrderCoupons.UsedCoupons?.ToList() ?? new List<OrderCoupon>();
-                        discount = Math.Round(discount, 2);
-
-                        if (discount > 0 && subTotal > discount)
+                        if (subTotal > 0)
                         {
-                            usedCoupons.Add(
-                                new OrderCoupon(
-                                    new Coupon
+                            double discount = (double)subTotal / 100 * 10;
+                            var usedCoupons = response.OrderCoupons.UsedCoupons?.ToList() ?? new List<OrderCoupon>();
+                            discount = Math.Round(discount, 2);
+
+                            if (discount > 0 && subTotal > discount)
+                            {
+                                usedCoupons.Add(
+                                    new OrderCoupon(
+                                        new Coupon
+                                        {
+                                            Code = AUTOSHIP_COUPON_NAME,
+                                            Discount = discount,
+                                            CouponType = CouponType.OrderDiscount
+                                        })
                                     {
-                                        Code = AUTOSHIP_COUPON_NAME,
-                                        Discount = discount,
-                                        CouponType = CouponType.OrderDiscount
-                                    })
-                                {
-                                    DiscountAmount = discount
-                                });
+                                        DiscountAmount = discount
+                                    });
 
 
-                            response.OrderCoupons.UsedCoupons = usedCoupons.ToArray();
-                            response.OrderCoupons.DiscountTotal += discount;
+                                response.OrderCoupons.UsedCoupons = usedCoupons.ToArray();
+                                response.OrderCoupons.DiscountTotal += discount;
+                            }
                         }
-                    }
 
+                    }
                 }
             }
             catch (Exception ex)
