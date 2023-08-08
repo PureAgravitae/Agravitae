@@ -16,7 +16,7 @@ namespace AgravitaeWebExtension.Hooks.order
         {
             try
             {
-                // Add only the coupons that we WANT to reduce volume.
+              /*  // Add only the coupons that we WANT to reduce volume.
                 var usedCoupons = new List<OrderCoupon>();
                 foreach (var total in request.Totals)
                 {
@@ -31,7 +31,7 @@ namespace AgravitaeWebExtension.Hooks.order
                         }
                         total.Coupons.UsedCoupons = usedCoupons.ToArray();
                     }
-                }
+                }*/
                 var result = await func(request);
                 return result;
             }
