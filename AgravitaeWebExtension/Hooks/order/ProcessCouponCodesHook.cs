@@ -17,7 +17,7 @@ namespace AgravitaeWebExtension.Hooks.order
         public async Task<ProcessCouponCodesHookResponse> Invoke(ProcessCouponCodesHookRequest request, Func<ProcessCouponCodesHookRequest, Task<ProcessCouponCodesHookResponse>> func)
         {
             var response = await func(request);
-            try
+          /*  try
             {
                 if (request.OrderType == OrderType.Autoship)
                 {
@@ -51,7 +51,7 @@ namespace AgravitaeWebExtension.Hooks.order
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"ProcessCouponCodesHookRequest: Error applying 10% discount to order for associate {request.AssociateId} - {ex.Message}");
-            }
+            }*/
             return response;
         }
 
