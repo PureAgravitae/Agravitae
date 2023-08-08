@@ -82,8 +82,8 @@ namespace AgravitaeExtension
                 options.AddHook<MarkPackageShippedHook>();
 
                 // Functionality for 201450 
-                // options.AddHook<ProcessCouponCodesHook>();
-                // options.AddHook<GetCouponAdjustedVolumeHook>();
+                options.AddHook<ProcessCouponCodesHook>();
+                options.AddHook<GetCouponAdjustedVolumeHook>();
 
                 //options.AddHook<SubmitOrderHook>();
                 //options.AddCustomPage(Menu.AssociateDetail, "Hello Associate", "ViewAdministration", "/CustomPage/SecuredHelloWorld");
