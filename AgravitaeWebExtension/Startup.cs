@@ -15,6 +15,7 @@ using AgravitaeExtension.Merchants.Tyga.Tyga;
 using ZiplingoEngagement;
 using RPMSEwallet;
 using RPMSEwallet.Merchants.EwalletMerchant.Ewallet;
+using DirectScale.Disco.Extension.Middleware.Models;
 
 namespace AgravitaeExtension
 {
@@ -94,7 +95,7 @@ namespace AgravitaeExtension
                 options.AddMerchant<EwalletMoneyOut>(9013, "E-Wallet", "Pay with E-Wallet", "USD");
 
                 options.AddMerchant<TygaMoneyIn>(9014, "Tyga Wallet", "Pay with crypto", "USD"); //TygaPay
-
+                options.AddCustomPage(Menu.Settings, "Ziplingo Engagement Settings", "/CustomPage/ZiplingoEngagementSetting");
                 services.AddControllers();
             });
 
