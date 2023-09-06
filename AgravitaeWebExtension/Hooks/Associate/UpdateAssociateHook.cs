@@ -62,7 +62,7 @@ namespace AgravitaeWebExtension.Hooks.Associate
                 }
                 var associate = await _associateService.GetAssociate(associateId);
                 _zlassociateService.UpdateContact(associate);
-                await _ewalletService.UpdateCustomer(associate);
+                 _ewalletService.UpdateCustomer(associate);
             }
             catch (Exception ex)
             {
