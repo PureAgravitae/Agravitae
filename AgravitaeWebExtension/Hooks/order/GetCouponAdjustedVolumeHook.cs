@@ -28,6 +28,10 @@ namespace AgravitaeWebExtension.Hooks.order
                             {
                                 usedCoupons.Add(coupon);
                             }
+                            if(coupon.Info.AmountType == AmountType.Percent) 
+                            {
+                                usedCoupons.Add(coupon);                                
+                            }
                         }
                         total.Coupons.UsedCoupons = usedCoupons.ToArray();
                     }
