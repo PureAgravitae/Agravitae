@@ -28,7 +28,7 @@ namespace AgravitaeWebExtension.Hooks.order
                             {
                                 usedCoupons.Add(coupon);
                             }
-                            if(coupon.Info.AmountType == AmountType.Percent) 
+                            if(coupon.Info.AmountType == AmountType.Amount) 
                             {
                                 usedCoupons.Add(coupon);                                
                             }
