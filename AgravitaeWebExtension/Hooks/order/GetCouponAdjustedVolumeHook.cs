@@ -26,8 +26,12 @@ namespace AgravitaeWebExtension.Hooks.order
                         {
                             if (!coupon.Info.Code.EndsWith(AUTOSHIP_COUPON_NAME, StringComparison.InvariantCultureIgnoreCase))
                             {
-                                usedCoupons.Add(coupon);
+                                if (coupon.Info.AmountType == AmountType.Percent)
+                                {
+                                    usedCoupons.Add(coupon);
+                                }                                
                             }
+                            
                         }
                         total.Coupons.UsedCoupons = usedCoupons.ToArray();
                     }
