@@ -6,6 +6,7 @@ using DirectScale.Disco.Extension;
 using ZiplingoEngagement.Services.Interface;
 using RPMSEwallet.Services.Interface;
 using RPMSEwallet.Models;
+using DirectScale.Disco.Extension.Services;
 
 namespace AgravitaeWebExtension.Hooks.Associate
 {
@@ -14,12 +15,14 @@ namespace AgravitaeWebExtension.Hooks.Associate
         
         private readonly IZLAssociateService _zlassociateService;
         private readonly IEwalletService _ewalletService;
+        private readonly IAssociateService _associateService;
 
 
-        public WriteApplication(IZLAssociateService zlassociateService, IEwalletService ewalletService)
+        public WriteApplication(IZLAssociateService zlassociateService, IEwalletService ewalletService, IAssociateService associateService)
         {
             _zlassociateService = zlassociateService ?? throw new ArgumentNullException(nameof(zlassociateService));
             _ewalletService = ewalletService ?? throw new ArgumentNullException(nameof(ewalletService));
+            _associateService = associateService ?? throw new ArgumentNullException(nameof(associateService));
         }
 
         public Task<WriteApplicationHookResponse> Invoke(WriteApplicationHookRequest request, Func<WriteApplicationHookRequest, Task<WriteApplicationHookResponse>> func)
@@ -29,19 +32,9 @@ namespace AgravitaeWebExtension.Hooks.Associate
             // Sync User with in ewallet -------------------------
 
             int newUserID = response.Result.ApplicationResponse.AssociateId;
-            var app = new Application
-            {
-                FirstName = request.Application.FirstName,
-                LastName = request.Application.LastName,
-                ExternalId = Convert.ToString(newUserID),
-                BackOfficeId = response.Result.ApplicationResponse.BackOfficeId,
-                EmailAddress = request.Application.EmailAddress,
-                PrimaryPhone = request.Application.PrimaryPhone,
-                LanguageCode = request.Application.LanguageCode,
-                BirthDate = request.Application.BirthDate,
-                ApplicantAddress = request.Application.ApplicantAddress
-            };
-            _ewalletService.CreateCustomer(app, Convert.ToInt32(newUserID));
+
+            var asssociateresponse = _associateService.GetAssociate(response.Result.ApplicationResponse.AssociateId).Result;
+            _ewalletService.CreateCustomer(asssociateresponse, Convert.ToInt32(newUserID));
 
 
             var provisionReq = new SetActiveCommissionMerchantRequest { AssociateId = Convert.ToInt32(newUserID), MerchantId = 9012 };
