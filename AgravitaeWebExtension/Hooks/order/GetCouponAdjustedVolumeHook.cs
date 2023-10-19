@@ -7,6 +7,7 @@ namespace AgravitaeWebExtension.Hooks.order
     public class GetCouponAdjustedVolumeHook : IHook<GetCouponAdjustedVolumeHookRequest, GetCouponAdjustedVolumeHookResponse>
     {
         private readonly ILogger<GetCouponAdjustedVolumeHook> _logger;
+        public const string PLACEHOLDER_COUPON_NAME = "__unused__";
         public const string AUTOSHIP_COUPON_NAME = "10% OFF";
         public GetCouponAdjustedVolumeHook(ILogger<GetCouponAdjustedVolumeHook> logger)
         {            
@@ -24,7 +25,7 @@ namespace AgravitaeWebExtension.Hooks.order
                     {
                         foreach (var coupon in total.Coupons.UsedCoupons)
                         {
-                            if (!coupon.Info.Code.EndsWith(AUTOSHIP_COUPON_NAME, StringComparison.InvariantCultureIgnoreCase))
+                            if (!coupon.Info.Code.EndsWith(PLACEHOLDER_COUPON_NAME, StringComparison.InvariantCultureIgnoreCase))
                             {
                                 if (coupon.Info.AmountType == AmountType.Percent)
                                 {
