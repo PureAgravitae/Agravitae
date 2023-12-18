@@ -108,6 +108,7 @@ namespace AgravitaeExtension
             services.AddSingleton<IReportSourceRepository, ReportSourceRepository>();
             services.AddSingleton<IDailyRunCustomRepository, DailyRunCustomRepository>();
             services.AddSingleton<IRankAdvancementRepository, RankAdvancementRepository>();
+            services.AddSingleton<IOrdersInfoRepository, OrdersInfoRepository>();
 
             // services.AddSingleton<IOrdersRepository, OrdersRepository>();
 
