@@ -22,6 +22,7 @@ namespace AgravitaeWebExtension.Hooks.order
         public async Task<ProcessCouponCodesHookResponse> Invoke(ProcessCouponCodesHookRequest request, Func<ProcessCouponCodesHookRequest, Task<ProcessCouponCodesHookResponse>> func)
         {
             var response = await func(request);
+            await VerifyLifetimeSKULimit(request);
             try
             {
                 if (request.OrderType == OrderType.Autoship)
