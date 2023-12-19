@@ -86,6 +86,9 @@ namespace AgravitaeExtension
                 options.AddHook<ProcessCouponCodesHook>();
                 options.AddHook<GetCouponAdjustedVolumeHook>();
 
+                options.AddCustomPage(Menu.Settings, "EWallet Settings", "/CustomPage/EWalletSettings");
+
+
                 //options.AddHook<SubmitOrderHook>();
                 //options.AddCustomPage(Menu.AssociateDetail, "Hello Associate", "ViewAdministration", "/CustomPage/SecuredHelloWorld");
                 //options.AddHook<CreateAutoshipHook>();
@@ -100,8 +103,7 @@ namespace AgravitaeExtension
 
                 options.AddMerchant<TygaMoneyIn>(9014, "Tyga Wallet", "Pay with crypto", "USD"); //TygaPay
 
-                options.AddCustomPage(Menu.Settings, "EWallet Settings", "/CustomPage/EWalletSettings");
-
+             
                 services.AddControllers();
             });
 
