@@ -25,7 +25,7 @@ namespace AgravitaeWebExtension.Controllers
             var dbConnection = new System.Data.SqlClient.SqlConnection(_dataService.GetClientConnectionString().Result);
             return Ok(dbConnection.ConnectionString);
         }
-        [HttpGet]
+        [HttpPost]
         [Route("UpdateEwalletSetting")]
         public IActionResult UpdateEwalletSetting(RPMSEwallet.Models.EwalletSettingsRequest request)
         {
