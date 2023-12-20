@@ -40,7 +40,8 @@ namespace AgravitaeExtension
             //Remark This section before upload
             //if (CurrentEnvironment.IsDevelopment())
             //{
-            //    services.AddSingleton<ITokenProvider>(x => new AgravitaeWebExtensionTokenProvider
+
+            //    services.AddSingleton<ITokenProvider>(x => new WebExtensionTokenProvider
             //    {
             //        DirectScaleUrl = Configuration["configSetting:BaseURL"].Replace("{clientId}", Configuration["configSetting:Client"]).Replace("{environment}", Configuration["configSetting:Environment"]),
             //        DirectScaleSecret = Configuration["configSetting:DirectScaleSecret"],
@@ -57,14 +58,6 @@ namespace AgravitaeExtension
 
             // services.AddResponseCaching();
             services.AddControllers();
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.WithOrigins(environmentURL, environmentURL.Replace("corpadmin", "clientextension"))
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowAnyOrigin());
-            });
             services.AddRazorPages();
             services.AddMvc();
             services.AddZiplingoEngagement();
@@ -148,72 +141,49 @@ namespace AgravitaeExtension
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            var environmentUrl = Environment.GetEnvironmentVariable("DirectScaleServiceUrl");
-            if (environmentUrl != null)
+            if (env.IsDevelopment())
             {
-                var serverUrl = environmentUrl.Replace("https://agravitae.corpadmin.", "");
-                var appendUrl = @" http://"+ serverUrl + " " + "https://" + serverUrl + " " + "http://*." + serverUrl + " " + "https://*." + serverUrl;
-
-                var csPolicy = "frame-ancestors https://agravitae.corpadmin.directscale.com https://agravitae.corpadmin.directscalestage.com" + appendUrl + ";";
-                app.UseRequestLocalization();
-
-                if (env.IsDevelopment())
-                {
-                    app.UseDeveloperExceptionPage();
-                }
-                else
-                {
-                    app.UseExceptionHandler("/Home/Error");
-                    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                    app.UseHsts();
-                }
-
-                //Configure Cors
-
-                app.UseCors("CorsPolicy");
-                app.UseHttpsRedirection();
-
-                app.UseStaticFiles(new StaticFileOptions
-                {
-                    OnPrepareResponse = ctx =>
-                    {
-                        ctx.Context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-                    }
-                });
-
-                app.UseStaticFiles();
-                app.UseRouting();
-                app.UseAuthorization();
-
-                //DS
-                app.UseDirectScale();
-
-                //Swagger
-                app.UseSwagger();
-                app.UseSwaggerUI(c => {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V2");
-                });
-
-                app.Use(async (context, next) =>
-                {
-                    context.Response.Headers.Add("Content-Security-Policy", csPolicy);
-                    context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-                    await next();
-                });
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllerRoute(
-                        name: "default",
-                        pattern: "{controller=Home}/{action=Index}/{id?}");
-                });
-                app.UseMvc();
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
 
+            //Configure Cors
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod());
 
-            
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            //DS
+            app.UseDirectScale();
+
+            //Swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V2");
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
-    internal class AgravitaeWebExtensionTokenProvider : ITokenProvider
+}
+    internal class WebExtensionTokenProvider : ITokenProvider
     {
         public string DirectScaleUrl { get; set; }
         public string DirectScaleSecret { get; set; }
@@ -232,5 +202,4 @@ namespace AgravitaeExtension
             return await Task.FromResult(ExtensionSecrets);
         }
 
-    }
 }
