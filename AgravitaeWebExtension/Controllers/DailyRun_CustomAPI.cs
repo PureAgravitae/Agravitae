@@ -52,6 +52,15 @@ namespace AgravitaeWebExtension.Controllers
 
                     throw;
                 }
+                //update ewallet associate status
+                try
+                {
+                    _dailyrunService.UpdateAssociateStatusInEwallet();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
 
             }
             catch (Exception ex)
