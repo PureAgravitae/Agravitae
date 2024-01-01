@@ -1,0 +1,132 @@
+﻿@using WebExtension;
+@using System.Web;
+@using AgravitaeExtension.Merchants.Tyga.Models;
+
+@{
+    ViewData["Title"] = "TygaSettings";
+}
+
+@{
+    TygaSettings tygaSettingModel = ViewBag.Message;
+}
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<div class="tygasettingscontainer">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Tyga-Settings</div>
+                <div class="panel-body">
+                    <form id="Tyga-Settings">
+                        <div class="form-group inputPanel">
+                            <label>Api BaseUrl</label>
+                            <input type="text" id="ApiBaseUrl" name="ApiBaseUrl" value="@tygaSettingModel.ApiBaseUrl" class="form-control" required autocomplete="off">
+                        </div>
+                        <div class="form-group inputPanel">
+                            <label>Api Key</label>
+                            <input type="text" id="ApiKey" name="ApiKey" value="@tygaSettingModel.ApiKey" required class="form-control" autocomplete="off">
+                        </div>
+                        <div class="form-group inputPanel">
+                            <label>Api Secret</label>
+                            <input type="text" id="ApiSecret" name="ApiSecret" value="@tygaSettingModel.ApiSecret" class="form-control" required autocomplete="off">
+                        </div>
+                        <div class="form-group inputPanel">
+                            <label>Return Url</label>
+                            <input type="text" id="ReturnUrl" name="ReturnUrl" value="@tygaSettingModel.ReturnUrl" class="form-control" required autocomplete="off">
+                        </div>
+                        <div class="form-group inputPanel">
+                            <label>Notify Url</label>
+                            <input type="text" id="NotifyUrl" name="NotifyUrl" value="@tygaSettingModel.NotifyUrl" class="form-control" required autocomplete="off">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-md-9">
+            <button id="Tyga-save" class="btn btn-primary">Save Changes</button>
+            <button id="Tyga-spinner" class="btn btn-primary disabled" style="display:none;"><i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;Saving Changes</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-control {
+        margin-top: 5px;
+    }
+</style>
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('#ApiBaseUrl').bind('input', function () {
+                $(this).val(function (_, v) {
+                    return v.replace(/\s+/g, '');
+                });
+            });
+            $('#ApiKey').bind('input', function () {
+                $(this).val(function (_, v) {
+                    return v.replace(/\s+/g, '');
+                });
+            });
+            $('#ApiSecret').bind('input', function () {
+                $(this).val(function (_, v) {
+                    return v.replace(/\s+/g, '');
+                });
+            });
+            $('#ReturnUrl').bind('input', function () {
+                $(this).val(function (_, v) {
+                    return v.replace(/\s+/g, '');
+                });
+            });
+            $('#NotifyUrl').bind('input', function () {
+                $(this).val(function (_, v) {
+                    return v.replace(/\s+/g, '');
+                });
+            });
+            $('#site').bind('input', function () {
+                $(this).val(function (_, v) {
+                    return v.replace(/\s+/g, '');
+                });
+            });
+        });
+    </script>
+    <script>
+        $('#Tyga-save').click(function () {
+            $('#Tyga-save').hide();
+            $('#Tyga-spinner').show();
+            var TygaSettings = $("#Tyga-Settings").serialize().split("&");
+            var TygaSettingsObj = {};
+            for (var key in TygaSettings) {
+                TygaSettingsObj[TygaSettings[key].split("=")[0]] = TygaSettings[key].split("=")[1];
+            }
+            TygaSettingsObj.ApiBaseUrl = decodeURIComponent(TygaSettingsObj.ApiBaseUrl);
+            TygaSettingsObj.ReturnUrl = decodeURIComponent(TygaSettingsObj.ReturnUrl);
+            TygaSettingsObj.NotifyUrl = decodeURIComponent(TygaSettingsObj.NotifyUrl);
+            TygaSettingsObj.ApiKey = decodeURIComponent(TygaSettingsObj.ApiKey);
+            TygaSettingsObj.ApiSecret = decodeURIComponent(TygaSettingsObj.ApiSecret);
+            TygaSettingsObj.site = decodeURIComponent(TygaSettingsObj.site);
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/api/TestApi/UpdateTygaSettings",
+                data: JSON.stringify(TygaSettingsObj),
+                dataType: "json",
+                complete: function (resp) {
+                    var output = resp.responseJSON;
+                    $('#Tyga-spinner').hide();
+                    $('#Tyga-save').show();
+                }
+            });
+        })
+    </script>
+}

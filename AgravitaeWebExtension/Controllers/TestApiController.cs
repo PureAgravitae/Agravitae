@@ -1,7 +1,12 @@
-﻿using DirectScale.Disco.Extension.Services;
+﻿using AgravitaeExtension.Merchants.Tyga.Interfaces;
+using AgravitaeExtension.Merchants.Tyga.Models;
+using AgravitaeWebExtension.Helper;
+using DirectScale.Disco.Extension.Services;
 using Microsoft.AspNetCore.Mvc;
 using RPMSEwallet.Services;
 using RPMSEwallet.Services.Interface;
+using ZiplingoEngagement.Models.Request;
+using ZiplingoEngagement.Services.Interface;
 
 namespace AgravitaeWebExtension.Controllers
 {
@@ -11,11 +16,14 @@ namespace AgravitaeWebExtension.Controllers
     {
         private readonly IDataService _dataService;
         private readonly IEwalletService _ewalletService;
+        private readonly ITygaRepository _tygaRepository;
+        private readonly IZLSettingsService _zLSettingsService;
 
-        public TestApiController(IDataService dataService, IEwalletService ewalletService)
+        public TestApiController(IDataService dataService, IEwalletService ewalletService, IZLSettingsService zLSettingsService, ITygaRepository _tygaRepository)
         {
             _dataService = dataService;
             _ewalletService = ewalletService;
+            _zLSettingsService = zLSettingsService;
         }
 
         [HttpGet]
@@ -31,6 +39,35 @@ namespace AgravitaeWebExtension.Controllers
         {
              _ewalletService.UpdateEwalletSettings(request);
             return Ok();
+        }
+        [HttpPost]
+        [Route("UpdateZiplingoEngagementSettings")]
+        public IActionResult UpdateZiplingoEngagementSettings(ZiplingoEngagementSettingsRequest request)
+        {
+            try
+            {
+
+                _zLSettingsService.UpdateSettings(request);
+                return new Responses().OkResult();
+            }
+            catch (Exception ex)
+            {
+                return new Responses().BadRequestResult(ex.Message);
+            }
+        }
+        [HttpPost]
+        [Route("UpdateTygaSettings")]
+        public IActionResult UpdateTygaSettings(TygaSettings request)
+        {
+            try
+            {
+                _tygaRepository.UpdateTygaSettings(request);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
 
