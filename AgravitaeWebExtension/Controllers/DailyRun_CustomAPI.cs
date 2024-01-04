@@ -71,7 +71,7 @@ namespace AgravitaeWebExtension.Controllers
                         var isUpdated = response.All(x => x.isUpdated);
                     if (isUpdated)
                     {
-                        //_zloderZiplingoService.UpdateShipMethods(response);
+                        _zloderZiplingoService.UpdateShipMethods(response);
                     }
                 }
                 catch (Exception)

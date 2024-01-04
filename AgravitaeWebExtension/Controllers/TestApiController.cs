@@ -35,9 +35,9 @@ namespace AgravitaeWebExtension.Controllers
             {
                 var response = _associateWebService.GetShipMethods();
                 var isUpdated = response.All(x => x.isUpdated);
-                if (isUpdated)
+                if (!isUpdated)
                 {
-                    //_zloderZiplingoService.UpdateShipMethods(response);
+                    _zloderZiplingoService.UpdateShipMethods(response);
                 }
               return Ok(response);
             }
