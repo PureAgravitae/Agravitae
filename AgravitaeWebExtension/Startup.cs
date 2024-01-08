@@ -114,6 +114,8 @@ namespace AgravitaeExtension
             services.AddSingleton<IReportSourceRepository, ReportSourceRepository>();
             services.AddSingleton<IDailyRunCustomRepository, DailyRunCustomRepository>();
             services.AddSingleton<IRankAdvancementRepository, RankAdvancementRepository>();
+            services.AddSingleton<IAssociateWebRepository, AssociateWebRepository>();
+
 
             // services.AddSingleton<IOrdersRepository, OrdersRepository>();
 
@@ -123,6 +125,7 @@ namespace AgravitaeExtension
             services.AddSingleton<ICambridgeService, CambridgeService>();
             services.AddSingleton<ICambridgeSetting, CambridgeSetting>();
             services.AddSingleton<IClientService, ClientService>();
+            
 
             //Tyga services and repo
             services.AddSingleton<ITygaService, TygaService>();
@@ -137,6 +140,7 @@ namespace AgravitaeExtension
             services.AddSingleton<IDailyRunCustomService, DailyRunCustomService>();
             services.AddSingleton<IRankAdvancementService, RankAdvancementService>();
             services.AddSingleton<ICustomLogService, CustomLogService>();
+            services.AddSingleton<IAssociateWebService, AssociateWebService>();
             services.AddControllersWithViews();
 
             //Swagger

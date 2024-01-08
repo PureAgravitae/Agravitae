@@ -9,6 +9,8 @@ namespace AgravitaeWebExtension.Repositories
     {
         List<AutoshipInfo> GetNextFiveDayAutoships();
         List<CardInfo> GetCreditCardInfoBefore30Days();
+        List<GetAssociateStatusModel> GetAssociateStatuses();
+
     }
 
     public class DailyRunCustomRepository : IDailyRunCustomRepository
@@ -46,6 +48,26 @@ namespace AgravitaeWebExtension.Repositories
                     WHERE p.Input2 IS NOT NULL AND p.InputDate IS NOT NULL AND CAST(InputDate as date) = CAST(@Before30DaysFromCurrentDate as date)";
                 var info = dbConnection.Query<CardInfo>(sql, parameters).ToList();
                 return info.ToList();
+            }
+        }
+        public List<GetAssociateStatusModel> GetAssociateStatuses()
+        {
+            using (var dbConnection = new SqlConnection(_dataService.GetConnectionString().Result))
+            {
+
+                var sql = @";with cte as (select AssociateID, max(last_modified) as last_modified
+                            from CRM_SupportTickets
+                            group by AssociateID)
+
+                            select cte.AssociateID, cte.last_modified, d.StatusID as CurrentStatusId, s.StatusName
+                            from cte
+                            join CRM_Distributors d
+                            on d.recordnumber = cte.AssociateID
+                            join CRM_AssociateStatuses s
+                            on s.recordnumber = d.StatusID
+                            where CAST(cte.last_modified as Date) = CAST(GETDATE()-1  as Date)";
+                var info = dbConnection.Query<GetAssociateStatusModel>(sql).ToList();
+                return info;
             }
         }
     }

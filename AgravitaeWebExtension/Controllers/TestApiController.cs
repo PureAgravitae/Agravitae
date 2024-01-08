@@ -1,3 +1,4 @@
+
 ﻿using AgravitaeExtension.Merchants.Tyga.Interfaces;
 using AgravitaeExtension.Merchants.Tyga.Models;
 using AgravitaeWebExtension.Helper;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using RPMSEwallet.Services;
 using RPMSEwallet.Services.Interface;
 using ZiplingoEngagement.Models.Request;
+﻿using AgravitaeWebExtension.Services;
 using ZiplingoEngagement.Services.Interface;
 
 namespace AgravitaeWebExtension.Controllers
@@ -18,12 +20,16 @@ namespace AgravitaeWebExtension.Controllers
         private readonly IEwalletService _ewalletService;
         private readonly ITygaRepository _tygaRepository;
         private readonly IZLSettingsService _zLSettingsService;
+        private readonly IAssociateWebService _associateWebService;
+        private readonly IZLOrderZiplingoService _zloderZiplingoService;
 
-        public TestApiController(IDataService dataService, IEwalletService ewalletService, IZLSettingsService zLSettingsService, ITygaRepository _tygaRepository)
+        public TestApiController(IDataService dataService, IEwalletService ewalletService, IZLSettingsService zLSettingsService, ITygaRepository _tygaRepository, IAssociateWebService associateWebService, IZLOrderZiplingoService zloderZiplingoService)
         {
             _dataService = dataService;
             _ewalletService = ewalletService;
             _zLSettingsService = zLSettingsService;
+              _associateWebService = associateWebService;
+            _zloderZiplingoService = zloderZiplingoService;
         }
 
         [HttpGet]
@@ -34,6 +40,7 @@ namespace AgravitaeWebExtension.Controllers
             return Ok(dbConnection.ConnectionString);
         }
         [HttpPost]
+
         [Route("UpdateEwalletSetting")]
         public IActionResult UpdateEwalletSetting(RPMSEwallet.Models.EwalletSettingsRequest request)
         {
@@ -70,6 +77,24 @@ namespace AgravitaeWebExtension.Controllers
             }
         }
 
+        [Route("Test_ShipMethodSync")]
+        public IActionResult Test_ShipMethodSync()
+        {
+            try
+            {
+                var response = _associateWebService.GetShipMethods();
+                var isUpdated = response.All(x => x.isUpdated);
+                if (!isUpdated)
+                {
+                    _zloderZiplingoService.UpdateShipMethods(response);
+                }
+              return Ok(response);
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
     }
 }
