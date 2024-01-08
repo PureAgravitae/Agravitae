@@ -47,7 +47,7 @@ namespace AgravitaeWebExtension.Controllers
             try
             {
 
-                _zLSettingsService.UpdateSettings(request);
+                _zLSettingsService.UpdateSettings(request).GetAwaiter().GetResult();
                 return new Responses().OkResult();
             }
             catch (Exception ex)
