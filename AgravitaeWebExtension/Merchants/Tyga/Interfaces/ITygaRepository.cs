@@ -12,5 +12,6 @@ namespace AgravitaeExtension.Merchants.Tyga.Interfaces
         Task UpdateTygaOrderLogs(TygaPaymentResponse req);
         Task<TygaOrder> GetTygaOrderbyOrderId(string orderId);
         Task<TygaSettings> GetTygaSettings();
+        void UpdateTygaSettings(TygaSettings settings);
     }
 }

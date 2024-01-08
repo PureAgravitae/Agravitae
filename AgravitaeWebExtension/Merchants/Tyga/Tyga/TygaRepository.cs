@@ -130,6 +130,31 @@ namespace AgravitaeExtension.Merchants.Tyga.Tyga
             }
             catch { return new TygaSettings(); }
         }
+        public void UpdateTygaSettings(TygaSettings settings)
+        {
+            var checkenv = "Stage";
+            EnvironmentType env = _settingsService.ExtensionContext().Result.EnvironmentType;
+            if (env == EnvironmentType.Live)
+            {
+                checkenv = "Live";
+            }
 
+
+            using (var dbConnection = new System.Data.SqlClient.SqlConnection(_dataService.GetClientConnectionString().GetAwaiter().GetResult()))
+            {
+                var parameters = new
+                {
+                    settings.ApiKey,
+                    settings.ApiSecret,
+                    settings.ApiBaseUrl,
+                    settings.ReturnUrl,
+                    settings.NotifyUrl,
+                    Environment = checkenv
+                };
+
+                var updateStatement = @"UPDATE Client.Tyga_Settings SET ApiBaseUrl = @ApiBaseUrl,ApiSecret = @ApiSecret, ApiKey = @ApiKey, ReturnUrl = @ReturnUrl,NotifyUrl = @NotifyUrl  Where Environment=@Environment";
+                dbConnection.Execute(updateStatement, parameters);
+            }
+        }
     }
 }

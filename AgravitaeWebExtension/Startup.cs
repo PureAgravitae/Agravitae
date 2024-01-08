@@ -15,6 +15,7 @@ using AgravitaeExtension.Merchants.Tyga.Tyga;
 using ZiplingoEngagement;
 using RPMSEwallet;
 using RPMSEwallet.Merchants.EwalletMerchant.Ewallet;
+using DirectScale.Disco.Extension.Middleware.Models;
 
 namespace AgravitaeExtension
 {
@@ -85,6 +86,11 @@ namespace AgravitaeExtension
                 options.AddHook<ProcessCouponCodesHook>();
                 options.AddHook<GetCouponAdjustedVolumeHook>();
 
+                options.AddCustomPage(Menu.Settings, "EWallet Settings", "/CustomPage/EWalletSettings");
+                options.AddCustomPage(Menu.Settings, "Ziplingo Engagement Setting", "/CustomPage/ZiplingoEngagementSetting");
+                options.AddCustomPage(Menu.Settings, "Tyga Settings", "/CustomPage/TygaSettings");
+
+
                 //options.AddHook<SubmitOrderHook>();
                 //options.AddCustomPage(Menu.AssociateDetail, "Hello Associate", "ViewAdministration", "/CustomPage/SecuredHelloWorld");
                 //options.AddHook<CreateAutoshipHook>();
@@ -151,7 +157,7 @@ namespace AgravitaeExtension
             if (environmentUrl != null)
             {
                 var serverUrl = environmentUrl.Replace("https://agravitae.corpadmin.", "");
-                var appendUrl = @" http://"+ serverUrl + " " + "https://" + serverUrl + " " + "http://*." + serverUrl + " " + "https://*." + serverUrl;
+                var appendUrl = @" http://" + serverUrl + " " + "https://" + serverUrl + " " + "http://*." + serverUrl + " " + "https://*." + serverUrl;
 
                 var csPolicy = "frame-ancestors https://agravitae.corpadmin.directscale.com https://agravitae.corpadmin.directscalestage.com" + appendUrl + ";";
                 app.UseRequestLocalization();
@@ -209,7 +215,7 @@ namespace AgravitaeExtension
             }
 
 
-            
+
         }
     }
     internal class AgravitaeWebExtensionTokenProvider : ITokenProvider
