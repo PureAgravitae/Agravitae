@@ -1,6 +1,7 @@
 ﻿using AgravitaeWebExtension.Repositories;
 using RPMSEwallet.Services.Interface;
 using ZiplingoEngagement.Models.Associate;
+using ZiplingoEngagement.Services.Interface;
 
 namespace AgravitaeWebExtension.Services
 {
@@ -9,15 +10,19 @@ namespace AgravitaeWebExtension.Services
         List<AutoshipInfo> GetNextFiveDayAutoships();
         List<CardInfo> GetCreditCardInfoBefore30Days();
         void UpdateAssociateStatusInEwallet();
+        void UpdateAssociateStatusinUnify();
+       
     }
     public class DailyRunCustomService : IDailyRunCustomService
     {
         private readonly IDailyRunCustomRepository _dailyrunRepository;
         private readonly IEwalletService _ewalletService;
-        public DailyRunCustomService(IDailyRunCustomRepository dailyrunRepository, IEwalletService ewalletService)
+        private readonly IZLAssociateService _zlAssociateService;
+        public DailyRunCustomService(IDailyRunCustomRepository dailyrunRepository, IEwalletService ewalletService, IZLAssociateService zlAssociateService)
         {
             _dailyrunRepository = dailyrunRepository;
             _ewalletService = ewalletService;
+            _zlAssociateService = zlAssociateService;
         }
         public List<AutoshipInfo> GetNextFiveDayAutoships()
         {
@@ -55,6 +60,22 @@ namespace AgravitaeWebExtension.Services
                 throw;
             }
             
+        }
+        public void UpdateAssociateStatusinUnify()
+        {
+            try
+            {
+                var associateStatuses = _dailyrunRepository.GetAssociateStatuses();
+                _zlAssociateService.AssociateStatusSync(associateStatuses);
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }

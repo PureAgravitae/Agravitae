@@ -67,6 +67,14 @@ namespace AgravitaeWebExtension.Controllers
                 }
                 try
                 {
+                    _dailyrunService.UpdateAssociateStatusinUnify();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                try
+                {
                     var response = _associateWebService.GetShipMethods();
                         var isUpdated = response.All(x => x.isUpdated);
                     if (isUpdated)
