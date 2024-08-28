@@ -80,6 +80,7 @@ namespace AgravitaeExtension
                 options.AddHook<FullRefundOrderHook>();
                 options.AddHook<LogRealtimeRankAdvanceHook>();
                 options.AddHook<MarkPackageShippedHook>();
+                options.AddHook<RefundPayment>();
 
                 // Functionality for 201450 
                 options.AddHook<ProcessCouponCodesHook>();
