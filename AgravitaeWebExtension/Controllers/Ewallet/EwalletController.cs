@@ -135,5 +135,19 @@ namespace AgravitaeWebExtension.Controllers.Ewallet
                 return new Responses().BadRequestResult(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("BackOfficeToken")]
+        public IActionResult BackOfficeToken(string associateId)
+        {
+            try
+            {
+                return new Responses().OkResult(_ewalletService.BackOfficeToken(associateId));
+            }
+            catch (Exception ex)
+            {
+                return new Responses().BadRequestResult(ex.Message);
+            }
+        }
     }
 }
