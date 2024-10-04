@@ -22,11 +22,13 @@ namespace AgravitaeWebExtension.Controllers.Ewallet
         private readonly IClientService _clientService;
         private readonly IMoneyOutService _moneyOutService;
         private readonly IEwalletService _ewalletService;
-        public EwalletController(IClientService clientService, IEwalletService ewalletService, IMoneyOutService moneyOutService)
+        private readonly ISettingsService _settingsService;
+        public EwalletController(IClientService clientService, IEwalletService ewalletService, IMoneyOutService moneyOutService, ISettingsService settingsService)
         {
             _clientService = clientService ?? throw new ArgumentNullException(nameof(clientService));
             _moneyOutService = moneyOutService ?? throw new ArgumentNullException(nameof(moneyOutService));
             _ewalletService = ewalletService ?? throw new ArgumentNullException(nameof(ewalletService));
+            _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         }
 
         [HttpPost]
@@ -138,11 +140,21 @@ namespace AgravitaeWebExtension.Controllers.Ewallet
 
         [HttpPost]
         [Route("BackOfficeToken")]
-        public IActionResult BackOfficeToken(string associateId)
+        public IActionResult BackOfficeToken(int associateId, string token)
         {
             try
             {
-                return new Responses().OkResult(_ewalletService.BackOfficeToken(associateId));
+                EnvironmentType env = _settingsService.ExtensionContext().GetAwaiter().GetResult().EnvironmentType;
+                var referer = "";
+                if (env == EnvironmentType.Live)
+                {
+                    referer = "https://agravitae.office2.directscale.com/";
+                }
+                else
+                {
+                    referer = "https://agravitae.office2.directscalestage.com/";
+                }
+                return new Responses().OkResult(_ewalletService.BackOfficeToken(associateId, token, referer));
             }
             catch (Exception ex)
             {
