@@ -31,83 +31,83 @@ namespace AgravitaeWebExtension.Controllers.Ewallet
             _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         }
 
-        [HttpPost]
-        [Route("GetAssociateMerchantAccountInfo")]
-        public IActionResult GetAssociateMerchantAccountInfo(GetAssociateMerchantAccountInfoRequest rObject)
-        {
-            try
-            {
-                return new Responses().OkResult(_clientService.GetAssociateMerchantAccountInfo(rObject));
-            }
-            catch (Exception ex)
-            {
-                return new Responses().BadRequestResult(ex.Message);
-            }
-        }
+        //[HttpPost]
+        //[Route("GetAssociateMerchantAccountInfo")]
+        //public IActionResult GetAssociateMerchantAccountInfo(GetAssociateMerchantAccountInfoRequest rObject)
+        //{
+        //    try
+        //    {
+        //        return new Responses().OkResult(_clientService.GetAssociateMerchantAccountInfo(rObject));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new Responses().BadRequestResult(ex.Message);
+        //    }
+        //}
 
-        [HttpPost]
-        [Route("GetCommissionMerchantInfo")]
-        public IActionResult GetCommissionMerchantInfo(GetCommissionMerchantInfoRequest rObject)
-        {
-            try
-            {
-                return new Responses().OkResult(_clientService.GetCommissionMerchantInfo(rObject));
-            }
-            catch (Exception ex)
-            {
-                return new Responses().BadRequestResult(ex.Message);
-            }
-        }
+        //[HttpPost]
+        //[Route("GetCommissionMerchantInfo")]
+        //public IActionResult GetCommissionMerchantInfo(GetCommissionMerchantInfoRequest rObject)
+        //{
+        //    try
+        //    {
+        //        return new Responses().OkResult(_clientService.GetCommissionMerchantInfo(rObject));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new Responses().BadRequestResult(ex.Message);
+        //    }
+        //}
 
-        [HttpPost]
-        [Route("GetPointBalance")]
-        public IActionResult GetPointBalance(GetPointBalanceRequest rObject)
-        {
-            try
-            {
-                return new Responses().OkResult(_ewalletService.GetPointBalance(rObject));
-            }
-            catch (Exception e)
-            {
-                var msg = $"Error occured at Method {System.Reflection.MethodBase.GetCurrentMethod().Name} and message:{ e.Message}";
-                return new Responses().BadRequestResult(msg);
-            }
-        }
+        //[HttpPost]
+        //[Route("GetPointBalance")]
+        //public IActionResult GetPointBalance(GetPointBalanceRequest rObject)
+        //{
+        //    try
+        //    {
+        //        return new Responses().OkResult(_ewalletService.GetPointBalance(rObject));
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        var msg = $"Error occured at Method {System.Reflection.MethodBase.GetCurrentMethod().Name} and message:{ e.Message}";
+        //        return new Responses().BadRequestResult(msg);
+        //    }
+        //}
 
-        [HttpPost]
-        [Route("SaveACHAccountInfo")]
-        public IActionResult SaveACHAccountInfo(OnFileMerchant rObject)
-        {
-            try
-            {
-                OnFileMerchant[] currentMerchantPref;
-                currentMerchantPref = _moneyOutService.GetOnFileMerchants(rObject.AssociateId).Result;
-                int activeMerchantId = _clientService.GetAssociateActiveCommissionMerchant(rObject.AssociateId);
+        //[HttpPost]
+        //[Route("SaveACHAccountInfo")]
+        //public IActionResult SaveACHAccountInfo(OnFileMerchant rObject)
+        //{
+        //    try
+        //    {
+        //        OnFileMerchant[] currentMerchantPref;
+        //        currentMerchantPref = _moneyOutService.GetOnFileMerchants(rObject.AssociateId).Result;
+        //        int activeMerchantId = _clientService.GetAssociateActiveCommissionMerchant(rObject.AssociateId);
 
-                // This adds the custom values to the appropriate table but also changes the default commission merchant
-                _moneyOutService.SetActiveOnFileMerchant(rObject);
+        //        // This adds the custom values to the appropriate table but also changes the default commission merchant
+        //        _moneyOutService.SetActiveOnFileMerchant(rObject);
 
-                if (currentMerchantPref != null && currentMerchantPref.Any() && activeMerchantId != 0 && currentMerchantPref.Select(x => x.MerchantId).Contains(activeMerchantId))
-                {
-                    var activeMerchant = currentMerchantPref.FirstOrDefault(x => x.MerchantId == activeMerchantId);
+        //        if (currentMerchantPref != null && currentMerchantPref.Any() && activeMerchantId != 0 && currentMerchantPref.Select(x => x.MerchantId).Contains(activeMerchantId))
+        //        {
+        //            var activeMerchant = currentMerchantPref.FirstOrDefault(x => x.MerchantId == activeMerchantId);
 
-                    // Set default merchant back to what it was
-                    _moneyOutService.SetActiveOnFileMerchant(new OnFileMerchant
-                    {
-                        AssociateId = rObject.AssociateId,
-                        MerchantName = activeMerchant.MerchantName,
-                        MerchantId = activeMerchant.MerchantId,
-                        CustomValues = activeMerchant.CustomValues
-                    });
-                }
-            }
-            catch (Exception e)
-            {
-                return new Responses().BadRequestResult(e.Message);
-            }
+        //            // Set default merchant back to what it was
+        //            _moneyOutService.SetActiveOnFileMerchant(new OnFileMerchant
+        //            {
+        //                AssociateId = rObject.AssociateId,
+        //                MerchantName = activeMerchant.MerchantName,
+        //                MerchantId = activeMerchant.MerchantId,
+        //                CustomValues = activeMerchant.CustomValues
+        //            });
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return new Responses().BadRequestResult(e.Message);
+        //    }
 
-            return new Responses().OkResult(rObject);
-        }
+        //    return new Responses().OkResult(rObject);
+        //}
 
         [HttpPost]
         [Route("UpdateEwalletSettings")]
@@ -124,42 +124,42 @@ namespace AgravitaeWebExtension.Controllers.Ewallet
             }
         }
 
-        [HttpPost]
-        [Route("GetSavePaymentFrameDetails")]
-        public IActionResult GetSavePaymentFrameDetails(GetAssociateMerchantAccountInfoRequest rObject)
-        {
-            try
-            {
-                return new Responses().OkResult(_clientService.GetAssociateMerchantAccountInfo(rObject));
-            }
-            catch (Exception ex)
-            {
-                return new Responses().BadRequestResult(ex.Message);
-            }
-        }
+        //[HttpPost]
+        //[Route("GetSavePaymentFrameDetails")]
+        //public IActionResult GetSavePaymentFrameDetails(GetAssociateMerchantAccountInfoRequest rObject)
+        //{
+        //    try
+        //    {
+        //        return new Responses().OkResult(_clientService.GetAssociateMerchantAccountInfo(rObject));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new Responses().BadRequestResult(ex.Message);
+        //    }
+        //}
 
-        [HttpPost]
-        [Route("BackOfficeToken")]
-        public IActionResult BackOfficeToken(int associateId, string token)
-        {
-            try
-            {
-                EnvironmentType env = _settingsService.ExtensionContext().GetAwaiter().GetResult().EnvironmentType;
-                var referer = "";
-                if (env == EnvironmentType.Live)
-                {
-                    referer = "https://agravitae.office2.directscale.com/";
-                }
-                else
-                {
-                    referer = "https://agravitae.office2.directscalestage.com/";
-                }
-                return new Responses().OkResult(_ewalletService.BackOfficeToken(associateId, token, referer));
-            }
-            catch (Exception ex)
-            {
-                return new Responses().BadRequestResult(ex.Message);
-            }
-        }
+        //[HttpPost]
+        //[Route("BackOfficeToken")]
+        //public IActionResult BackOfficeToken(int associateId, string token)
+        //{
+        //    try
+        //    {
+        //        EnvironmentType env = _settingsService.ExtensionContext().GetAwaiter().GetResult().EnvironmentType;
+        //        var referer = "";
+        //        if (env == EnvironmentType.Live)
+        //        {
+        //            referer = "https://agravitae.office2.directscale.com/";
+        //        }
+        //        else
+        //        {
+        //            referer = "https://agravitae.office2.directscalestage.com/";
+        //        }
+        //        return new Responses().OkResult(_ewalletService.BackOfficeToken(associateId, token, referer));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new Responses().BadRequestResult(ex.Message);
+        //    }
+        //}
     }
 }
