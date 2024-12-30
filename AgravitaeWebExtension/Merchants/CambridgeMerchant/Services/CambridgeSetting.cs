@@ -36,12 +36,6 @@ namespace AgravitaeWebExtension.Merchants.CambridgeMerchant.Services
         {
             get
             {
-                EnvironmentType envType = _settings.ExtensionContext().Result.EnvironmentType;
-                if (envType == EnvironmentType.Live)
-                {
-                    return true;
-                }
-
                 return false;
             }
         }
@@ -50,12 +44,8 @@ namespace AgravitaeWebExtension.Merchants.CambridgeMerchant.Services
         {
             get
             {
-                if (!IsLive)
-                {
-                    return "280086";
-                }
 
-                return "280086";
+                return "";
             }
         }
 
@@ -63,12 +53,9 @@ namespace AgravitaeWebExtension.Merchants.CambridgeMerchant.Services
         {
             get
             {
-                if (!IsLive)
-                {
-                    return "280086_API_User";
-                }
+                
 
-                return "280086_API_User";
+                return "";
             }
         }
 
@@ -76,12 +63,8 @@ namespace AgravitaeWebExtension.Merchants.CambridgeMerchant.Services
         {
             get
             {
-                if (!IsLive)
-                {
-                    return "Cambridge";
-                }
 
-                return "Cambridge";
+                return "";
             }
         }
 
@@ -89,12 +72,9 @@ namespace AgravitaeWebExtension.Merchants.CambridgeMerchant.Services
         {
             get
             {
-                if (!IsLive)
-                {
-                    return "001";
-                }
+               
 
-                return "001";
+                return "";
             }
         }
 
@@ -102,12 +82,9 @@ namespace AgravitaeWebExtension.Merchants.CambridgeMerchant.Services
         {
             get
             {
-                if (!IsLive)
-                {
-                    return "EFT";
-                }
+                
 
-                return "EFT";
+                return "";
             }
         }
 
@@ -115,12 +92,8 @@ namespace AgravitaeWebExtension.Merchants.CambridgeMerchant.Services
         {
             get
             {
-                if (!IsLive)
-                {
-                    return "USD";
-                }
 
-                return "USD";
+                return "";
             }
         }
 
@@ -128,12 +101,8 @@ namespace AgravitaeWebExtension.Merchants.CambridgeMerchant.Services
         {
             get
             {
-                if (!IsLive)
-                {
-                    return "7042c7fb7e884a6e8ba776e13545c94dWZdEchFkt5LWDNc2";
-                }
 
-                return "7042c7fb7e884a6e8ba776e13545c94dWZdEchFkt5LWDNc2";
+                return "";
             }
         }
 
@@ -141,12 +110,8 @@ namespace AgravitaeWebExtension.Merchants.CambridgeMerchant.Services
         {
             get
             {
-                if (!IsLive)
-                {
-                    return "280086_API_User";
-                }
 
-                return "280086_API_User";
+                return "";
             }
         }
 
@@ -154,26 +119,22 @@ namespace AgravitaeWebExtension.Merchants.CambridgeMerchant.Services
         {
             get
             {
-                if (!IsLive)
-                {
-                    return "https://beta.cambridgelink.com";
-                }
 
-                return "https://cambridgelink.com";
+                return "";
             }
         }
         public string PartnerKey
         {
             get
             {
-                    return "5241fb90f8454890a0fa299f5a3ee75aHExqr3RZV1QU3_Dg";
+                    return "";
             }
         }
         public string PartnerIssuerID
         {
             get
             {
-                return "ZIPLINGO";
+                return "";
             }
         }
     }
