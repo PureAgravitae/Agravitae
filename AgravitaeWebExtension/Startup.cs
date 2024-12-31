@@ -114,10 +114,7 @@ namespace AgravitaeExtension
             // services.AddSingleton<IOrdersRepository, OrdersRepository>();
 
             //Ewallet
-            services.AddSingleton<ICambridgeRepository, CambridgeRepository>();
             services.AddSingleton<IClientRepository, ClientRepository>();
-            services.AddSingleton<ICambridgeService, CambridgeService>();
-            services.AddSingleton<ICambridgeSetting, CambridgeSetting>();
             services.AddSingleton<IClientService, ClientService>();
             
 
@@ -129,7 +126,6 @@ namespace AgravitaeExtension
             services.AddSingleton<IAVOrderService, AVOrderService>();
             services.AddSingleton<ICommonService, CommonService>();
             services.AddSingleton<IHttpClientService, HttpClientService>();
-            services.AddSingleton<INomadEwalletService, NomadEwalletService>();
             services.AddSingleton<IGenericReportService, GenericReportService>();
             services.AddSingleton<IDailyRunCustomService, DailyRunCustomService>();
             services.AddSingleton<IRankAdvancementService, RankAdvancementService>();
