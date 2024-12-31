@@ -4,7 +4,6 @@ using DirectScale.Disco.Extension.Middleware;
 using PaymentureEwallet;
 using AgravitaeWebExtension.Helper;
 using AgravitaeWebExtension.Helper.Interface;
-using AgravitaeWebExtension.Merchants.CambridgeMerchant.Services;
 using AgravitaeWebExtension.Merchants;
 using AgravitaeWebExtension.Repositories;
 using AgravitaeWebExtension.Hooks.Associate;
@@ -114,10 +113,7 @@ namespace AgravitaeExtension
             // services.AddSingleton<IOrdersRepository, OrdersRepository>();
 
             //Ewallet
-            services.AddSingleton<ICambridgeRepository, CambridgeRepository>();
             services.AddSingleton<IClientRepository, ClientRepository>();
-            services.AddSingleton<ICambridgeService, CambridgeService>();
-            services.AddSingleton<ICambridgeSetting, CambridgeSetting>();
             services.AddSingleton<IClientService, ClientService>();
             
 
@@ -129,7 +125,6 @@ namespace AgravitaeExtension
             services.AddSingleton<IAVOrderService, AVOrderService>();
             services.AddSingleton<ICommonService, CommonService>();
             services.AddSingleton<IHttpClientService, HttpClientService>();
-            services.AddSingleton<INomadEwalletService, NomadEwalletService>();
             services.AddSingleton<IGenericReportService, GenericReportService>();
             services.AddSingleton<IDailyRunCustomService, DailyRunCustomService>();
             services.AddSingleton<IRankAdvancementService, RankAdvancementService>();

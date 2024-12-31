@@ -109,20 +109,20 @@ namespace AgravitaeWebExtension.Controllers.Ewallet
         //    return new Responses().OkResult(rObject);
         //}
 
-        [HttpPost]
-        [Route("UpdateEwalletSettings")]
-        public IActionResult UpdateEwalletSettings(RPMSEwallet.Models.EwalletSettingsRequest rObject)
-        {
-            try
-            {
-                _ewalletService.UpdateEwalletSettings(rObject);
-                return new Responses().OkResult("1");
-            }
-            catch (Exception ex)
-            {
-                return new Responses().BadRequestResult(ex.Message);
-            }
-        }
+        //[HttpPost]
+        //[Route("UpdateEwalletSettings")]
+        //public IActionResult UpdateEwalletSettings(RPMSEwallet.Models.EwalletSettingsRequest rObject)
+        //{
+        //    try
+        //    {
+        //        _ewalletService.UpdateEwalletSettings(rObject);
+        //        return new Responses().OkResult("1");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new Responses().BadRequestResult(ex.Message);
+        //    }
+        //}
 
         //[HttpPost]
         //[Route("GetSavePaymentFrameDetails")]
